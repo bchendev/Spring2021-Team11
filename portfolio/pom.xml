@@ -8,7 +8,7 @@
   <version>1</version>
 
   <properties>
-    <!-- Java 11 -->
+    <!-- Java 9 -->
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
