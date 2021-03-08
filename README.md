@@ -1,6 +1,6 @@
 # Google Software Product Sprint
 
-Change2: This repo contains the projects you'll work on throughout SPS.
+Change4: This repo contains the projects you'll work on throughout SPS.
 
 To get started:
 
