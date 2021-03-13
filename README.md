@@ -1,5 +1,5 @@
 # Google Software Product Sprint 2021
-feature 1
+feature 2
 This repo contains the projects you'll work on throughout SPS.
 
 To get started:
