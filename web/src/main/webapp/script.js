@@ -12,41 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** Fetches tasks from the server and adds them to the DOM. */
-function loadTasks() {
-  fetch('/list-tasks').then(response => response.json()).then((tasks) => {
-    const taskListElement = document.getElementById('task-list');
-    tasks.forEach((task) => {
-      taskListElement.appendChild(createTaskElement(task));
-    })
-  });
-}
 
-/** Creates an element that represents a task, including its delete button. */
-function createTaskElement(task) {
-  const taskElement = document.createElement('li');
-  taskElement.className = 'task';
+google.charts.load('current', {'packages':['corechart', 'line']});
+google.charts.setOnLoadCallback(drawChart);
 
-  const titleElement = document.createElement('span');
-  titleElement.innerText = task.title;
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('number', 'Time');
+  data.addColumn('number', 'Price');
+        data.addRows([
+        [0, 0],    [1, 10],   [2, 23],  [3, 17],   [4, 18],  [5, 9],
+        [6, 11],   [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+        [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+        [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
+        [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65],
+        [36, 62], [37, 58], [38, 55], [39, 61], [40, 64], [41, 65],
+        [42, 63], [43, 66], [44, 67], [45, 69], [46, 69], [47, 70],
+        [48, 72], [49, 68], [50, 66], [51, 65], [52, 67], [53, 70],
+        [54, 71], [55, 72], [56, 73], [57, 75], [58, 70], [59, 68],
+        [60, 64], [61, 60], [62, 65], [63, 67], [64, 68], [65, 69],
+        [66, 70], [67, 72], [68, 75], [69, 80]
+        ]);
 
-  const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.innerText = 'Delete';
-  deleteButtonElement.addEventListener('click', () => {
-    deleteTask(task);
+  const options = {
+    'title': '*Stock Symbol Here*',
+    'width':1900,
+    'height':500,
 
-    // Remove the task from the DOM.
-    taskElement.remove();
-  });
 
-  taskElement.appendChild(titleElement);
-  taskElement.appendChild(deleteButtonElement);
-  return taskElement;
-}
+    hAxis: {
+          title: 'Time',
+          logScale: false,
+        },
+    vAxis: {
+        title: 'Price',
+        logScale: false,
+        format: 'currency'
+    },
+        colors: ['#a52714', '#097138']
+  };
 
-/** Tells the server to delete the task. */
-function deleteTask(task) {
-  const params = new URLSearchParams();
-  params.append('id', task.id);
-  fetch('/delete-task', {method: 'POST', body: params});
+  const chart = new google.visualization.LineChart(
+      document.getElementById('curve_chart'));
+  chart.draw(data, options);
 }

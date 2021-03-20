@@ -2,22 +2,15 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Todo List</title>
+    <title>Stock Data</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="loadTasks()">
-    <h1>Todo List</h1>
-
-    <form method="POST" action="/new-task">
-      <input type="text" name="title" />
-      <br/>
-      <button>Submit</button>
-    </form>
-
+  <body>
+    <h1>Stock Data</h1>
     <hr/>
-
-    <ul id="task-list"></ul>
+    <div id="curve_chart"></div>
 
   </body>
 </html>
