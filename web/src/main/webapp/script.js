@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-google.charts.load("current", { packages: ["corechart", "line"] });
+google.charts.load('current', { packages: ['corechart', 'line'] });
 google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {
   const data = new google.visualization.DataTable();
-  data.addColumn("number", "Time");
-  data.addColumn("number", "Price");
+  data.addColumn('number', 'Time');
+  data.addColumn('number', 'Price');
   data.addRows([
     [0, 0],
     [1, 10],
@@ -94,24 +94,24 @@ function drawChart() {
   ]);
 
   const options = {
-    title: "*Stock Symbol Here*",
+    title: '*Stock Symbol Here*',
     width: 1900,
     height: 500,
 
     hAxis: {
-      title: "Time",
+      title: 'Time',
       logScale: false,
     },
     vAxis: {
-      title: "Price",
+      title: 'Price',
       logScale: false,
-      format: "currency",
+      format: 'currency',
     },
-    colors: ["#a52714", "#097138"],
+    colors: ['#a52714', '#097138'],
   };
 
   const chart = new google.visualization.LineChart(
-    document.getElementById("curve_chart")
+    document.getElementById('curve_chart')
   );
   chart.draw(data, options);
 }
