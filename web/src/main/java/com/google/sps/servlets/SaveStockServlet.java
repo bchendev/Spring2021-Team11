@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 /** Servlet responsible for creating new tasks. */
@@ -45,22 +44,22 @@ public class SaveStockServlet extends HttpServlet {
     Elements price = doc.select(".price___3rj7O ");
     System.out.println("✔️GOT ALL TICKER SYMBOLS IN PAGE");
     System.out.println("✔️GOT ALL PRICES IN PAGE");
-        
+
     long timestamp = System.currentTimeMillis();
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
-    for (int i=0; i < tik.size(); i++) {
-        String tikk = tik.get(i).text();
-        String pricee = price.get(i).text();
-    FullEntity taskEntity =
-        Entity.newBuilder(keyFactory.newKey())
-            .set("Tik", tikk)
-            .set("Price", pricee)
-            .set("timestamp", timestamp)
-            .build();
-    datastore.put(taskEntity);
-     }
+    for (int i = 0; i < tik.size(); i++) {
+      String tikk = tik.get(i).text();
+      String pricee = price.get(i).text();
+      FullEntity taskEntity =
+          Entity.newBuilder(keyFactory.newKey())
+              .set("Tik", tikk)
+              .set("Price", pricee)
+              .set("timestamp", timestamp)
+              .build();
+      datastore.put(taskEntity);
+    }
 
     response.sendRedirect("/index.html");
   }
