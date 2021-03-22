@@ -111,12 +111,17 @@ public class SaveStockServlet extends HttpServlet {
     for (int i = 0; i < tik.size(); i++) {
       String tikk = tik.get(i).text();
       String pricee = price.get(i).text();
+
+      String strippedPrice = pricee.replaceAll("[\\\\$,]", "");
+      double priceDouble = Double.parseDouble(strippedPrice);
+
       FullEntity taskEntity =
           Entity.newBuilder(keyFactory.newKey())
               .set("Tik", tikk)
-              .set("Price", pricee)
+              .set("Display_Price", pricee)
               .set("timestamp", timeStamp)
               .set("Actual_Time", printDate)
+              .set("Double_Price", priceDouble)
               .build();
       datastore.put(taskEntity);
     }
