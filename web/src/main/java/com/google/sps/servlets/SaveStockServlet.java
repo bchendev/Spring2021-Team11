@@ -49,66 +49,11 @@ public class SaveStockServlet extends HttpServlet {
 
     long timeStamp = System.currentTimeMillis();
 
-    Date rawDate = Calendar.getInstance().getTime();
-    String stringDate = rawDate.toString();
-    String[] date = stringDate.split(" ");
-
-    if (date[0].equalsIgnoreCase("Sun")) {
-      date[0] = "Sunday";
-    } else if (date[0].equalsIgnoreCase("Mon")) {
-      date[0] = "Monday";
-    } else if (date[0].equalsIgnoreCase("Tue")) {
-      date[0] = "Tuesday";
-    } else if (date[0].equalsIgnoreCase("Wed")) {
-      date[0] = "Wednesday";
-    } else if (date[0].equalsIgnoreCase("Thu")) {
-      date[0] = "Thursday";
-    } else if (date[0].equalsIgnoreCase("Fri")) {
-      date[0] = "Friday";
-    } else {
-      date[0] = "Saturday";
-    }
-    if (date[1].equalsIgnoreCase("Jan")) {
-      date[1] = "January";
-    } else if (date[1].equalsIgnoreCase("Feb")) {
-      date[1] = "Febuary";
-    } else if (date[1].equalsIgnoreCase("Mar")) {
-      date[1] = "March";
-    } else if (date[1].equalsIgnoreCase("Apr")) {
-      date[1] = "April";
-    } else if (date[1].equalsIgnoreCase("May")) {
-      date[1] = "May";
-    } else if (date[1].equalsIgnoreCase("Jun")) {
-      date[1] = "June";
-    } else if (date[1].equalsIgnoreCase("Jul")) {
-      date[1] = "July";
-    } else if (date[1].equalsIgnoreCase("Aug")) {
-      date[1] = "August";
-    } else if (date[1].equalsIgnoreCase("Sep")) {
-      date[1] = "September";
-    } else if (date[1].equalsIgnoreCase("Oct")) {
-      date[1] = "October";
-    } else if (date[1].equalsIgnoreCase("Nov")) {
-      date[1] = "November";
-    } else {
-      date[1] = "December";
-    }
-
-    StringBuilder exactDate = new StringBuilder();
-    exactDate.append(date[0]);
-    exactDate.append(", ");
-    exactDate.append(date[1] + " ");
-    exactDate.append(date[2]);
-    exactDate.append(", ");
-    exactDate.append(date[5]);
-    exactDate.append(" at ");
-    exactDate.append(date[3]);
-
-    String printDate = exactDate.toString();
-
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
+
     for (int i = 0; i < tik.size(); i++) {
+        
       String tikk = tik.get(i).text();
       String pricee = price.get(i).text();
 
@@ -118,10 +63,9 @@ public class SaveStockServlet extends HttpServlet {
       FullEntity taskEntity =
           Entity.newBuilder(keyFactory.newKey())
               .set("Tik", tikk)
-              .set("Display_Price", pricee)
-              .set("timestamp", timeStamp)
-              .set("Actual_Time", printDate)
-              .set("Double_Price", priceDouble)
+              .set("DisplayPrice", pricee)
+              .set("TimeStamp", timeStamp)
+              .set("DoublePrice", priceDouble)
               .build();
       datastore.put(taskEntity);
     }
