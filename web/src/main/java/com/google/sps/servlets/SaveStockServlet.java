@@ -39,7 +39,7 @@ public class SaveStockServlet extends HttpServlet {
     // Sanitize user input to remove HTML tags and JavaScript.
 
     Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
-    String websitedata = doc.html(); // prints HTML data
+    String websiteData = doc.html(); // prints HTML data
     System.out.println("✔️GOT HTML PAGE");
 
     Elements tik = doc.select(".coin-item-symbol");
@@ -47,42 +47,64 @@ public class SaveStockServlet extends HttpServlet {
     System.out.println("✔️GOT ALL TICKER SYMBOLS IN PAGE");
     System.out.println("✔️GOT ALL PRICES IN PAGE");
 
-    long timestamp = System.currentTimeMillis();
+    long timeStamp = System.currentTimeMillis();
 
-    Date date = Calendar.getInstance().getTime();
-    String gooddate = date.toString();
-    String[] date_ok = gooddate.split(" ");
+    Date rawDate = Calendar.getInstance().getTime();
+    String stringDate = rawDate.toString();
+    String[] date = stringDate.split(" ");
 
-    if (date_ok[0].equalsIgnoreCase("Sun")) {
-      date_ok[0] = "Sunday";
-    } else if (date_ok[0].equalsIgnoreCase("Mon")) {
-      date_ok[0] = "Monday";
-    } else if (date_ok[0].equalsIgnoreCase("Tue")) {
-      date_ok[0] = "Tuesday";
-    } else if (date_ok[0].equalsIgnoreCase("Wed")) {
-      date_ok[0] = "Wednesday";
-    } else if (date_ok[0].equalsIgnoreCase("Thu")) {
-      date_ok[0] = "Thursday";
-    } else if (date_ok[0].equalsIgnoreCase("Fri")) {
-      date_ok[0] = "Friday";
+    if (date[0].equalsIgnoreCase("Sun")) {
+      date[0] = "Sunday";
+    } else if (date[0].equalsIgnoreCase("Mon")) {
+      date[0] = "Monday";
+    } else if (date[0].equalsIgnoreCase("Tue")) {
+      date[0] = "Tuesday";
+    } else if (date[0].equalsIgnoreCase("Wed")) {
+      date[0] = "Wednesday";
+    } else if (date[0].equalsIgnoreCase("Thu")) {
+      date[0] = "Thursday";
+    } else if (date[0].equalsIgnoreCase("Fri")) {
+      date[0] = "Friday";
     } else {
-      date_ok[0] = "Saturday";
+      date[0] = "Saturday";
     }
-    if (date_ok[1].equalsIgnoreCase("Mar")) {
-      date_ok[1] = "March";
+    if (date[1].equalsIgnoreCase("Jan")) {
+      date[1] = "January";
+    } else if (date[1].equalsIgnoreCase("Feb")) {
+      date[1] = "Febuary";
+    } else if (date[1].equalsIgnoreCase("Mar")) {
+      date[1] = "March";
+    } else if (date[1].equalsIgnoreCase("Apr")) {
+      date[1] = "April";
+    } else if (date[1].equalsIgnoreCase("May")) {
+      date[1] = "May";
+    } else if (date[1].equalsIgnoreCase("Jun")) {
+      date[1] = "June";
+    } else if (date[1].equalsIgnoreCase("Jul")) {
+      date[1] = "July";
+    } else if (date[1].equalsIgnoreCase("Aug")) {
+      date[1] = "August";
+    } else if (date[1].equalsIgnoreCase("Sep")) {
+      date[1] = "September";
+    } else if (date[1].equalsIgnoreCase("Oct")) {
+      date[1] = "October";
+    } else if (date[1].equalsIgnoreCase("Nov")) {
+      date[1] = "November";
+    } else {
+      date[1] = "December";
     }
 
-    StringBuilder exactdate = new StringBuilder();
-    exactdate.append(date_ok[0]);
-    exactdate.append(", ");
-    exactdate.append(date_ok[1] + " ");
-    exactdate.append(date_ok[2]);
-    exactdate.append(", ");
-    exactdate.append(date_ok[5]);
-    exactdate.append(" at ");
-    exactdate.append(date_ok[3]);
+    StringBuilder exactDate = new StringBuilder();
+    exactDate.append(date[0]);
+    exactDate.append(", ");
+    exactDate.append(date[1] + " ");
+    exactDate.append(date[2]);
+    exactDate.append(", ");
+    exactDate.append(date[5]);
+    exactDate.append(" at ");
+    exactDate.append(date[3]);
 
-    String printdate = exactdate.toString();
+    String printDate = exactDate.toString();
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
@@ -93,8 +115,8 @@ public class SaveStockServlet extends HttpServlet {
           Entity.newBuilder(keyFactory.newKey())
               .set("Tik", tikk)
               .set("Price", pricee)
-              .set("timestamp", timestamp)
-              .set("Actual_Time", printdate)
+              .set("timestamp", timeStamp)
+              .set("Actual_Time", printDate)
               .build();
       datastore.put(taskEntity);
     }
