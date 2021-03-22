@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/list-tasks")
 public class ListTasksServlet extends HttpServlet {
 
-    @Override
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =

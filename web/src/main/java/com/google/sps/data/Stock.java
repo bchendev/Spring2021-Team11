@@ -15,15 +15,15 @@
 package com.google.sps.data;
 
 /** An item on a todo list. */
-public final class Task {
+public final class Stock {
 
   private final long id;
-  private final String title;
-  private final long timestamp;
+  private final String ticker;
+  private final long price;
 
-  public Task(long id, String title, long timestamp) {
+  public Stock(long id, String ticker, long price) {
     this.id = id;
-    this.title = title;
-    this.timestamp = timestamp;
+    this.ticker = ticker;
+    this.price = price;
   }
 }
