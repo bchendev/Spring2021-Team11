@@ -20,6 +20,8 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.KeyFactory;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +49,41 @@ public class SaveStockServlet extends HttpServlet {
 
     long timestamp = System.currentTimeMillis();
 
+    Date date = Calendar.getInstance().getTime();
+    String gooddate = date.toString();
+    String[] date_ok = gooddate.split(" ");
+
+    if (date_ok[0].equalsIgnoreCase("Sun")) {
+      date_ok[0] = "Sunday";
+    } else if (date_ok[0].equalsIgnoreCase("Mon")) {
+      date_ok[0] = "Monday";
+    } else if (date_ok[0].equalsIgnoreCase("Tue")) {
+      date_ok[0] = "Tuesday";
+    } else if (date_ok[0].equalsIgnoreCase("Wed")) {
+      date_ok[0] = "Wednesday";
+    } else if (date_ok[0].equalsIgnoreCase("Thu")) {
+      date_ok[0] = "Thursday";
+    } else if (date_ok[0].equalsIgnoreCase("Fri")) {
+      date_ok[0] = "Friday";
+    } else {
+      date_ok[0] = "Saturday";
+    }
+    if (date_ok[1].equalsIgnoreCase("Mar")) {
+      date_ok[1] = "March";
+    }
+
+    StringBuilder exactdate = new StringBuilder();
+    exactdate.append(date_ok[0]);
+    exactdate.append(", ");
+    exactdate.append(date_ok[1] + " ");
+    exactdate.append(date_ok[2]);
+    exactdate.append(", ");
+    exactdate.append(date_ok[5]);
+    exactdate.append(" at ");
+    exactdate.append(date_ok[3]);
+
+    String printdate = exactdate.toString();
+
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
     for (int i = 0; i < tik.size(); i++) {
@@ -57,6 +94,7 @@ public class SaveStockServlet extends HttpServlet {
               .set("Tik", tikk)
               .set("Price", pricee)
               .set("timestamp", timestamp)
+              .set("Actual_Time", printdate)
               .build();
       datastore.put(taskEntity);
     }

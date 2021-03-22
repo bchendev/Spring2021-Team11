@@ -95,7 +95,7 @@ function drawChart() {
 
   const options = {
     title: '*Stock Symbol Here*',
-    width: 1900,
+    width: 1500,
     height: 500,
 
     hAxis: {
