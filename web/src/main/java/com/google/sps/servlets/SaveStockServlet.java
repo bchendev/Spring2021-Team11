@@ -54,7 +54,7 @@ public class SaveStockServlet extends HttpServlet {
       String pricee = price.get(i).text();
       FullEntity taskEntity =
           Entity.newBuilder(keyFactory.newKey())
-              .set("Tik", tikk)
+              .set("Tiks", tikk)
               .set("Price", pricee)
               .set("timestamp", timestamp)
               .build();
