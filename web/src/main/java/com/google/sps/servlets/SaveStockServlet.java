@@ -20,8 +20,6 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.KeyFactory;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,16 +34,12 @@ public class SaveStockServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Sanitize user input to remove HTML tags and JavaScript.
 
     Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
     String websiteData = doc.html(); // prints HTML data
-    System.out.println("✔️GOT HTML PAGE");
 
     Elements tik = doc.select(".coin-item-symbol");
     Elements price = doc.select(".price___3rj7O ");
-    System.out.println("✔️GOT ALL TICKER SYMBOLS IN PAGE");
-    System.out.println("✔️GOT ALL PRICES IN PAGE");
 
     long timeStamp = System.currentTimeMillis();
 
@@ -53,17 +47,14 @@ public class SaveStockServlet extends HttpServlet {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
 
     for (int i = 0; i < tik.size(); i++) {
-        
-      String tikk = tik.get(i).text();
-      String pricee = price.get(i).text();
 
-      String strippedPrice = pricee.replaceAll("[\\\\$,]", "");
-      double priceDouble = Double.parseDouble(strippedPrice);
+      String tikk = tik.get(i).text();
+      String pricee = price.get(i).text().replaceAll("[\\\\$,]", "");
+      double priceDouble = Double.parseDouble(pricee);
 
       FullEntity taskEntity =
           Entity.newBuilder(keyFactory.newKey())
               .set("Tik", tikk)
-              .set("DisplayPrice", pricee)
               .set("TimeStamp", timeStamp)
               .set("DoublePrice", priceDouble)
               .build();
