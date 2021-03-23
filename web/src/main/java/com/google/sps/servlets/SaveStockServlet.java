@@ -34,9 +34,9 @@ public class SaveStockServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    // Scrapes Cryptocurrency data
     Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
-    String websiteData = doc.html(); // prints HTML data
+    String websiteData = doc.html(); 
 
     Elements tik = doc.select(".coin-item-symbol");
     Elements price = doc.select(".price___3rj7O ");
@@ -56,7 +56,7 @@ public class SaveStockServlet extends HttpServlet {
           Entity.newBuilder(keyFactory.newKey())
               .set("Tik", tikk)
               .set("TimeStamp", timeStamp)
-              .set("DoublePrice", priceDouble)
+              .set("USD", priceDouble)
               .build();
       datastore.put(taskEntity);
     }
