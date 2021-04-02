@@ -55,6 +55,7 @@ public class SaveStockServlet extends HttpServlet {
       tikkers.add(tikk);
     }
 
+
     for (int i = 0; i < tik.size(); i++) {
       Key myTiks = datastore.newKeyFactory().setKind("Stock").newKey(tikkers.get(i));
 
@@ -95,6 +96,9 @@ public class SaveStockServlet extends HttpServlet {
       // datastore.update(task);
 
     }
+
+
+    
 
     response.sendRedirect("/index.html");
   }
