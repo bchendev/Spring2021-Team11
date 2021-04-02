@@ -12,6 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function loadTasks() {
+  fetch('/list-stock').then(response => response.json()).then((stocks) => {
+    const taskListElement = document.getElementById('task-list');
+    stocks.forEach((stock) => {
+      taskListElement.appendChild(createTaskElement(stock));
+    })
+  });
+  priceElement.innerText = task.price;
+}
+
+/** Creates an element that represents a task, including its delete button. */
+function createTaskElement(task) {
+  const taskElement = document.createElement('li');
+  taskElement.className = 'task';
+
+  const titleElement = document.createElement('span');
+  titleElement.innerText = task.tik;
+  const priceElement = document.createElement('span');
+  priceElement.innerText = task.price;
+
+  const deleteButtonElement = document.createElement('button');
+  deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.addEventListener('click', () => {
+  deleteTask(task);
+
+    // Remove the task from the DOM.
+    taskElement.remove();
+  });
+
+  taskElement.appendChild(titleElement);
+  taskElement.appendChild(priceElement);
+  taskElement.appendChild(deleteButtonElement);
+  return taskElement;
+}
+
 google.charts.load('current', { packages: ['corechart', 'line'] });
 google.charts.setOnLoadCallback(drawChart);
 

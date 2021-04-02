@@ -18,12 +18,12 @@ package com.google.sps.data;
 public final class Stock {
 
   private final long id;
-  private final String ticker;
-  private final long price;
+  private final String tik;
+  private final double price;
 
-  public Stock(long id, String ticker, long price) {
+  public Stock(long id, String tik, double price) {
     this.id = id;
-    this.ticker = ticker;
+    this.tik = tik;
     this.price = price;
   }
 }

@@ -33,7 +33,7 @@ public class DeleteTaskServlet extends HttpServlet {
     long id = Long.parseLong(request.getParameter("id"));
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Task");
+    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
     Key taskEntityKey = keyFactory.newKey(id);
     datastore.delete(taskEntityKey);
   }

@@ -7,7 +7,7 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="loadTasks()">
     <h1>Stock Data</h1>
     <hr />
     <div id="curve_chart"></div>
@@ -16,5 +16,9 @@
       <input type="text" name="title" />
       <br/>
       <button>Submit</button>
-    </form>  </body>
+    </form> 
+
+<ul id="task-list"></ul>
+
+</body>
 </html>
