@@ -12,6 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function searchMe() {
+  var input, filter, ul, li, item, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("task-list");
+  li = ul.getElementsByTagName("li"); 
+   for (i = 0; i < li.length; i++) {
+    item = li[i];
+    txtValue = item.textContent || item.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
 function loadTasks() {
   fetch('/list-stock').then(response => response.json()).then((stocks) => {
     const taskListElement = document.getElementById('task-list');
@@ -28,22 +45,12 @@ function createTaskElement(task) {
   taskElement.className = 'task';
 
   const titleElement = document.createElement('span');
-  titleElement.innerText = task.tik;
+  titleElement.innerText = task.ticker;
   const priceElement = document.createElement('span');
   priceElement.innerText = task.price;
 
-  const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.innerText = 'Delete';
-  deleteButtonElement.addEventListener('click', () => {
-  deleteTask(task);
-
-    // Remove the task from the DOM.
-    taskElement.remove();
-  });
-
   taskElement.appendChild(titleElement);
   taskElement.appendChild(priceElement);
-  taskElement.appendChild(deleteButtonElement);
   return taskElement;
 }
 

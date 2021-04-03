@@ -6,19 +6,21 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
+    <form role="search" id="form" class="searchTik">
+  <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
+</form>
   </head>
   <body onload="loadTasks()">
-    <h1>Stock Data</h1>
-    <hr />
-    <div id="curve_chart"></div>
-
+<hr>
 <form method="POST" action="/save-stock">
-      <input type="text" name="title" />
-      <br/>
-      <button>Submit</button>
-    </form> 
+    <input type="text" name="title" />
+    <br/>
+    <button>Submit</button>
+</form> 
 
 <ul id="task-list"></ul>
-
+ <h1>Stock Data</h1>
+    <hr />
+    <div id="curve_chart"></div>
 </body>
 </html>

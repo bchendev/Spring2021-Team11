@@ -17,13 +17,13 @@ package com.google.sps.data;
 /** An item on a todo list. */
 public final class Stock {
 
-  private final long id;
-  private final String tik;
+  private final String id;
+  private final String ticker;
   private final double price;
 
-  public Stock(long id, String tik, double price) {
+  public Stock(String id, String ticker, double price) {
     this.id = id;
-    this.tik = tik;
+    this.ticker = ticker;
     this.price = price;
   }
 }

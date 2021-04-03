@@ -19,9 +19,6 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
@@ -42,63 +39,34 @@ public class SaveStockServlet extends HttpServlet {
     Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
     String websiteData = doc.html();
 
-    Elements tik = doc.select(".coin-item-symbol");
+    Elements tick = doc.select(".coin-item-symbol");
     Elements price = doc.select(".price___3rj7O ");
 
     long timeStamp = System.currentTimeMillis();
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stock");
-    ArrayList<String> tikkers = new ArrayList<String>();
-    for (int i = 0; i < tik.size(); i++) {
-      String tikk = tik.get(i).text();
-      tikkers.add(tikk);
+
+    ArrayList<String> tickers = new ArrayList<String>();
+    for (int i = 0; i < tick.size(); i++) {
+      String tik = tick.get(i).text();
+      tickers.add(tik);
     }
 
+    for (int i = 0; i < tick.size(); i++) {
+      Key tickerKey = datastore.newKeyFactory().setKind("Stock").newKey(tickers.get(i));
 
-    for (int i = 0; i < tik.size(); i++) {
-      Key myTiks = datastore.newKeyFactory().setKind("Stock").newKey(tikkers.get(i));
-
-      String pricee = price.get(i).text().replaceAll("[\\\\$,]", "");
-      Double priceDouble = Double.parseDouble(pricee);
+      String tikPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
+      Double priceDouble = Double.parseDouble(tikPrice);
 
       Entity taskEntity =
-          Entity.newBuilder(datastore.get(myTiks))
-              .set("Tik", tikkers.get(i))
+          Entity.newBuilder(tickerKey)
+              .set("Ticker", tickers.get(i))
               .set("USD", priceDouble)
               .set("TimeStamp", timeStamp)
               .build();
-      datastore.update(taskEntity);
+      datastore.put(taskEntity);
     }
-
-    for (int i = 0; i < tik.size(); i++) {
-
-      String pricee = price.get(i).text().replaceAll("[\\\\$,]", "");
-      Double priceDouble = Double.parseDouble(pricee);
-
-      Query<Entity> query =
-          Query.newEntityQueryBuilder()
-              .setKind("Stock")
-              .setFilter(PropertyFilter.eq("Tik", tikkers.get(i)))
-              .build();
-      QueryResults<Entity> results = datastore.run(query);
-
-      Entity entity = results.next();
-
-      String tiko = entity.getString("Tik");
-      Long id = entity.getKey().getId();
-      Key keyy = entity.getKey();
-
-      // Was trying to figure it out but couldnt
-      // Entity task = Entity.newBuilder(datastore.get(taskKey))
-      //     .set("priority", 5)
-      //     .build();
-      // datastore.update(task);
-
-    }
-
-
-    
 
     response.sendRedirect("/index.html");
   }
