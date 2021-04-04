@@ -12,46 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 function searchMe() {
-  var input, filter, ul, li, item, i, txtValue;
+  var input, filter, stockList, stockListItem, item, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  ul = document.getElementById("task-list");
-  li = ul.getElementsByTagName("li"); 
-   for (i = 0; i < li.length; i++) {
-    item = li[i];
+  stockList = document.getElementById("stock-list");
+  stockListItem = stockList.getElementsByTagName("li"); 
+   for (var i = 0; i < stockListItem.length; i++) {
+    item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
+      stockListItem[i].style.display = "";
     } else {
-      li[i].style.display = "none";
+      stockListItem[i].style.display = "none";
     }
   }
 }
 
-function loadTasks() {
+function loadStocks() {
   fetch('/list-stock').then(response => response.json()).then((stocks) => {
-    const taskListElement = document.getElementById('task-list');
+    const stockListElement = document.getElementById('stock-list');
     stocks.forEach((stock) => {
-      taskListElement.appendChild(createTaskElement(stock));
+      stockListElement.appendChild(createStockElement(stock));
     })
   });
-  priceElement.innerText = task.price;
 }
 
-/** Creates an element that represents a task, including its delete button. */
-function createTaskElement(task) {
-  const taskElement = document.createElement('li');
-  taskElement.className = 'task';
+/** Creates an element that represents a stock */
+function createStockElement(stock) {
+  const stockElement = document.createElement('list');
+  stockElement.className = 'task';
 
   const titleElement = document.createElement('span');
-  titleElement.innerText = task.ticker;
+  titleElement.innerText = stock.ticker;
   const priceElement = document.createElement('span');
-  priceElement.innerText = task.price;
+  priceElement.innerText = '$' + stock.price;
 
-  taskElement.appendChild(titleElement);
-  taskElement.appendChild(priceElement);
-  return taskElement;
+  stockElement.appendChild(titleElement);
+  stockElement.appendChild(priceElement);
+  return stockElement;
 }
 
 google.charts.load('current', { packages: ['corechart', 'line'] });
@@ -59,84 +59,34 @@ google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {
+    
+// Feeds graph random data
+    function myRand(to){
+    var x = Math.floor(Math.random() * to+1);
+    return x;
+}
+
+var my2d = [];
+for(var i = 0; i < 70; i++){
+    my2d[i] = [];
+    for (var j = 0; j < 2; j++){
+        my2d[i][j] = i;
+    }
+}
+
+for (var i = 0; i < 70; i++){
+    my2d[i][1] = myRand(50);
+}
+
   const data = new google.visualization.DataTable();
+
   data.addColumn('number', 'Time');
   data.addColumn('number', 'Price');
-  data.addRows([
-    [0, 0],
-    [1, 10],
-    [2, 23],
-    [3, 17],
-    [4, 18],
-    [5, 9],
-    [6, 11],
-    [7, 27],
-    [8, 33],
-    [9, 40],
-    [10, 32],
-    [11, 35],
-    [12, 30],
-    [13, 40],
-    [14, 42],
-    [15, 47],
-    [16, 44],
-    [17, 48],
-    [18, 52],
-    [19, 54],
-    [20, 42],
-    [21, 55],
-    [22, 56],
-    [23, 57],
-    [24, 60],
-    [25, 50],
-    [26, 52],
-    [27, 51],
-    [28, 49],
-    [29, 53],
-    [30, 55],
-    [31, 60],
-    [32, 61],
-    [33, 59],
-    [34, 62],
-    [35, 65],
-    [36, 62],
-    [37, 58],
-    [38, 55],
-    [39, 61],
-    [40, 64],
-    [41, 65],
-    [42, 63],
-    [43, 66],
-    [44, 67],
-    [45, 69],
-    [46, 69],
-    [47, 70],
-    [48, 72],
-    [49, 68],
-    [50, 66],
-    [51, 65],
-    [52, 67],
-    [53, 70],
-    [54, 71],
-    [55, 72],
-    [56, 73],
-    [57, 75],
-    [58, 70],
-    [59, 68],
-    [60, 64],
-    [61, 60],
-    [62, 65],
-    [63, 67],
-    [64, 68],
-    [65, 69],
-    [66, 70],
-    [67, 72],
-    [68, 75],
-    [69, 80],
-  ]);
+
+  data.addRows(my2d);
 
   const options = {
-    title: '*Stock Symbol Here*',
+    title: 'BTC',
     width: 1500,
     height: 500,
 

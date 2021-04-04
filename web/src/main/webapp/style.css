@@ -15,13 +15,13 @@
 }
 
 form.searchTik {
-  background-color: #4654e1;
+  background-color: #282424;
   width: 300px;
   height: 44px;
   border-radius: 5px;
-  width: 80%;
+  width: 20%;
   display:flex;
-  flex-direction:row;
+  /* flex-direction:row; */
   align-items:center;
 }
 
@@ -36,4 +36,8 @@ input.search {
 ::placeholder {
   color: #fff;
   opacity: 0.7; 
+}
+
+body{
+   padding-top: 33px;
 }

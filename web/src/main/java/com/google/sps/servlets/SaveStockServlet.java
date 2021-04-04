@@ -19,6 +19,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
@@ -54,10 +55,20 @@ public class SaveStockServlet extends HttpServlet {
     }
 
     for (int i = 0; i < tick.size(); i++) {
+
       Key tickerKey = datastore.newKeyFactory().setKind("Stock").newKey(tickers.get(i));
 
       String tikPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
       Double priceDouble = Double.parseDouble(tikPrice);
+
+      String path =
+          "/home/msaka/Spring2021-Team11/web/src/main/java/com/google/sps/stockData/"
+              + tickers.get(i)
+              + ".txt";
+
+      FileWriter myWriter = new FileWriter(path, true);
+      myWriter.write(timeStamp + "," + priceDouble + "\n");
+      myWriter.close();
 
       Entity taskEntity =
           Entity.newBuilder(tickerKey)
