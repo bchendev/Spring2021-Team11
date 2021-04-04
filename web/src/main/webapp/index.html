@@ -22,25 +22,17 @@
 </nav>
 
   </head>
-  <body onload="loadStocks()">
+  <body onload="loadStocks()" >
 
-
-  <!-- <hr> -->
 <br>
 <form role="search" id="form" class="searchTik">
   <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
 </form>
 
-<form method="POST" action="/save-stock">
-    <input type="text" name="title" />
-    <br/>
-    <button>Submit</button>
-</form> 
-
 <ul id="stock-list"></ul>
 
  <h1>Stock Data</h1>
-    <hr />
-    <div id="curve_chart"></div>
+ <hr />
+ <div id="curve_chart"></div>
 </body>
 </html>

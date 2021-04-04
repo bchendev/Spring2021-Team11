@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 function searchMe() {
   var input, filter, stockList, stockListItem, item, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
   stockList = document.getElementById("stock-list");
-  stockListItem = stockList.getElementsByTagName("li"); 
+  stockListItem = stockList.getElementsByTagName("list"); 
    for (var i = 0; i < stockListItem.length; i++) {
     item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
@@ -31,6 +30,12 @@ function searchMe() {
 }
 
 function loadStocks() {
+    // Activates the doPost request at every refresh and open of page
+    fetch('/save-stock', {
+  method: "POST"
+});
+
+// Populate the stocks
   fetch('/list-stock').then(response => response.json()).then((stocks) => {
     const stockListElement = document.getElementById('stock-list');
     stocks.forEach((stock) => {
