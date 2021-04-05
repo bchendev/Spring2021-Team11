@@ -53,11 +53,12 @@ function createStockElement(stock) {
   const stockElement = document.createElement('list');
   stockElement.className = 'task';
 
+
   const titleElement = document.createElement('span');
   var ticker = stock.ticker;
 
   const tickLink = document.createElement('a');
-  tickLink.setAttribute('href', '/btc.html');
+  tickLink.setAttribute('href', 'ticker.html');
   tickLink.innerHTML = ticker;
 
   const priceElement = document.createElement('span');
