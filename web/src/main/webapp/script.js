@@ -15,28 +15,37 @@
 
 function searchMe() {
   var input, filter, stockList, stockListItem, item, txtValue;
-  input = document.getElementById("myInput");
+  input = document.getElementById('myInput');
   filter = input.value.toUpperCase();
-  stockList = document.getElementById("stock-list");
-  stockListItem = stockList.getElementsByTagName("li"); 
-   for (var i = 0; i < stockListItem.length; i++) {
+  stockList = document.getElementById('stock-list');
+  stockListItem = stockList.getElementsByTagName('list');
+  for (var i = 0; i < stockListItem.length; i++) {
     item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      stockListItem[i].style.display = "";
+      stockListItem[i].style.display = '';
     } else {
-      stockListItem[i].style.display = "none";
+      stockListItem[i].style.display = 'none';
     }
   }
 }
 
 function loadStocks() {
-  fetch('/list-stock').then(response => response.json()).then((stocks) => {
-    const stockListElement = document.getElementById('stock-list');
-    stocks.forEach((stock) => {
-      stockListElement.appendChild(createStockElement(stock));
-    })
+
+  // Activates the doPost request at every refresh and open of page
+  fetch('/save-stock', {
+    method: 'POST',
   });
+
+  // Populate the stocks
+  fetch('/list-stock')
+    .then((response) => response.json())
+    .then((stocks) => {
+      const stockListElement = document.getElementById('stock-list');
+      stocks.forEach((stock) => {
+        stockListElement.appendChild(createStockElement(stock));
+      });
+    });
 }
 
 /** Creates an element that represents a stock */
@@ -45,10 +54,16 @@ function createStockElement(stock) {
   stockElement.className = 'task';
 
   const titleElement = document.createElement('span');
-  titleElement.innerText = stock.ticker;
+  var ticker = stock.ticker;
+
+  const tickLink = document.createElement('a');
+  tickLink.setAttribute('href', '/btc.html');
+  tickLink.innerHTML = ticker;
+
   const priceElement = document.createElement('span');
   priceElement.innerText = '$' + stock.price;
 
+  titleElement.appendChild(tickLink);
   stockElement.appendChild(titleElement);
   stockElement.appendChild(priceElement);
   return stockElement;
@@ -59,24 +74,23 @@ google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
 function drawChart() {
-    
-// Feeds graph random data
-    function myRand(to){
-    var x = Math.floor(Math.random() * to+1);
+  // Feeds graph random data
+  function myRand(to) {
+    var x = Math.floor(Math.random() * to + 1);
     return x;
-}
+  }
 
-var my2d = [];
-for(var i = 0; i < 70; i++){
+  var my2d = [];
+  for (var i = 0; i < 70; i++) {
     my2d[i] = [];
-    for (var j = 0; j < 2; j++){
-        my2d[i][j] = i;
+    for (var j = 0; j < 2; j++) {
+      my2d[i][j] = i;
     }
-}
+  }
 
-for (var i = 0; i < 70; i++){
+  for (var i = 0; i < 70; i++) {
     my2d[i][1] = myRand(50);
-}
+  }
 
   const data = new google.visualization.DataTable();
 

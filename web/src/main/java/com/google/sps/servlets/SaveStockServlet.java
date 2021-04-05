@@ -58,8 +58,8 @@ public class SaveStockServlet extends HttpServlet {
 
       Key tickerKey = datastore.newKeyFactory().setKind("Stock").newKey(tickers.get(i));
 
-      String tikPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
-      Double priceDouble = Double.parseDouble(tikPrice);
+      String tickerPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
+      Double priceDouble = Double.parseDouble(tickerPrice);
 
       String path =
           "/home/msaka/Spring2021-Team11/web/src/main/java/com/google/sps/stockData/"
