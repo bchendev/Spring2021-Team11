@@ -50,6 +50,22 @@ function loadStocks() {
     });
 }
 
+function refresh() {
+   fetch('/store-comments-urls', {
+    method: 'POST',
+  });
+
+  fetch('/store-comments-urls', {
+    method: 'POST',
+  });  
+
+  fetch('/store-comments');
+
+  fetch('/reddit-count');
+
+}
+
+
 /** Creates an element that represents a stock */
 function createStockElement(stock) {
   const stockElement = document.createElement('list');
