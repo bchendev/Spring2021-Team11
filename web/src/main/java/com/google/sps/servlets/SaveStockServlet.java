@@ -67,9 +67,10 @@ public class SaveStockServlet extends HttpServlet {
               + tickers.get(i)
               + ".txt";
 
-      FileWriter myWriter = new FileWriter(path, true);
-      myWriter.write(timeStamp + "," + priceDouble + "\n");
-      myWriter.close();
+    //   FileWriter myWriter = new FileWriter(path, true);
+    //   myWriter.write(timeStamp + "," + priceDouble + "\n");
+    //   myWriter.close();  
+
 
       Entity taskEntity =
           Entity.newBuilder(tickerKey)
