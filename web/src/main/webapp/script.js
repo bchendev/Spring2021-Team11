@@ -104,17 +104,20 @@ function drawChart() {
     title: 'BTC',
     width: 1500,
     height: 500,
+    lineWidth: 3,
 
     hAxis: {
-      title: 'Time',
+      lable: 'Time',
       logScale: false,
+      gridlines:{count: 0}
     },
     vAxis: {
-      title: 'Price',
+      lable: 'Price',
       logScale: false,
       format: 'currency',
+      gridlines:{count: 0}
     },
-    colors: ['#a52714', '#097138'],
+    colors: ['#00FF00'],
   };
 
   const chart = new google.visualization.LineChart(
