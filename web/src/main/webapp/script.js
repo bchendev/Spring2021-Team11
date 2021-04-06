@@ -60,7 +60,7 @@ function createStockElement(stock) {
   var ticker = stock.ticker;
 
   const tickLink = document.createElement('a');
-  tickLink.setAttribute('href', "ticker.html");
+  tickLink.setAttribute('href', "ticker.html?symbol=" + ticker);
   tickLink.setAttribute('name',ticker);
   tickLink.innerHTML = ticker;
 
