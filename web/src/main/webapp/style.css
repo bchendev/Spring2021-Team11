@@ -14,30 +14,35 @@
   flex-grow: 1;
 }
 
-form.searchTik {
+.search {
   background-color: #282424;
+  padding-left: 10px;
+  margin-left: 10px;
   width: 300px;
   height: 44px;
   border-radius: 5px;
   width: 20%;
-  display:flex;
+  display: flex;
   /* flex-direction:row; */
-  align-items:center;
+  align-items: center;
 }
 
-input.search {
-  all: unset;
-  font: 16px system-ui;
-  height: 100%;
-  width: 100%;
-  padding: 6px 10px;
+.search:hover,
+.search:focus {
+  border: 1.5px solid #009688;
+  color: white;
+}
+
+input.search-query {
+  background-color: #f47443;
+  color: white;
 }
 
 ::placeholder {
   color: #fff;
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
-body{
-   padding-top: 33px;
+body {
+  padding-top: 33px;
 }
