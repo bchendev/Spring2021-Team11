@@ -55,7 +55,6 @@ public class StickersWebScraping extends HttpServlet {
       Document docNyse = Jsoup.connect(stocksWebPage).get();
       Document docNasdaq = Jsoup.connect(nasdaqStocks).get();
 
-      // final String QUOTES_TAG = "quotes";
       Elements stocksNyse = docNyse.getElementsByClass(QUOTES_TAG);
       Elements stocksNasdaq = docNasdaq.getElementsByClass(QUOTES_TAG);
 
@@ -63,6 +62,7 @@ public class StickersWebScraping extends HttpServlet {
       addStickers(stocksNasdaq);
     }
     for (int i = 0; i < stockStickers.size(); i++) {
+      System.out.print(stockStickers.get(i)+" ");
       FullEntity saveStickers =
           Entity.newBuilder(keyFactory.newKey()).set("sticker", stockStickers.get(i)).build();
       datastore.put(saveStickers);

@@ -53,7 +53,7 @@ public class StickerCommentCount extends HttpServlet {
       String stock = entity.getString("sticker");
       listStickers.add(stock);
     }
-    System.out.println("Number of stickers loaded: " + listStickers.size());
+    System.out.println("\nNumber of stickers loaded: " + listStickers.size());
 
     // Get comments
     Query<Entity> queryComments =
@@ -85,6 +85,7 @@ public class StickerCommentCount extends HttpServlet {
     }
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stocks-mentioned");
     for (String stock : stockMentioned) {
+      System.out.print(stock + " ");
       FullEntity mentionedStocks =
           Entity.newBuilder(keyFactory.newKey()).set("stock", stock).build();
       datastore.put(mentionedStocks);

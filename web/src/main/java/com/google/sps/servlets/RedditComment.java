@@ -22,7 +22,12 @@ import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +43,7 @@ public class RedditComment extends HttpServlet {
   public static String COMMENTS_TAG = "_1qeIAgB0cPwnLhDF9XSiJM";
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
@@ -53,14 +58,14 @@ public class RedditComment extends HttpServlet {
     while (savedUrls.hasNext()) {
       Entity entity = savedUrls.next();
       String url = entity.getString("url");
-
+    
       try {
         Document redditDiscussions = Jsoup.connect(url).get();
 
         System.out.printf("\nSuccessfully scraped Reddit Page: %s", redditDiscussions.title());
 
         Elements commentSection = redditDiscussions.getElementsByClass(DISCUSSION_TAG);
-
+        
         for (Element comments : commentSection) {
           String comment = comments.getElementsByClass(COMMENTS_TAG).text();
           FullEntity redditComment =
@@ -68,7 +73,7 @@ public class RedditComment extends HttpServlet {
           datastore.put(redditComment);
         }
       } catch (Exception e) {
-        System.out.printf("%s: Failed to load url: %s", getClass().getName(), url);
+        System.out.printf("\n%s: Failed to load url: %s", getClass().getName(), url);
       }
     }
   }

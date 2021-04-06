@@ -34,7 +34,7 @@ import org.jsoup.select.Elements;
 public class CommentsUrl extends HttpServlet {
   public static String REDDIT_DISCUSSION_URL =
       "https://www.reddit.com/r/wallstreetbets/search?q=flair_name%3A%22Daily%20Discussion%22&restrict_sr=1&sort=new";
-  public static String DAILY_DISCUSSION_CLASS_TAG = "_1poyrkZ7g36PawDueRza";
+  public static String DAILY_DISCUSSION_CLASS_TAG = "SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -48,19 +48,14 @@ public class CommentsUrl extends HttpServlet {
     // Get the links for the daily discussion
     Elements dailyDiscussion = redditPage.getElementsByClass(DAILY_DISCUSSION_CLASS_TAG);
     Elements links = dailyDiscussion.select("a[href]");
+    System.out.println("\nURls scraped: " + links.size());
 
-    int urlCount = 0;
-    int urlCurrIndex = 0;
     for (Element link : links) {
-      String url = link.attr("href");
+      String url = "https://www.reddit.com" + link.attr("href"); 
 
-      // Every three url's we have a url for the daily discussions.
-      if (urlCount == 2 || urlCount == urlCurrIndex + 3) {
-        FullEntity commentsUrls = Entity.newBuilder(keyFactory.newKey()).set("url", url).build();
-        dataStore.put(commentsUrls);
-        urlCurrIndex = urlCount;
-      }
-      urlCount++;
+      FullEntity commentsUrls = Entity.newBuilder(keyFactory.newKey()).set("url", url).build();
+      System.out.println("URL:" + url);
+      dataStore.put(commentsUrls);  
     }
     response.sendRedirect("/index.html");
   }
