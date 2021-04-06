@@ -67,6 +67,7 @@ public class StickersWebScraping extends HttpServlet {
           Entity.newBuilder(keyFactory.newKey()).set("sticker", stockStickers.get(i)).build();
       datastore.put(saveStickers);
     }
+    response.sendRedirect("/index.html");
   }
 
   public void addStickers(Elements stocks) {

@@ -89,5 +89,6 @@ public class StickerCommentCount extends HttpServlet {
           Entity.newBuilder(keyFactory.newKey()).set("stock", stock).build();
       datastore.put(mentionedStocks);
     }
+    response.sendRedirect("/index.html");
   }
 }

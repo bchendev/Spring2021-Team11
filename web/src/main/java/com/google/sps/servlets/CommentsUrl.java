@@ -62,5 +62,6 @@ public class CommentsUrl extends HttpServlet {
       }
       urlCount++;
     }
+    response.sendRedirect("/index.html");
   }
 }
