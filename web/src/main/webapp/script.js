@@ -60,7 +60,11 @@ function createStockElement(stock) {
   var ticker = stock.ticker;
 
   const tickLink = document.createElement('a');
+<<<<<<< HEAD
   tickLink.setAttribute('href', "ticker.html");
+=======
+  tickLink.setAttribute('href', "ticker.html?symbol=" + ticker);
+>>>>>>> d6b4064fb5136f63c1570673fe1ef8e158aa521b
   tickLink.setAttribute('name',ticker);
   tickLink.innerHTML = ticker;
 
@@ -107,17 +111,20 @@ function drawChart() {
     title: 'BTC',
     width: 1500,
     height: 500,
+    lineWidth: 3,
 
     hAxis: {
-      title: 'Time',
+      lable: 'Time',
       logScale: false,
+      gridlines:{count: 0}
     },
     vAxis: {
-      title: 'Price',
+      lable: 'Price',
       logScale: false,
       format: 'currency',
+      gridlines:{count: 0}
     },
-    colors: ['#a52714', '#097138'],
+    colors: ['#00FF00'],
   };
 
   const chart = new google.visualization.LineChart(
