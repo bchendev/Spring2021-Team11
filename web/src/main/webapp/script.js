@@ -63,6 +63,7 @@ function refresh() {
    method: 'POST',
   });
 
+  fetch('/sticker-count');
 }
 
 /** Creates an element that represents a stock */
