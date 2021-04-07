@@ -143,3 +143,34 @@ function drawChart() {
   );
   chart.draw(data, options);
 }
+
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function BarChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Stock', 'Mentions',],
+        ['Stock 1', 8175000],
+        ['Stock 2', 3792000],
+        ['Stock 3', 2695000],
+        ['Stock 4', 2099000],
+        ['Stock 5', 1526000]
+      ]);
+
+      var options = {
+        title: 'Reddit: wallstreetbets Stock Mentions',
+        chartArea: {width: '50%'},
+        hAxis: {
+          title: 'Mentions',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Stocks'
+        }
+      };
+
+      var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
+
+      chart.draw(data, options);
+    }
