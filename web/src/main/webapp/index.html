@@ -5,39 +5,28 @@
     <title>Stock Data</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">      
     <script src="script.js"></script>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand active" href="#">BAT$ Finance</a>
+    <div class="title-box">
+        <h1 id='title'></h1>
     </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-    </ul>
-  </div>
-</nav>
 
   </head>
 
-  <body onload="loadStocks()" > 
+  <body onload="loadStocks(), typeWriter(), BarChart()" > 
     <div class="body-center" >
 <form role="search" id="form" class="searchTik search-bar">
-
-  <body onload="loadStocks(), BarChart()" >
 
 <br>
 <form role="search" id="form" class="searchTik">
 
   <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
 </form>
-<br>
-
-
 <ul id="stock-list"></ul>
+</div>
 
 <div class="container-fluid">
     <div class="navbar-header">
@@ -54,7 +43,6 @@
 <form method="POST" onclick="refresh()">
   <button> Refresh </button>
 </form>
-</div>
 
 </body>
 </html>
