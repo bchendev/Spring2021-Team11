@@ -26,12 +26,27 @@
   <body onload="loadStocks()" > 
     <div class="body-center" >
 <form role="search" id="form" class="searchTik search-bar">
+
+  <body onload="loadStocks(), BarChart()" >
+
+<br>
+<form role="search" id="form" class="searchTik">
+
   <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
 </form>
 <br>
 
 
 <ul id="stock-list"></ul>
+
+<div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Trending in Reddit 🔥</a>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="bar_chart"></div>
 
 <form method="POST" action="/store-stickers">
   <button>  Get NYSE and NASDAQ stickers </button>
