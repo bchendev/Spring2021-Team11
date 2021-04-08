@@ -10,32 +10,24 @@
     >
       {' '}
     </link>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 
+    <div class="title-box">
+        <h1 id='title'></h1>
+    </div>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand active" href="index.html">
-            BAT$ Finance
-          </a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active">
-            <a href="index.html">Home</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
   </head>
 
-  <body onload="loadGraph()">
+  <body onload="loadGraph(), typeWriter()">
     <br> </br>
 
     <h1>Ticker Data</h1>
-    <hr />
+    <hr/>
     <div id="curve_chart"></div>
 
   </body>
