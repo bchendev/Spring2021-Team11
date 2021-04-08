@@ -64,6 +64,9 @@ function refresh() {
   });
 
   fetch('/sticker-count');
+  
+  refreshComments();
+
 }
 
 /** Creates an element that represents a stock */
@@ -174,3 +177,11 @@ function BarChart() {
 
       chart.draw(data, options);
     }
+
+async function refreshComments() {
+  const responseFromServer = await fetch('/refreshComment');
+  const comment = await responseFromServer.json();
+
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerText = comment;
+}
