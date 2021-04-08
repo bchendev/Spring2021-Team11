@@ -17,7 +17,7 @@ function searchMe() {
   input = document.getElementById('myInput');
   filter = input.value.toUpperCase();
   stockList = document.getElementById('stock-list');
-  stockListItem = stockList.getElementsByTagName('list');
+  stockListItem = stockList.getElementsByTagName('tr');
   for (var i = 0; i < stockListItem.length; i++) {
     item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
@@ -71,11 +71,13 @@ function refresh() {
 }
 
 /** Creates an element that represents a stock */
+var count = 0;
 function createStockElement(stock) {
-  const stockElement = document.createElement('list');
-  stockElement.className = 'task';
 
-  const titleElement = document.createElement('span');
+  const stockElement = document.createElement('tr');
+//   stockElement.className = 'task';
+
+  const titleElement = document.createElement('td');
   var ticker = stock.ticker;
 
   const tickLink = document.createElement('a');
@@ -83,10 +85,14 @@ function createStockElement(stock) {
   tickLink.setAttribute('name', ticker);
   tickLink.innerHTML = ticker;
 
-  const priceElement = document.createElement('span');
+  const counterElement = document.createElement('td');
+  counterElement.innerHTML = count + 1;
+
+  const priceElement = document.createElement('td');
   priceElement.innerText = '$' + stock.price;
 
   titleElement.appendChild(tickLink);
+  stockElement.appendChild(counterElement);
   stockElement.appendChild(titleElement);
   stockElement.appendChild(priceElement);
   return stockElement;
