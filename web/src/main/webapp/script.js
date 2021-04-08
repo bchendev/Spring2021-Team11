@@ -97,6 +97,7 @@ function createStockElement(stock) {
   
     const tickName = document.createElement("a");
   tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
+  tickName.className = 'tickName';
 
     for(var key in stockDict) {
     var stockName = stockDict[key];
@@ -111,11 +112,14 @@ function createStockElement(stock) {
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
+  counterElement.className = 'tickPrice';
   count = count + 1;
   counterElement.innerHTML = count;
 
   const priceElement = document.createElement('td');
   priceElement.innerText = '$' + stock.price;
+  priceElement.className = 'tickPrice';
+
 
   titleElement.appendChild(tickName);
   titleElement.appendChild(tickLink);
