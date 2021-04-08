@@ -22,7 +22,7 @@ function searchMe() {
     item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      stockListItem[i].style.display = '';
+       stockListItem[i].style.display = '';
     } else {
       stockListItem[i].style.display = 'none';
     }
@@ -34,6 +34,7 @@ function loadGraph() {
 }
 
 function loadStocks() {
+
   // Activates the doPost request at every refresh and open of page
   fetch('/save-stock', {
     method: 'POST',
@@ -125,12 +126,13 @@ function drawChart() {
     title: 'BTC',
     width: 1500,
     height: 500,
-    lineWidth: 3,
+    lineWidth: 2,
+    backgroundColor: { fill:'transparent' },
 
     hAxis: {
       lable: 'Time',
       logScale: false,
-      gridlines: { count: 0 },
+      gridlines: { count: 1 },
     },
     vAxis: {
       lable: 'Price',
@@ -148,7 +150,7 @@ function drawChart() {
 }
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawBasic);
+google.charts.setOnLoadCallback(BarChart);
 
 function BarChart() {
 
@@ -163,7 +165,7 @@ function BarChart() {
 
       var options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '50%'},
+        chartArea: {width: '30%'},
         hAxis: {
           title: 'Mentions',
           minValue: 0
@@ -178,10 +180,15 @@ function BarChart() {
       chart.draw(data, options);
     }
 
-async function refreshComments() {
-  const responseFromServer = await fetch('/refreshComment');
-  const comment = await responseFromServer.json();
 
-  const commentsContainer = document.getElementById('comments-container');
-  commentsContainer.innerText = comment;
+var i = 0;
+var txt = 'This is Bat$ Finance.';
+var speed = 200;
+
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("title").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
 }
