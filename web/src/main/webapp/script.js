@@ -68,6 +68,11 @@ function refresh() {
 
   fetch('/sticker-count');
   
+<<<<<<< HEAD
+=======
+  refreshComments();
+
+>>>>>>> cf500263de167b6248ef3c4e1897121690f880e2
 }
 
 /** Creates an element that represents a stock */
@@ -181,6 +186,18 @@ function BarChart() {
     }
 
 
+<<<<<<< HEAD
+=======
+async function refreshComments() {
+  const responseFromServer = await fetch('/refreshComment');
+  const comment = await responseFromServer.json();
+
+  const commentsContainer = document.getElementById('comments-container');
+  commentsContainer.innerText = comment;
+}
+
+
+>>>>>>> cf500263de167b6248ef3c4e1897121690f880e2
 var i = 0;
 var txt = 'This is Bat$ Finance.';
 var speed = 200;
@@ -192,3 +209,7 @@ function typeWriter() {
     setTimeout(typeWriter, speed);
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf500263de167b6248ef3c4e1897121690f880e2
