@@ -49,6 +49,8 @@ function loadStocks() {
         stockListElement.appendChild(createStockElement(stock));
       });
     });
+
+  refreshComments();
 }
 
 function refresh() { 
@@ -66,8 +68,6 @@ function refresh() {
 
   fetch('/sticker-count');
   
-  refreshComments();
-
 }
 
 /** Creates an element that represents a stock */

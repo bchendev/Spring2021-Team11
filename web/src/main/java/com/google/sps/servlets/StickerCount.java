@@ -25,6 +25,8 @@ import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.cloud.datastore.Key;
+
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,6 +44,7 @@ public class StickerCount extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<String> listStickers = new ArrayList<String>();
     List<String> repeatedStickers = new ArrayList<String>();
+
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
@@ -70,9 +73,10 @@ public class StickerCount extends HttpServlet {
         }
       }
       if(count != 0){
+        Key countkey = datastore.newKeyFactory().setKind("Stock").newKey(listStickers.get(stickerIndex));
         System.out.println("Sticker: " + listStickers.get(stickerIndex) + ", Count: " + count);
         FullEntity stickerCount =
-        Entity.newBuilder(keyFactory.newKey())
+        Entity.newBuilder(countkey)
             .set("sticker", listStickers.get(stickerIndex))
             .set("count", count)
             .build();
