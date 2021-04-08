@@ -29,25 +29,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;;
 
 /** Servlet responsible for creating new tasks. */
-@WebServlet("/save-stock")
-public class SaveStockServlet extends HttpServlet {
+@WebServlet("/get-coin-data")
+public class GetCoinServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Scrapes Cryptocurrency data
-    Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
-
-    Elements allCoinData = doc.getElementsByAttributeValue("id", "__NEXT_DATA__");
-    String allCoinDataAsString = allCoinData.first().html();
-    JsonParser jsonCoinData = new JsonParser();
-    JsonElement jsonCoinDataTree = jsonCoinData.parseString(allCoinDataAsString);
-
-  }
+    String name = request.getParameter("coin");
+    
+    Document doc = Jsoup.connect("https://coinmarketcap.com/"+name).get();
+    String websiteData = doc.html();
 
     Elements tick = doc.select(".coin-item-symbol");
     Elements price = doc.select(".price___3rj7O ");
@@ -61,24 +53,6 @@ public class SaveStockServlet extends HttpServlet {
     for (int i = 0; i < tick.size(); i++) {
       String tik = tick.get(i).text();
       tickers.add(tik);
-    }
-
-    for (int i = 0; i < tick.size(); i++) {
-
-      Key tickerKey = datastore.newKeyFactory().setKind("Stock").newKey(tickers.get(i));
-
-      String tickerPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
-      Double priceDouble = Double.parseDouble(tickerPrice);
-
-      Entity taskEntity =
-          Entity.newBuilder(tickerKey)
-              .set("Ticker", tickers.get(i))
-              .set("USD", priceDouble)
-              .set("TimeStamp", timeStamp)
-              .build();
-      datastore.put(taskEntity);
-    }
-
-    response.sendRedirect("/index.html");
+    }    
   }
 }
