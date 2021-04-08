@@ -184,10 +184,10 @@ function BarChart() {
 
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
-  const comment = await responseFromServer.json();
-
+  var stringComments = await responseFromServer.json();
+  const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
   const commentsContainer = document.getElementById('comments-container');
-  commentsContainer.innerText = comment;
+  commentsContainer.innerText = comments;
 }
 
 var i = 0;

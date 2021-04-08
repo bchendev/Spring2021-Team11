@@ -35,6 +35,7 @@ public class LatestComments extends HttpServlet {
     while (savedComments.hasNext()) {
       Entity entity = savedComments.next();
       String comment = entity.getString("comment");
+      comment += "|";
       comments += comment;
       commentsIndex++;
       if(commentsIndex == 50){
