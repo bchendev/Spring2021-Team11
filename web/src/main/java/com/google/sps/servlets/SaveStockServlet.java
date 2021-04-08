@@ -61,17 +61,6 @@ public class SaveStockServlet extends HttpServlet {
       String tickerPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
       Double priceDouble = Double.parseDouble(tickerPrice);
 
-
-      String path =
-          "/home/msaka/Spring2021-Team11/web/src/main/java/com/google/sps/stockData/"
-              + tickers.get(i)
-              + ".txt";
-
-    //   FileWriter myWriter = new FileWriter(path, true);
-    //   myWriter.write(timeStamp + "," + priceDouble + "\n");
-    //   myWriter.close();  
-
-
       Entity taskEntity =
           Entity.newBuilder(tickerKey)
               .set("Ticker", tickers.get(i))

@@ -33,9 +33,12 @@ a:visited{
   display: flex;
   outline: none;
   border: none;
+  text-align: center;
+  color: white;
 
 }
 
+.search:hover,
 .search:focus {
   background-color: transparent;
   border: 1.5px solid white;
