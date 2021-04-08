@@ -2,16 +2,18 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Stock Data</title>
+    <title>BAT$</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js"></script>
       <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">      
     <script src="script.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 
     <div class="title-box">
-        <h1 id='title'></h1>
+      <h1 id='title'></h1>
     </div>
 
   </head>
@@ -42,28 +44,36 @@
         </div>
 </div>
 
-<div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand">Trending in Reddit 🔥</a>
-    </div>
-</div>
-
-<p>Latest Comments</p>
-<p id="comments-container"></p>
-
-<form method="POST" onclick="refresh()">
-  <button> Refresh Comments </button>
-</form>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="bar-part">
+ <a class="navbar-brand">Trending in Reddit 🔥</a>
 <div id="bar_chart"></div>
-
 <form method="POST" action="/store-stickers">
   <button>  Get NYSE and NASDAQ stickers </button>
 </form>
 <form method="POST" onclick="refresh()">
   <button> Refresh </button>
 </form>
+<br>
+
+<div class="comment-area">
+     <p>Latest Comments</p>
+<p id="comments-container"></p>
+
+<form method="POST" onclick="refresh()">
+  <button> Refresh Comments </button>
+</form>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 
 </body>
 </html>

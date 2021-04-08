@@ -88,7 +88,8 @@ function createStockElement(stock) {
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
-  counterElement.innerHTML = count + 1;
+  count = count + 1;
+  counterElement.innerHTML = count;
 
   const priceElement = document.createElement('td');
   priceElement.innerText = '$' + stock.price;
@@ -173,7 +174,11 @@ function BarChart() {
 
       var options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '30%'},
+        chartArea: {width: '60%'},
+        width: 670,
+        height: 300,
+        backgroundColor: { fill:'transparent' },
+
         hAxis: {
           title: 'Mentions',
           minValue: 0
@@ -198,7 +203,7 @@ async function refreshComments() {
 
 var i = 0;
 var txt = 'This is Bat$ Finance.';
-var speed = 200;
+var speed = 300;
 
 function typeWriter() {
   if (i < txt.length) {

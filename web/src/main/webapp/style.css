@@ -29,7 +29,7 @@ a:visited{
   background-color: transparent;
   height: 44px;
   border-radius: 30px;
-  width: 40%;
+  width: 55%;
   display: flex;
   outline: none;
   border: none;
@@ -50,13 +50,42 @@ a:visited{
   opacity: 0.7;
   text-align: center;
 }
+#comments-container{
+    word-wrap: break-word;
 
-.body-center { 
+}
+ #bar_chart{
+  float: left;
+  background-color: transparent;
+  padding-top: 120px;
+  margin: auto;
+  width: 40%;
+  padding: 10px;
+  border-radius: 50px;
+  max-height: 650px;
+  height: auto;
+ }
+.comment-area{
+    float: left;
+  background-color: transparent;
+  padding-top: 120px;
+  margin: auto;
+  width: 40%;
+  padding: 10px;
+  border-radius: 50px;
+  max-height: 650px;
+  height: auto;
+}
+
+.body-center{
+    /* display: flex;  */
+    float: left;
   background-color: transparent;
   border: 1px solid white;
   padding-top: 120px;
-  margin: auto;
-  width: 80%;
+  margin-left: 50px;
+  margin-right: 20px;
+  width: 45%;
   padding: 10px;
   border-radius: 50px;
   max-height: 650px;
@@ -64,6 +93,7 @@ a:visited{
 padding-bottom: 50px;
     padding-left: 40px;
     padding-right: 40px;
+    margin-bottom: 20px;
 }
 ::-webkit-scrollbar {
     width: 0px;
@@ -115,7 +145,7 @@ table{
   background-color: rgba(255,255,255,0.3);
  }
 .tbl-content{
-  height:550px;
+  height:500px;
   overflow-x:auto;
   margin-top: 0px;
   /* border: 1px solid rgba(255,255,255,0.3); */
@@ -174,6 +204,10 @@ td{
 } 
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+
+tr:hover{
+ background-color: rgba(255,255,255,0.1);
 }
 
 
