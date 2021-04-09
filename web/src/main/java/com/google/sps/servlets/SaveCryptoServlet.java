@@ -76,15 +76,14 @@ public class SaveCryptoServlet extends HttpServlet {
 
           Key coinEntityKey = keyFactory.newKey(symbol);
           Entity coinEntity =
-             Entity.newBuilder(coinEntityKey)
-                 .set("Name", name)
-                 .set("USD", usd)
-                 .set("Url", url)
-                 .build();
+              Entity.newBuilder(coinEntityKey)
+                  .set("Name", name)
+                  .set("USD", usd)
+                  .set("Url", url)
+                  .build();
           datastore.put(coinEntity);
           System.out.println(
-              String.format(
-                  "Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, url));
+              String.format("Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, url));
         });
   }
 
@@ -92,11 +91,11 @@ public class SaveCryptoServlet extends HttpServlet {
   // An empty string is returned if no usd conversion is found.
   private static String getUsdFromCoinConversions(JsonArray coinConversions) {
     for (int i = 0; i < coinConversions.size(); i++) {
-        JsonObject conversionObject = coinConversions.get(i).getAsJsonObject();
-        String name = conversionObject.get("name").getAsString();
-        if (name.equals(USD)) {
-          return conversionObject.get("price").getAsString();
-        }
+      JsonObject conversionObject = coinConversions.get(i).getAsJsonObject();
+      String name = conversionObject.get("name").getAsString();
+      if (name.equals(USD)) {
+        return conversionObject.get("price").getAsString();
+      }
     }
     return "";
   }
