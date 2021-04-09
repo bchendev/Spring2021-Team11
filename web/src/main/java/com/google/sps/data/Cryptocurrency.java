@@ -28,6 +28,8 @@ public final class Cryptocurrency {
   private final String cmcUrl;
   // The price of the crypto in usd.
   private final String usd;
+  // The crypto rank according to coinmarketcap.com
+  private final String cmcRank;
 
   public static Cryptocurrency.Builder newBuilder() {
     return new Cryptocurrency.Builder();
@@ -49,8 +51,12 @@ public final class Cryptocurrency {
     return usd;
   }
 
+  public String getCmcRank() {
+    return cmcRank;
+  }
+
   public String toString() {
-    return String.format("%s, %s, %s, %s", name, symbol, usd, cmcUrl);
+    return String.format("%s, %s, %s, %s, %s", name, symbol, usd, cmcUrl, cmcRank);
   }
 
   public Entity toDatastoreEntity(KeyFactory keyFactory) {
@@ -59,14 +65,16 @@ public final class Cryptocurrency {
         .set("Name", name)
         .set("USD", usd)
         .set("CoinMarketCapUrl", cmcUrl)
+        .set("CoinMarketCapRank", cmcRank)
         .build();
   }
 
-  private Cryptocurrency(String symbol, String name, String cmcUrl, String usd) {
+  private Cryptocurrency(String symbol, String name, String cmcUrl, String usd, String cmcRank) {
     this.symbol = symbol;
     this.name = name;
     this.cmcUrl = cmcUrl;
     this.usd = usd;
+    this.cmcRank = cmcRank;
   }
 
   public static class Builder {
@@ -74,6 +82,7 @@ public final class Cryptocurrency {
     private String name;
     private String cmcUrl;
     private String usd;
+    private String cmcRank;
 
     public Builder setSymbol(String symbol) {
       this.symbol = symbol;
@@ -95,8 +104,13 @@ public final class Cryptocurrency {
       return this;
     }
 
+    public Builder setCmcRank(String cmcRank) {
+      this.cmcRank = cmcRank;
+      return this;
+    }
+
     public Cryptocurrency build() {
-      return new Cryptocurrency(symbol, name, cmcUrl, usd);
+      return new Cryptocurrency(symbol, name, cmcUrl, usd, cmcRank);
     }
   }
 }

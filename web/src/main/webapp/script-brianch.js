@@ -44,7 +44,6 @@ function loadCryptoGraph() {
 }
 
 function loadCryptos() {
-  console.log(loadCryptos);
   fetch("/get-cryptos")
     .then((response) => response.json())
     .then((cryptos) => {
@@ -65,32 +64,34 @@ function createCryptoListElement(crypto) {
   console.log("createCryptoListElement");
   console.log(crypto);
   const hrefLink = "crypto-brianch.html?cmcUrl=" + crypto.cmcUrl;
+  
   const cryptoElement = document.createElement("tr");
-
-  const titleElement = document.createElement("td");
+  cryptoElement.className = "cryptoRow";
+  const cryptoNameAndSymbolContainer = document.createElement("td");
+  cryptoNameAndSymbolContainer.className="cryptoNameAndSymbolContainer";
 
   const cryptoName = document.createElement("a");
   cryptoName.setAttribute("href", hrefLink);
   cryptoName.className = "tickName cryptoName";
   cryptoName.innerHTML = crypto.name;
 
-  const cryptoLink = document.createElement("a");
-  cryptoLink.setAttribute("href", hrefLink);
-  cryptoLink.className = "tickLink cryptoLink";
-  cryptoLink.innerHTML = crypto.symbol;
+  const cryptoSymbol = document.createElement("a");
+  cryptoSymbol.setAttribute("href", hrefLink);
+  cryptoSymbol.className = "tickLink cryptoSymbol";
+  cryptoSymbol.innerHTML = crypto.symbol;
 
   const rankElement = document.createElement("td");
   rankElement.className = "tickPrice cryptoRank";
-  rankElement.innerHTML = -1;
+  rankElement.innerHTML = crypto.cmcRank;
 
   const priceElement = document.createElement("td");
   priceElement.innerText = "$" + crypto.usd;
   priceElement.className = "tickPrice cryptoPrice";
 
-  titleElement.appendChild(cryptoName);
-  titleElement.appendChild(cryptoLink);
+  cryptoNameAndSymbolContainer.appendChild(cryptoName);
+  cryptoNameAndSymbolContainer.appendChild(cryptoSymbol);
   cryptoElement.appendChild(rankElement);
-  cryptoElement.appendChild(titleElement);
+  cryptoElement.appendChild(cryptoNameAndSymbolContainer);
   cryptoElement.appendChild(priceElement);
   return cryptoElement;
 }

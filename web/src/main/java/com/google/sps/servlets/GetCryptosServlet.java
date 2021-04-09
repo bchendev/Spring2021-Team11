@@ -67,6 +67,7 @@ public class GetCryptosServlet extends HttpServlet {
           String symbol = coinJson.get("symbol").getAsString();
           String name = coinJson.get("name").getAsString();
           String cmcUrl = coinJson.get("slug").getAsString();
+          String cmcRank = coinJson.get("cmcRank").getAsString();
 
           // CoinMarketCap gives conversions into BTC, ETH, and USD.
           // For our purposes, we only care about the USD price of the coin.
@@ -80,6 +81,7 @@ public class GetCryptosServlet extends HttpServlet {
                   .setSymbol(symbol)
                   .setUsd(usd)
                   .setCmcUrl(cmcUrl)
+                  .setCmcRank(cmcRank)
                   .build();
           cryptoList.add(crypto);
           datastore.put(crypto.toDatastoreEntity(keyFactory));
