@@ -2,50 +2,79 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Stock Data</title>
+    <title>BAT$</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js"></script>
       <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap" rel="stylesheet">      
     <script src="script.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
 
     <div class="title-box">
-        <h1 id='title'></h1>
+      <h1 id='title'></h1>
     </div>
 
   </head>
 
   <body onload="loadStocks(), typeWriter(), BarChart()" > 
     <div class="body-center" >
-<form role="search" id="form" class="searchTik search-bar">
 
-<br>
 <form role="search" id="form" class="searchTik">
-
   <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
 </form>
-<ul id="stock-list"></ul>
+<br>
+<div class="tbl-header">
+    <table cellpadding="0" cellspacing="0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+<div class="tbl-content">
+    <table cellpadding="0" cellspacing="0">
+      <tbody id="stock-list">
+          </tbody>
+          </table>
+        </div>
 </div>
 
-<div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand">Trending in Reddit 🔥</a>
-    </div>
-</div>
-
-<p>Latest Comments</p>
-<p id="comments-container"></p>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="bar-part">
+ <a class="navbar-brand">Trending in Reddit 🔥</a>
 <div id="bar_chart"></div>
-
 <form method="POST" action="/store-stickers">
   <button>  Get NYSE and NASDAQ stickers </button>
 </form>
 <form method="POST" onclick="refresh()">
   <button> Refresh </button>
 </form>
+<br>
+
+<div class="comment-area">
+     <p>Latest Comments</p>
+<p id="comments-container"></p>
+
+<form method="POST" onclick="refresh()">
+  <button> Refresh Comments </button>
+</form>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 
 </body>
 </html>

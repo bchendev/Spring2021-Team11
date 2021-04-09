@@ -17,7 +17,7 @@ function searchMe() {
   input = document.getElementById('myInput');
   filter = input.value.toUpperCase();
   stockList = document.getElementById('stock-list');
-  stockListItem = stockList.getElementsByTagName('list');
+  stockListItem = stockList.getElementsByTagName('tr');
   for (var i = 0; i < stockListItem.length; i++) {
     item = stockListItem[i];
     txtValue = item.textContent || item.innerText;
@@ -56,6 +56,8 @@ function loadStocks() {
         stockListElement.appendChild(createStockElement(stock));
       });
     });
+
+  refreshComments();
 }
 
 function refresh() { 
@@ -72,28 +74,65 @@ function refresh() {
   });
 
   fetch('/sticker-count');
-  
+
   refreshComments();
 
 }
 
-/** Creates an element that represents a stock */
-function createStockElement(stock) {
-  const stockElement = document.createElement('list');
-  stockElement.className = 'task';
+var stockDict = {
+    "BTC": "Bitcoin",
+    "ETH": "Etherum",
+    "LTC": "Litecoin",
+    "ADA": "Cardano",
+    "BNB": "Binance Coin",
+    "DOT": "Dotcoin",
+    "LINK": "ChainLink",
+    "UNI": "UniSwap",
+    "USDT": "Tether",
+    "XRP": "XRP"
+};
 
-  const titleElement = document.createElement('span');
+/** Creates an element that represents a stock */
+var count = 0;
+function createStockElement(stock) {
+
+  const stockElement = document.createElement('tr');
+
+  const titleElement = document.createElement('td');
   var ticker = stock.ticker;
+
+  
+    const tickName = document.createElement("a");
+  tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
+
+  tickName.className = 'tickName';
+
+
+    for(var key in stockDict) {
+    var stockName = stockDict[key];
+    if(ticker === key)
+    tickName.innerHTML = stockName + " ";
+    } 
+
 
   const tickLink = document.createElement('a');
   tickLink.setAttribute('href', 'ticker.html?symbol=' + ticker);
-  tickLink.setAttribute('name', ticker);
+  tickLink.className = 'tickLink';
   tickLink.innerHTML = ticker;
 
-  const priceElement = document.createElement('span');
-  priceElement.innerText = '$' + stock.price;
+  const counterElement = document.createElement('td');
+  counterElement.className = 'tickPrice';
+  count = count + 1;
+  counterElement.innerHTML = count;
 
+  const priceElement = document.createElement('td');
+  priceElement.innerText = '$' + stock.price;
+  priceElement.className = 'tickPrice';
+
+
+  titleElement.appendChild(tickName);
   titleElement.appendChild(tickLink);
+  stockElement.appendChild(counterElement);
   stockElement.appendChild(titleElement);
   stockElement.appendChild(priceElement);
   return stockElement;
@@ -172,7 +211,11 @@ function BarChart() {
 
       var options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '30%'},
+        chartArea: {width: '60%'},
+        width: 670,
+        height: 300,
+        backgroundColor: { fill:'transparent' },
+
         hAxis: {
           title: 'Mentions',
           minValue: 0
@@ -187,19 +230,17 @@ function BarChart() {
       chart.draw(data, options);
     }
 
-
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
-  const comment = await responseFromServer.json();
-
+  var stringComments = await responseFromServer.json();
+  const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
   const commentsContainer = document.getElementById('comments-container');
-  commentsContainer.innerText = comment;
+  commentsContainer.innerText = comments;
 }
-
 
 var i = 0;
 var txt = 'This is Bat$ Finance.';
-var speed = 200;
+var speed = 300;
 
 function typeWriter() {
   if (i < txt.length) {
@@ -208,4 +249,3 @@ function typeWriter() {
     setTimeout(typeWriter, speed);
   }
 }
-
