@@ -72,28 +72,58 @@ function refresh() {
 
 }
 
+var stockDict = {
+    "BTC": "Bitcoin",
+    "ETH": "Etherum",
+    "LTC": "Litecoin",
+    "ADA": "Cardano",
+    "BNB": "Binance Coin",
+    "DOT": "Dotcoin",
+    "LINK": "ChainLink",
+    "UNI": "UniSwap",
+    "USDT": "Tether",
+    "XRP": "XRP"
+};
+
 /** Creates an element that represents a stock */
 var count = 0;
 function createStockElement(stock) {
 
   const stockElement = document.createElement('tr');
-//   stockElement.className = 'task';
 
   const titleElement = document.createElement('td');
   var ticker = stock.ticker;
 
+  
+    const tickName = document.createElement("a");
+  tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
+
+  tickName.className = 'tickName';
+
+
+    for(var key in stockDict) {
+    var stockName = stockDict[key];
+    if(ticker === key)
+    tickName.innerHTML = stockName + " ";
+    } 
+
+
   const tickLink = document.createElement('a');
   tickLink.setAttribute('href', 'ticker.html?symbol=' + ticker);
-  tickLink.setAttribute('name', ticker);
+  tickLink.className = 'tickLink';
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
+  counterElement.className = 'tickPrice';
   count = count + 1;
   counterElement.innerHTML = count;
 
   const priceElement = document.createElement('td');
   priceElement.innerText = '$' + stock.price;
+  priceElement.className = 'tickPrice';
 
+
+  titleElement.appendChild(tickName);
   titleElement.appendChild(tickLink);
   stockElement.appendChild(counterElement);
   stockElement.appendChild(titleElement);

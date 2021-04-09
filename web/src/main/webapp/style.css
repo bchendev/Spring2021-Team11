@@ -35,7 +35,15 @@ a:visited{
   border: none;
   text-align: center;
   color: white;
+background-color: transparent;
+  border: 1.5px solid white;
+  color: white;
+ border-style: dashed;
+}
 
+a.tickName{
+    font-family: 'Righteous', cursive;
+    font-size: 14.5px;
 }
 
 .search:hover,
@@ -96,11 +104,13 @@ padding-bottom: 50px;
     padding-right: 40px;
     margin-bottom: 20px;
 }
+
 .body-center:hover{
   border: 1px solid white;
   border-radius: 50px;
 
 }
+
 
 a.tickLink{
     font-size: 9px;
@@ -108,6 +118,7 @@ a.tickLink{
     border-radius: 3px;
     padding: 2px;
 }
+
 td.tickPrice{
     font-family: 'Righteous', cursive;
     font-size: 14.5px;
