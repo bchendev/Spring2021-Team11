@@ -19,10 +19,6 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
@@ -33,41 +29,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-;
-
 /** Servlet responsible for creating new tasks. */
 @WebServlet("/save-stock")
 public class SaveStockServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Scrapes Crypto Data from the coinmarketcap.com html.
-    Document coinMarketDoc = Jsoup.connect("https://coinmarketcap.com/").get();
+    // Scrapes Cryptocurrency data
+    Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
+    String websiteData = doc.html();
 
-    // The __NEXT_DATA__ html tag contains a script that holds all top 100 coin values in JSON
-    // format.
-    Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id", "__NEXT_DATA__");
-    String coinMarketRawHtml = coinMarketElements.first().html();
-    JsonParser jsonParser = new JsonParser();
-    JsonElement coinMarketJsonElement = jsonParser.parseString(coinMarketRawHtml);
-    JsonObject coinMarketCryptoNode =
-        coinMarketJsonElement
-            .getAsJsonObject()
-            .getAsJsonObject("props")
-            .getAsJsonObject("initialState")
-            .getAsJsonObject("cryptocurrency");
-    JsonArray coinMarketCrypoDataArray =
-        coinMarketCryptoNode.getAsJsonObject("listingLatest").getAsJsonArray("data");
-
-    coinMarketCrypoDataArray.forEach(
-        jsonObject -> {
-          JsonObject coinJson = (JsonObject) jsonObject;
-          System.out.println(coinJson.get("name") + " : " + coinJson.get("symbol"));
-        });
-    System.out.println("Count: " + coinMarketCrypoDataArray.size());
-
-    Elements tick = coinMarketDoc.select(".coin-item-symbol");
-    Elements price = coinMarketDoc.select(".price___3rj7O ");
+    Elements tick = doc.select(".coin-item-symbol");
+    Elements price = doc.select(".price___3rj7O ");
 
     long timeStamp = System.currentTimeMillis();
 
