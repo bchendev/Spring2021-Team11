@@ -41,7 +41,7 @@ public class SaveCryptoServlet extends HttpServlet {
   // The label for the Name Datastore Entity.
   private static final String NAME_LABEL = "Name";
   // The label for the URL Datastore Entity.
-  private static final String URL_LABEL = "Url";
+  private static final String CMC_URL_LABEL = "CoinMarketCapUrl";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -69,7 +69,7 @@ public class SaveCryptoServlet extends HttpServlet {
           JsonObject coinJson = (JsonObject) jsonObject;
           String symbol = coinJson.get("symbol").getAsString();
           String name = coinJson.get("name").getAsString();
-          String url = "https://coinmarketcap.com/currencies/" + coinJson.get("slug").getAsString();
+          String cmcUrl = coinJson.get("slug").getAsString();
 
           // CoinMarketCap gives conversions into BTC, ETH, and USD.
           // For our purposes, we only care about the USD price of the coin.
@@ -81,11 +81,11 @@ public class SaveCryptoServlet extends HttpServlet {
               Entity.newBuilder(coinEntityKey)
                   .set(NAME_LABEL, name)
                   .set(USD_LABEL, usd)
-                  .set(URL_LABEL, url)
+                  .set(CMC_URL_LABEL, cmcUrl)
                   .build();
           datastore.put(coinEntity);
           System.out.println(
-              String.format("Datastore Updated Crypto: %s, %s, %s, %s", symbol, name, usd, url));
+              String.format("Datastore Updated Crypto: %s, %s, %s, %s", symbol, name, usd, cmcUrl));
         });
   }
 
