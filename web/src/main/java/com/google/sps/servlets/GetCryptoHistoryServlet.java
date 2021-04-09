@@ -53,26 +53,29 @@ public class GetCryptoHistoryServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String cryptoSymbol = request.getParameter("symbol");
+    // The suffix for https://coinmarketcap.com/currencies/<cmcUrl>/
+    // For example, Bitcoin: /get-crypto-history?cmcUrl=bitcoin
+    String cmcUrl = request.getParameter("cmcUrl");
 
     // Scrapes Crypto Data from the coinmarketcap.com html.
-    Document coinMarketDoc = Jsoup.connect("https://coinmarketcap.com/currencies/").get();
+    Document currencyDoc = Jsoup.connect("https://coinmarketcap.com/currencies/" + cmcUrl).get();
+    System.out.println(currencyDoc);
 
     // The __NEXT_DATA__ html tag contains a script that holds all top 100 coin values in JSON
     // format.
-    Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id", "__NEXT_DATA__");
-    String coinMarketRawHtml = coinMarketElements.first().html();
-    JsonElement coinMarketJsonElement = JsonParser.parseString(coinMarketRawHtml);
-    JsonObject coinMarketCryptoNode =
-        coinMarketJsonElement
-            .getAsJsonObject()
-            .getAsJsonObject("props")
-            .getAsJsonObject("initialState")
-            .getAsJsonObject("cryptocurrency");
-    JsonArray coinMarketCrypoDataArray =
-        coinMarketCryptoNode.getAsJsonObject("listingLatest").getAsJsonArray("data");
-    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
+    // Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id", "__NEXT_DATA__");
+    // String coinMarketRawHtml = coinMarketElements.first().html();
+    // JsonElement coinMarketJsonElement = JsonParser.parseString(coinMarketRawHtml);
+    // JsonObject coinMarketCryptoNode =
+    //     coinMarketJsonElement
+    //         .getAsJsonObject()
+    //         .getAsJsonObject("props")
+    //         .getAsJsonObject("initialState")
+    //         .getAsJsonObject("cryptocurrency");
+    // JsonArray coinMarketCrypoDataArray =
+    //     coinMarketCryptoNode.getAsJsonObject("listingLatest").getAsJsonArray("data");
+    // Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    // KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
     
   }
 

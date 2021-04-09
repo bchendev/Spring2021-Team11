@@ -33,6 +33,21 @@ function loadGraph() {
   fetch('/graph-data');
 }
 
+function loadCryptoGraph() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  
+  // Expect the form <pageUrl>.com/crypto.html?cmcUrl=bitcoin
+  const cmcUrl = urlParams.get('cmcUrl');
+   console.log(symbol);
+  fetch('/get-crypto-history?cmcUrl=' + cmcUrl)
+  .then((response) => response.json())
+  .then((history) => {
+    console.log(history);
+
+  });
+}
+
 function loadStocks() {
 
   // Activates the doPost request at every refresh and open of page
