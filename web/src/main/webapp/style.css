@@ -117,11 +117,26 @@ a.tickLink{
     background:rgba(255,255,255,0.3);
     border-radius: 3px;
     padding: 2px;
+    margin-left: 2px;
 }
 
-td.tickPrice{
-    font-family: 'Righteous', cursive;
-    font-size: 14.5px;
+a.tickPrice{
+font-family: 'Josefin Sans', sans-serif;
+font-size: 14.5px;
+text-align: right;
+}
+
+td.price-container{
+    text-align: right;
+    padding-right: 130px;
+}
+th.price-header {
+    padding-left: 50px;
+}
+
+td.tickCount{
+   font-family: 'Josefin Sans', sans-serif;
+   font-size: 14.5px; 
 }
 
 ::-webkit-scrollbar {
@@ -188,7 +203,7 @@ th{
   text-transform: uppercase;
 }
 td{
-  padding: 20px;
+  padding: 8px;
   text-align: left;
   vertical-align:middle;
   font-weight: 300;

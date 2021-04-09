@@ -72,19 +72,6 @@ function refresh() {
 
 }
 
-var stockDict = {
-    "BTC": "Bitcoin",
-    "ETH": "Etherum",
-    "LTC": "Litecoin",
-    "ADA": "Cardano",
-    "BNB": "Binance Coin",
-    "DOT": "Dotcoin",
-    "LINK": "ChainLink",
-    "UNI": "UniSwap",
-    "USDT": "Tether",
-    "XRP": "XRP"
-};
-
 /** Creates an element that represents a stock */
 var count = 0;
 function createStockElement(stock) {
@@ -97,15 +84,11 @@ function createStockElement(stock) {
   
     const tickName = document.createElement("a");
   tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
-
   tickName.className = 'tickName';
+  tickName.innerHTML = stock.tickName;
 
-
-    for(var key in stockDict) {
-    var stockName = stockDict[key];
-    if(ticker === key)
-    tickName.innerHTML = stockName + " ";
-    } 
+  console.log(stock.tickName);
+    
 
 
   const tickLink = document.createElement('a');
@@ -114,15 +97,19 @@ function createStockElement(stock) {
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
-  counterElement.className = 'tickPrice';
+  counterElement.className = 'tickCount';
   count = count + 1;
   counterElement.innerHTML = count;
 
   const priceElement = document.createElement('td');
-  priceElement.innerText = '$' + stock.price;
-  priceElement.className = 'tickPrice';
+  priceElement.className = 'price-container';
+
+  const realPrice = document.createElement('a');  
+  realPrice.innerText = '$' + stock.price;
+  realPrice.className = 'tickPrice';
 
 
+  priceElement.appendChild(realPrice);
   titleElement.appendChild(tickName);
   titleElement.appendChild(tickLink);
   stockElement.appendChild(counterElement);

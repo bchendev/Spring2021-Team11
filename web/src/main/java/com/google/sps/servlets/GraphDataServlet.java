@@ -38,10 +38,12 @@ public class GraphDataServlet extends HttpServlet {
       Entity entity = results.next();
 
       String id = entity.getKey().getName();
+            String tickName = entity.getString("TikName");
+
       String tick = entity.getString("Ticker");
       double price = entity.getDouble("USD");
 
-      Stock stock = new Stock(id, tick, price);
+      Stock stock = new Stock(id, tick, price, tickName);
       stocks.add(stock);
       System.out.println("Tick: " + tick + " Price: " + price);
     }
