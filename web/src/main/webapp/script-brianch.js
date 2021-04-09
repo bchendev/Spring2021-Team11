@@ -33,10 +33,9 @@ function loadCryptoGraph() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  // Expect the form <pageUrl>.com/crypto.html?cmcUrl=bitcoin
-  const cmcUrl = urlParams.get("cmcUrl");
-  console.log(symbol);
-  fetch("/get-crypto-history?cmcUrl=" + cmcUrl)
+  // Expect the form <pageUrl>.com/crypto.html?cmcId=1
+  const cmcId = urlParams.get("cmcId");
+  fetch("/get-crypto-history?cmcId=" + cmcId)
     .then((response) => response.json())
     .then((history) => {
       console.log(history);
@@ -63,7 +62,7 @@ function displayCryptoList(cryptos) {
 function createCryptoListElement(crypto) {
   console.log("createCryptoListElement");
   console.log(crypto);
-  const hrefLink = "crypto-brianch.html?cmcUrl=" + crypto.cmcUrl;
+  const hrefLink = "crypto-brianch.html?cmcId=" + crypto.cmcId;
   
   const cryptoElement = document.createElement("tr");
   cryptoElement.className = "cryptoRow";

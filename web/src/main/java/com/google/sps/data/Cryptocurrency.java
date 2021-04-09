@@ -24,8 +24,8 @@ public final class Cryptocurrency {
   private final String symbol;
   // The name of the currency. ex Bitcoin, Ethereum
   private final String name;
-  // The url used by coinmarketcap.com/currencies. ex bitcoin, ethereum
-  private final String cmcUrl;
+  // The crypto id used by coinmarketcap.com to access their web apis.
+  private final String cmcId;
   // The price of the crypto in usd.
   private final String usd;
   // The crypto rank according to coinmarketcap.com
@@ -43,8 +43,8 @@ public final class Cryptocurrency {
     return name;
   }
 
-  public String getCmcUrl() {
-    return cmcUrl;
+  public String getCmcId() {
+    return cmcId;
   }
 
   public String getUsd() {
@@ -56,7 +56,7 @@ public final class Cryptocurrency {
   }
 
   public String toString() {
-    return String.format("%s, %s, %s, %s, %s", name, symbol, usd, cmcUrl, cmcRank);
+    return String.format("%s, %s, $%s, id:%s, rank:%s", name, symbol, usd, cmcId, cmcRank);
   }
 
   public Entity toDatastoreEntity(KeyFactory keyFactory) {
@@ -64,15 +64,15 @@ public final class Cryptocurrency {
     return Entity.newBuilder(coinEntityKey)
         .set("Name", name)
         .set("USD", usd)
-        .set("CoinMarketCapUrl", cmcUrl)
+        .set("CoinMarketCapId", cmcId)
         .set("CoinMarketCapRank", cmcRank)
         .build();
   }
 
-  private Cryptocurrency(String symbol, String name, String cmcUrl, String usd, String cmcRank) {
+  private Cryptocurrency(String symbol, String name, String cmcId, String usd, String cmcRank) {
     this.symbol = symbol;
     this.name = name;
-    this.cmcUrl = cmcUrl;
+    this.cmcId = cmcId;
     this.usd = usd;
     this.cmcRank = cmcRank;
   }
@@ -80,7 +80,7 @@ public final class Cryptocurrency {
   public static class Builder {
     private String symbol;
     private String name;
-    private String cmcUrl;
+    private String cmcId;
     private String usd;
     private String cmcRank;
 
@@ -94,8 +94,8 @@ public final class Cryptocurrency {
       return this;
     }
 
-    public Builder setCmcUrl(String cmcUrl) {
-      this.cmcUrl = cmcUrl;
+    public Builder setCmcId(String cmcId) {
+      this.cmcId = cmcId;
       return this;
     }
 
@@ -110,7 +110,7 @@ public final class Cryptocurrency {
     }
 
     public Cryptocurrency build() {
-      return new Cryptocurrency(symbol, name, cmcUrl, usd, cmcRank);
+      return new Cryptocurrency(symbol, name, cmcId, usd, cmcRank);
     }
   }
 }

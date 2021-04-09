@@ -21,13 +21,20 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
+import java.util.Calendar;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import com.google.gson.JsonElement;
 
 /** Servlet responsible for creating new tasks. */
 @WebServlet("/get-crypto-history")
@@ -40,31 +47,29 @@ public class GetCryptoHistoryServlet extends HttpServlet {
   // The label for the URL Datastore Entity.
   private static final String URL_LABEL = "Url";
 
+  // A string format that access the web api for crypto history.
+  // Param 1: crypto id
+  // Param 2: time start
+  // Param 3: time end
+  private static final String cmcWebApiHistoryFormat = "https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=%s&convert=USD&time_start=%s&time_end=%s";
+
+  private static final int DAYS_IN_YEAR = 365;
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // The suffix for https://coinmarketcap.com/currencies/<cmcUrl>/
-    // For example, Bitcoin: /get-crypto-history?cmcUrl=bitcoin
-    String cmcUrl = request.getParameter("cmcUrl");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String cmcId = request.getParameter("cmcId");
 
-    // Scrapes Crypto Data from the coinmarketcap.com html.
-    Document currencyDoc = Jsoup.connect("https://coinmarketcap.com/currencies/" + cmcUrl).get();
-  }
+    // Get data from up to 1 year from today.
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.DAY_OF_YEAR, -DAYS_IN_YEAR);
 
-  public static void queryDatastore(String cryptoSymbol) {
-    // Query datastore to see if we already have up-to-date data. If we do, then we don't need to do
-    // any additional scraping.
-    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    Query<Entity> queryCryptoHistory =
-        Query.newEntityQueryBuilder()
-            .setKind("CryptoHistory")
-            .setOrderBy(OrderBy.desc("Date"))
-            .setFilter(PropertyFilter.eq("Symbol", cryptoSymbol))
-            .build();
-    QueryResults<Entity> results = datastore.run(queryCryptoHistory);
+    String connectUrl = String.format(cmcWebApiHistoryFormat, cmcId, cal.getTimeInMillis(), System.currentTimeMillis());
+    System.out.println(connectUrl);
 
-    if (results.hasNext()) {
-      // Check if the most recent result is from today. Result is sorted by descending order.
-      Entity result = results.next();
-    }
+    Document currencyDoc = Jsoup.connect(connectUrl).ignoreContentType(true).get();
+
+    JsonElement coinMarketJsonElement = JsonParser.parseString(currencyDoc.body().text());
+
+    response.setContentType("application/json;");
+    response.getWriter().println(currencyDoc.body().text());
   }
 }
