@@ -38,6 +38,9 @@ import org.jsoup.select.Elements;
 @WebServlet("/save-crypto")
 public class SaveCryptoServlet extends HttpServlet {
 
+  // The label for US Dollar.
+  private static final String USD = "USD";
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Scrapes Crypto Data from the coinmarketcap.com html.
@@ -64,20 +67,37 @@ public class SaveCryptoServlet extends HttpServlet {
           JsonObject coinJson = (JsonObject) jsonObject;
           String symbol = coinJson.get("symbol").getAsString();
           String name = coinJson.get("name").getAsString();
-          String usd = coinJson.get("price").getAsString();
-          String lastUpdated = coinJson.get("lastUpdate").getAsString();
+          String url = "https://coinmarketcap.com/currencies/" + coinJson.get("slug").getAsString();
+
+          // CoinMarketCap gives conversions into BTC, ETH, and USD.
+          // For our purposes, we only care about the USD price of the coin.
+          JsonArray coinConversions = coinJson.getAsJsonArray("quotes");
+          String usd = getUsdFromCoinConversions(coinConversions);
 
           Key coinEntityKey = keyFactory.newKey(symbol);
           Entity coinEntity =
-              Entity.newBuilder(coinEntityKey)
-                  .set("Name", name)
-                  .set("USD", usd)
-                  .set("LastUpdated", lastUpdated)
-                  .build();
+             Entity.newBuilder(coinEntityKey)
+                 .set("Name", name)
+                 .set("USD", usd)
+                 .set("Url", url)
+                 .build();
           datastore.put(coinEntity);
           System.out.println(
               String.format(
-                  "Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, lastUpdated));
+                  "Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, url));
         });
+  }
+
+  // Searches the list of coin conversions for USD and returns the price.
+  // An empty string is returned if no usd conversion is found.
+  private static String getUsdFromCoinConversions(JsonArray coinConversions) {
+    for (int i = 0; i < coinConversions.size(); i++) {
+        JsonObject conversionObject = coinConversions.get(i).getAsJsonObject();
+        String name = conversionObject.get("name").getAsString();
+        if (name.equals(USD)) {
+          return conversionObject.get("price").getAsString();
+        }
+    }
+    return "";
   }
 }
