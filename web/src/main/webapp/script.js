@@ -55,6 +55,10 @@ function loadStocks() {
     method: 'POST',
   });
 
+  fetch('/save-crypto', {
+    method: 'POST',
+  });
+
   // Populate the stocks
   fetch('/list-stock')
     .then((response) => response.json())
