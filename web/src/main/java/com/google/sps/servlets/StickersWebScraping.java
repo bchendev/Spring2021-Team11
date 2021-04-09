@@ -18,8 +18,8 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
-import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class StickersWebScraping extends HttpServlet {
       addStickers(stocksNasdaq);
     }
     for (int i = 0; i < stockStickers.size(); i++) {
-      System.out.print(stockStickers.get(i)+" ");
+      System.out.print(stockStickers.get(i) + " ");
       Key stickerKey = datastore.newKeyFactory().setKind("Stock").newKey(stockStickers.get(i));
       FullEntity saveStickers =
           Entity.newBuilder(stickerKey).set("sticker", stockStickers.get(i)).build();

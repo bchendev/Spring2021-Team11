@@ -18,6 +18,7 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
@@ -25,26 +26,18 @@ import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.cloud.datastore.Key;
-
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 @WebServlet("/sticker-count")
 public class StickerCount extends HttpServlet {
-  
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<String> listStickers = new ArrayList<String>();
     List<String> repeatedStickers = new ArrayList<String>();
-
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
@@ -61,25 +54,28 @@ public class StickerCount extends HttpServlet {
       String stockSticker = entity.getString("stock");
       listStickers.add(stockSticker);
     }
- 
-    for(int stickerIndex = 0; stickerIndex < listStickers.size(); stickerIndex++){
-    int count = 0;
-      if(!repeatedStickers.contains(listStickers.get(stickerIndex))){
-        for(int nextStickerIndex = stickerIndex ; nextStickerIndex < listStickers.size(); nextStickerIndex++){
-          if(listStickers.get(stickerIndex).equals(listStickers.get(nextStickerIndex))){
+
+    for (int stickerIndex = 0; stickerIndex < listStickers.size(); stickerIndex++) {
+      int count = 0;
+      if (!repeatedStickers.contains(listStickers.get(stickerIndex))) {
+        for (int nextStickerIndex = stickerIndex;
+            nextStickerIndex < listStickers.size();
+            nextStickerIndex++) {
+          if (listStickers.get(stickerIndex).equals(listStickers.get(nextStickerIndex))) {
             count++;
             repeatedStickers.add(listStickers.get(stickerIndex));
           }
         }
       }
-      if(count != 0){
-        Key countkey = datastore.newKeyFactory().setKind("Stock").newKey(listStickers.get(stickerIndex));
+      if (count != 0) {
+        Key countkey =
+            datastore.newKeyFactory().setKind("Stock").newKey(listStickers.get(stickerIndex));
         System.out.println("Sticker: " + listStickers.get(stickerIndex) + ", Count: " + count);
         FullEntity stickerCount =
-        Entity.newBuilder(countkey)
-            .set("sticker", listStickers.get(stickerIndex))
-            .set("count", count)
-            .build();
+            Entity.newBuilder(countkey)
+                .set("sticker", listStickers.get(stickerIndex))
+                .set("count", count)
+                .build();
         datastore.put(stickerCount);
       }
     }

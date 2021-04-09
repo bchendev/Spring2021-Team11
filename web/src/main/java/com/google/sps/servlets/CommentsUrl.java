@@ -51,11 +51,11 @@ public class CommentsUrl extends HttpServlet {
     System.out.println("\nURls scraped: " + links.size());
 
     for (Element link : links) {
-      String url = "https://www.reddit.com" + link.attr("href"); 
+      String url = "https://www.reddit.com" + link.attr("href");
 
       FullEntity commentsUrls = Entity.newBuilder(keyFactory.newKey()).set("url", url).build();
       System.out.println("URL:" + url);
-      dataStore.put(commentsUrls);  
+      dataStore.put(commentsUrls);
     }
     response.sendRedirect("/index.html");
   }

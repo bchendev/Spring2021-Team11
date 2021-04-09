@@ -16,10 +16,7 @@ package com.google.sps.servlets;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
@@ -37,8 +34,8 @@ public class GetCoinServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = request.getParameter("coin");
-    
-    Document doc = Jsoup.connect("https://coinmarketcap.com/"+name).get();
+
+    Document doc = Jsoup.connect("https://coinmarketcap.com/" + name).get();
     String websiteData = doc.html();
 
     Elements tick = doc.select(".coin-item-symbol");
@@ -53,6 +50,6 @@ public class GetCoinServlet extends HttpServlet {
     for (int i = 0; i < tick.size(); i++) {
       String tik = tick.get(i).text();
       tickers.add(tik);
-    }    
+    }
   }
 }
