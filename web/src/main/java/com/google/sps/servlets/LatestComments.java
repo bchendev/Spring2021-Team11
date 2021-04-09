@@ -19,7 +19,7 @@ public class LatestComments extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
+
     response.setContentType("text/html;");
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -38,14 +38,14 @@ public class LatestComments extends HttpServlet {
       comment += "|";
       comments += comment;
       commentsIndex++;
-      if(commentsIndex == 50){
+      if (commentsIndex == 50) {
         break;
       }
     }
     String jsonQuestions = convertToJsonUsingGson(comments);
     response.getWriter().println(jsonQuestions);
   }
-  
+
   private String convertToJsonUsingGson(String comment) {
     Gson gson = new Gson();
     String jsonQuestions = gson.toJson(comment);
