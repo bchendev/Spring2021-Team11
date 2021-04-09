@@ -39,14 +39,14 @@ public class SaveStockServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Scrapes Cryptocurrency data
-    Document doc = Jsoup.connect("https://coinmarketcap.com/").get();
-
-    Elements allCoinData = doc.getElementsByAttributeValue("id", "__NEXT_DATA__");
-    String allCoinDataAsString = allCoinData.first().html();
-    JsonParser jsonCoinData = new JsonParser();
-    JsonElement jsonCoinDataTree = jsonCoinData.parseString(allCoinDataAsString);
-
+    // Scrapes Crypto Data from the coinmarketcap.com html.
+    Document coinMarketDoc = Jsoup.connect("https://coinmarketcap.com/").get();
+    Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id", "__NEXT_DATA__");
+    String coinMarketRawHtml = coinMarketElements.first().html();
+    JsonParser jsonParser = new JsonParser();
+    JsonElement coinMarketJsonTree = jsonParser.parseString(coinMarketRawHtml);
+    
+    System.out.println(coinMarketJsonTree);
   }
 
     Elements tick = doc.select(".coin-item-symbol");
