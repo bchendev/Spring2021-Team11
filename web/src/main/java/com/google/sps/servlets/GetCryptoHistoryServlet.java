@@ -17,28 +17,17 @@ package com.google.sps.servlets;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.sps.data.Stock;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 /** Servlet responsible for creating new tasks. */
 @WebServlet("/get-crypto-history")
@@ -63,7 +52,8 @@ public class GetCryptoHistoryServlet extends HttpServlet {
 
     // The __NEXT_DATA__ html tag contains a script that holds all top 100 coin values in JSON
     // format.
-    // Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id", "__NEXT_DATA__");
+    // Elements coinMarketElements = coinMarketDoc.getElementsByAttributeValue("id",
+    // "__NEXT_DATA__");
     // String coinMarketRawHtml = coinMarketElements.first().html();
     // JsonElement coinMarketJsonElement = JsonParser.parseString(coinMarketRawHtml);
     // JsonObject coinMarketCryptoNode =
@@ -76,11 +66,12 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     //     coinMarketCryptoNode.getAsJsonObject("listingLatest").getAsJsonArray("data");
     // Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     // KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
-    
+
   }
 
   public static void queryDatastore(String cryptoSymbol) {
-    // Query datastore to see if we already have up-to-date data. If we do, then we don't need to do any additional scraping.
+    // Query datastore to see if we already have up-to-date data. If we do, then we don't need to do
+    // any additional scraping.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> queryCryptoHistory =
         Query.newEntityQueryBuilder()
@@ -93,7 +84,6 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     if (results.hasNext()) {
       // Check if the most recent result is from today. Result is sorted by descending order.
       Entity result = results.next();
-      
     }
   }
 }

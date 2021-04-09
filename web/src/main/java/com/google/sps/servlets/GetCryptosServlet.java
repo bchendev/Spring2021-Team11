@@ -19,10 +19,13 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.sps.data.Cryptocurrency;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,17 +36,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 /** Servlet responsible for creating new tasks. */
-@WebServlet("/save-crypto")
-public class SaveCryptoServlet extends HttpServlet {
+@WebServlet("/get-cryptos")
+public class GetCryptosServlet extends HttpServlet {
 
-  // The label for US Dollar Datastore Entity.
-  private static final String USD_LABEL = "USD";
-  // The label for the Name Datastore Entity.
-  private static final String NAME_LABEL = "Name";
-  // The label for the URL Datastore Entity.
-  private static final String CMC_URL_LABEL = "CoinMarketCapUrl";
-
-  @Override
+  @Overridegi
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Scrapes Crypto Data from the coinmarketcap.com html.
     Document coinMarketDoc = Jsoup.connect("https://coinmarketcap.com/").get();
@@ -76,17 +72,14 @@ public class SaveCryptoServlet extends HttpServlet {
           JsonArray coinConversions = coinJson.getAsJsonArray("quotes");
           String usd = getUsdFromCoinConversions(coinConversions);
 
-          Key coinEntityKey = keyFactory.newKey(symbol);
-          Entity coinEntity =
-              Entity.newBuilder(coinEntityKey)
-                  .set(NAME_LABEL, name)
-                  .set(USD_LABEL, usd)
-                  .set(CMC_URL_LABEL, cmcUrl)
-                  .build();
-          datastore.put(coinEntity);
-          System.out.println(
-              String.format("Datastore Updated Crypto: %s, %s, %s, %s", symbol, name, usd, cmcUrl));
+          Cryptocurrency crypto = Cryptocurrency.newBuilder().setName(name).setSymbol(symbol).setUsd(usd).setCmcUrl(cmcUrl).build();
+          datastore.put(crypto.toDatastoreEntity(keyFactory));
+          System.out.println(String.format("Datastore Updated Crypto: %s", crypto.toString()));
         });
+
+    Gson gson = new Gson();
+    response.setContentType("application/json;");
+    // response.getWriter().println(gson.toJson(stocks));
   }
 
   // Searches the list of coin conversions for USD and returns the price.
@@ -95,7 +88,7 @@ public class SaveCryptoServlet extends HttpServlet {
     for (int i = 0; i < coinConversions.size(); i++) {
       JsonObject conversionObject = coinConversions.get(i).getAsJsonObject();
       String name = conversionObject.get("name").getAsString();
-      if (name.equals(USD_LABEL)) {
+      if (name.equals("USD")) {
         return conversionObject.get("price").getAsString();
       }
     }
