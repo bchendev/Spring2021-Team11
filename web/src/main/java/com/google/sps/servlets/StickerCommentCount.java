@@ -83,7 +83,7 @@ public class StickerCommentCount extends HttpServlet {
         }
       }
     }
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stocks-mentioned");
+    KeyFactory keyFactory = datastore.newKeyFactory().setKind("StocksMentioned");
     for (String stock : stockMentioned) {
       System.out.print(stock + " ");
       FullEntity mentionedStocks =
