@@ -38,7 +38,7 @@ public class LatestComments extends HttpServlet {
       comment += "|";
       comments += comment;
       commentsIndex++;
-      if(commentsIndex == 50){
+      if(commentsIndex == 25){
         break;
       }
     }

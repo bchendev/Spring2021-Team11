@@ -19,7 +19,7 @@
 
   </head>
 
-  <body onload="loadStocks(), typeWriter(), BarChart()" > 
+  <body onload="loadStocks(), typeWriter(), barChart(), refreshComments()" > 
     <div class="body-center" >
 
 <form role="search" id="form" class="searchTik">
@@ -60,7 +60,7 @@
      <p>Latest Comments</p>
 <p id="comments-container"></p>
 
-<form method="POST" onclick="refresh()">
+<form method="POST" onclick="refreshComments()">
   <button> Refresh Comments </button>
 </form>
 

@@ -50,7 +50,6 @@ function loadStocks() {
       });
     });
 
-  refreshComments();
 }
 
 function refresh() { 
@@ -189,9 +188,9 @@ function drawChart() {
 }
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(BarChart);
+google.charts.setOnLoadCallback(barChart);
 
-function BarChart() {
+function barChart() {
 
       var data = google.visualization.arrayToDataTable([
         ['Stock', 'Mentions',],

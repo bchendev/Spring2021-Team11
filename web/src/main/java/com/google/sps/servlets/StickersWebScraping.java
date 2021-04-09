@@ -47,7 +47,7 @@ public class StickersWebScraping extends HttpServlet {
 
     // Get all stock stickers listed in NYSE and NASDAQ, divided by alphabetical order
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stickers");
+    //KeyFactory keyFactory = datastore.newKeyFactory().setKind("Stickers");
 
     // Generate the link for each alphabetical group
     for (char letter = 'A'; letter <= 'Z'; ++letter) {
@@ -64,7 +64,7 @@ public class StickersWebScraping extends HttpServlet {
     }
     for (int i = 0; i < stockStickers.size(); i++) {
       System.out.print(stockStickers.get(i)+" ");
-      Key stickerKey = datastore.newKeyFactory().setKind("Stock").newKey(stockStickers.get(i));
+      Key stickerKey = datastore.newKeyFactory().setKind("Stickers").newKey(stockStickers.get(i));
       FullEntity saveStickers =
           Entity.newBuilder(stickerKey).set("sticker", stockStickers.get(i)).build();
       datastore.put(saveStickers);
