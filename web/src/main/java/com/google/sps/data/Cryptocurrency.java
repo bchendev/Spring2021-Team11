@@ -14,13 +14,11 @@
 
 package com.google.sps.data;
 
+import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
-import com.google.cloud.datastore.Entity;
 
-/** 
- * Represents a cryptocurrency such as Bitcoin, Ethereum, etc...
- */
+/** Represents a cryptocurrency such as Bitcoin, Ethereum, etc... */
 public final class Cryptocurrency {
   // The symbol of the currency. ex BTC, ETH
   private final String symbol;
@@ -35,22 +33,33 @@ public final class Cryptocurrency {
     return new Cryptocurrency.Builder();
   }
 
-  public String getSymbol() {return symbol;}
-  public String getName() {return name;}
-  public String getCmcUrl() {return cmcUrl;}
-  public String getUsd() {return usd; }
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getCmcUrl() {
+    return cmcUrl;
+  }
+
+  public String getUsd() {
+    return usd;
+  }
 
   public String toString() {
-    return String.format("%s, %s, %s, %s, %s", name, symbol, usd, cmcUrl);
+    return String.format("%s, %s, %s, %s", name, symbol, usd, cmcUrl);
   }
 
   public Entity toDatastoreEntity(KeyFactory keyFactory) {
-          Key coinEntityKey = keyFactory.newKey(symbol);
-    return  Entity.newBuilder(coinEntityKey)
-                  .set("Name", name)
-                  .set("USD", usd)
-                  .set("CoinMarketCapUrl", cmcUrl)
-                  .build();
+    Key coinEntityKey = keyFactory.newKey(symbol);
+    return Entity.newBuilder(coinEntityKey)
+        .set("Name", name)
+        .set("USD", usd)
+        .set("CoinMarketCapUrl", cmcUrl)
+        .build();
   }
 
   private Cryptocurrency(String symbol, String name, String cmcUrl, String usd) {
@@ -70,7 +79,7 @@ public final class Cryptocurrency {
       this.symbol = symbol;
       return this;
     }
-    
+
     public Builder setName(String name) {
       this.name = name;
       return this;

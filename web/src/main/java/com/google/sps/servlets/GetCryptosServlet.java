@@ -16,8 +16,6 @@ package com.google.sps.servlets;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -25,8 +23,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.data.Cryptocurrency;
-
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,8 +39,8 @@ import org.jsoup.select.Elements;
 @WebServlet("/get-cryptos")
 public class GetCryptosServlet extends HttpServlet {
 
-  @Overridegi
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Scrapes Crypto Data from the coinmarketcap.com html.
     Document coinMarketDoc = Jsoup.connect("https://coinmarketcap.com/").get();
 
@@ -60,6 +60,7 @@ public class GetCryptosServlet extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
 
+    ArrayList<Cryptocurrency> cryptoList = new ArrayList<Cryptocurrency>();    
     coinMarketCrypoDataArray.forEach(
         jsonObject -> {
           JsonObject coinJson = (JsonObject) jsonObject;
@@ -71,15 +72,23 @@ public class GetCryptosServlet extends HttpServlet {
           // For our purposes, we only care about the USD price of the coin.
           JsonArray coinConversions = coinJson.getAsJsonArray("quotes");
           String usd = getUsdFromCoinConversions(coinConversions);
+          usd = roundUsd(usd);
 
-          Cryptocurrency crypto = Cryptocurrency.newBuilder().setName(name).setSymbol(symbol).setUsd(usd).setCmcUrl(cmcUrl).build();
+          Cryptocurrency crypto =
+              Cryptocurrency.newBuilder()
+                  .setName(name)
+                  .setSymbol(symbol)
+                  .setUsd(usd)
+                  .setCmcUrl(cmcUrl)
+                  .build();
+          cryptoList.add(crypto);
           datastore.put(crypto.toDatastoreEntity(keyFactory));
           System.out.println(String.format("Datastore Updated Crypto: %s", crypto.toString()));
         });
 
     Gson gson = new Gson();
     response.setContentType("application/json;");
-    // response.getWriter().println(gson.toJson(stocks));
+    response.getWriter().println(gson.toJson(cryptoList));
   }
 
   // Searches the list of coin conversions for USD and returns the price.
@@ -93,5 +102,11 @@ public class GetCryptosServlet extends HttpServlet {
       }
     }
     return "";
+  }
+
+  // Rounds the USD to the nearest cent.
+  private static String roundUsd(String usd) {
+     DecimalFormat decimalFormat = new DecimalFormat("0.00");
+     return decimalFormat.format(usd);
   }
 }

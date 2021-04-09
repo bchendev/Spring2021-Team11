@@ -16,7 +16,7 @@ function searchMe() {
   var input, filter, stockList, stockListItem, item, txtValue;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  stockList = document.getElementById("stock-list");
+  stockList = document.getElementById("crypto-list");
   stockListItem = stockList.getElementsByTagName("tr");
   for (var i = 0; i < stockListItem.length; i++) {
     item = stockListItem[i];
@@ -27,24 +27,6 @@ function searchMe() {
       stockListItem[i].style.display = "none";
     }
   }
-}
-
-function loadGraph() {
-  fetch("/graph-data");
-}
-
-function loadCryptoGraph() {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  
-  // Expect the form <pageUrl>.com/crypto.html?cmcUrl=bitcoin
-  const cmcUrl = urlParams.get('cmcUrl');
-   console.log(symbol);
-  fetch('/get-crypto-history?cmcUrl=' + cmcUrl)
-  .then((response) => response.json())
-  .then((history) => {
-    console.log(history);
-  });
 }
 
 function loadCryptoGraph() {
@@ -62,208 +44,55 @@ function loadCryptoGraph() {
 }
 
 function loadCryptos() {
+  console.log(loadCryptos);
   fetch("/get-cryptos")
    .then((response) => response.json())
    .then((cryptos) => {
-    console.log(cryptos);
-   });
-
-   
+     console.log(cryptos);
+     displayCryptoList(cryptos);
+   });   
 }
 
-function loadStocks() {
-  // Activates the doPost request at every refresh and open of page
-  fetch("/save-stock", {
-    method: "POST",
-  });
-
-  fetch("/save-crypto", {
-    method: "POST",
-  });
-
-  // Populate the stocks
-  fetch("/list-stock")
-    .then((response) => response.json())
-    .then((stocks) => {
-      const stockListElement = document.getElementById("stock-list");
-      stocks.forEach((stock) => {
-        stockListElement.appendChild(createStockElement(stock));
-      });
-    });
-
-  refreshComments();
+function displayCryptoList(cryptos) {
+  const cryptoListElement = document.getElementById("crypto-list");
+  cryptos.forEach((crypto) => {
+    cryptoListElement.appendChild(createCryptoListElement(crypto))
+  })
 }
 
-function refresh() {
-  fetch("/store-comments-urls", {
-    method: "POST",
-  });
+/** Creates an element that represents a crypto */
+function createCryptoListElement(crypto) {
+  console.log("createCryptoListElement");
+  console.log(crypto);
+  const hrefLink = "crypto-brianch.html?cmcUrl=" + crypto.cmcUrl;
+  const cryptoElement = document.createElement('tr');
 
-  fetch("/store-comments", {
-    method: "POST",
-  });
+  const titleElement = document.createElement('td');
+  
+  const cryptoName = document.createElement("a");
+  cryptoName.setAttribute('href', hrefLink);
+  cryptoName.className = 'tickName';
+  cryptoName.innerHTML = crypto.symbol;
 
-  fetch("/reddit-count", {
-    method: "POST",
-  });
+  const cryptoLink = document.createElement('a');
+  cryptoLink.setAttribute('href', hrefLink);
+  cryptoLink.className = 'tickLink';
+  cryptoLink.innerHTML = ticker;
 
-  fetch("/sticker-count");
+  const rankElement = document.createElement('td');
+  rankElement.className = 'tickPrice';
+  rankElement.innerHTML = -1;
 
-  refreshComments();
-}
-
-var stockDict = {
-  BTC: "Bitcoin",
-  ETH: "Etherum",
-  LTC: "Litecoin",
-  ADA: "Cardano",
-  BNB: "Binance Coin",
-  DOT: "Dotcoin",
-  LINK: "ChainLink",
-  UNI: "UniSwap",
-  USDT: "Tether",
-  XRP: "XRP",
-};
-
-/** Creates an element that represents a stock */
-var count = 0;
-function createStockElement(stock) {
-  const stockElement = document.createElement("tr");
-
-  const titleElement = document.createElement("td");
-  var ticker = stock.ticker;
-
-  const tickName = document.createElement("a");
-  tickName.setAttribute("href", "ticker.html?symbol=" + ticker);
-
-  tickName.className = "tickName";
-
-  for (var key in stockDict) {
-    var stockName = stockDict[key];
-    if (ticker === key) tickName.innerHTML = stockName + " ";
-  }
-
-  const tickLink = document.createElement("a");
-  tickLink.setAttribute("href", "ticker.html?symbol=" + ticker);
-  tickLink.className = "tickLink";
-  tickLink.innerHTML = ticker;
-
-  const counterElement = document.createElement("td");
-  counterElement.className = "tickPrice";
-  count = count + 1;
-  counterElement.innerHTML = count;
-
-  const priceElement = document.createElement("td");
-  priceElement.innerText = "$" + stock.price;
-  priceElement.className = "tickPrice";
+  const priceElement = document.createElement('td');
+  priceElement.innerText = '$' + crypto.usd;
+  priceElement.className = 'tickPrice';
 
   titleElement.appendChild(tickName);
   titleElement.appendChild(tickLink);
-  stockElement.appendChild(counterElement);
-  stockElement.appendChild(titleElement);
-  stockElement.appendChild(priceElement);
-  return stockElement;
-}
-
-google.charts.load("current", { packages: ["corechart", "line"] });
-google.charts.setOnLoadCallback(drawChart);
-
-/** Creates a chart and adds it to the page. */
-function drawChart() {
-  // Feeds graph random data
-  function myRand(to) {
-    var x = Math.floor(Math.random() * to + 1);
-    return x;
-  }
-
-  var my2d = [];
-  for (var i = 0; i < 70; i++) {
-    my2d[i] = [];
-    for (var j = 0; j < 2; j++) {
-      my2d[i][j] = i;
-    }
-  }
-
-  for (var i = 0; i < 70; i++) {
-    my2d[i][1] = myRand(50);
-  }
-
-  const data = new google.visualization.DataTable();
-
-  data.addColumn("number", "Time");
-  data.addColumn("number", "Price");
-
-  data.addRows(my2d);
-
-  const options = {
-    title: "BTC",
-    width: 1500,
-    height: 500,
-    lineWidth: 2,
-    backgroundColor: { fill: "transparent" },
-
-    hAxis: {
-      lable: "Time",
-      logScale: false,
-      gridlines: { count: 1 },
-    },
-    vAxis: {
-      lable: "Price",
-      logScale: false,
-      format: "currency",
-      gridlines: { count: 0 },
-    },
-    colors: ["#00FF00"],
-  };
-
-  const chart = new google.visualization.LineChart(
-    document.getElementById("curve_chart")
-  );
-  chart.draw(data, options);
-}
-
-google.charts.load("current", { packages: ["corechart", "bar"] });
-google.charts.setOnLoadCallback(BarChart);
-
-function BarChart() {
-  var data = google.visualization.arrayToDataTable([
-    ["Stock", "Mentions"],
-    ["Stock 1", 8175000],
-    ["Stock 2", 3792000],
-    ["Stock 3", 2695000],
-    ["Stock 4", 2099000],
-    ["Stock 5", 1526000],
-  ]);
-
-  var options = {
-    title: "Reddit: wallstreetbets Stock Mentions",
-    chartArea: { width: "60%" },
-    width: 670,
-    height: 300,
-    backgroundColor: { fill: "transparent" },
-
-    hAxis: {
-      title: "Mentions",
-      minValue: 0,
-    },
-    vAxis: {
-      title: "Stocks",
-    },
-  };
-
-  var chart = new google.visualization.BarChart(
-    document.getElementById("bar_chart")
-  );
-
-  chart.draw(data, options);
-}
-
-async function refreshComments() {
-  const responseFromServer = await fetch("/refreshComment");
-  var stringComments = await responseFromServer.json();
-  const comments = stringComments.replaceAll("?", "").replaceAll("|", "\n");
-  const commentsContainer = document.getElementById("comments-container");
-  commentsContainer.innerText = comments;
+  cryptoElement.appendChild(rankElement);
+  cryptoElement.appendChild(titleElement);
+  cryptoElement.appendChild(priceElement);
+  return cryptoElement;
 }
 
 var i = 0;
