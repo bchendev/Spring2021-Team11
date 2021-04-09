@@ -24,7 +24,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.data.Cryptocurrency;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
@@ -106,7 +107,8 @@ public class GetCryptosServlet extends HttpServlet {
 
   // Rounds the USD to the nearest cent.
   private static String roundUsd(String usd) {
-     DecimalFormat decimalFormat = new DecimalFormat("0.00");
-     return decimalFormat.format(usd);
+    BigDecimal bigDecimal = new BigDecimal(usd);
+    bigDecimal.setScale(1,RoundingMode.HALF_UP).setScale(2);
+    return bigDecimal.setScale(1,RoundingMode.HALF_UP).setScale(2).toString();
   }
 }

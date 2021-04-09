@@ -71,24 +71,24 @@ function createCryptoListElement(crypto) {
   
   const cryptoName = document.createElement("a");
   cryptoName.setAttribute('href', hrefLink);
-  cryptoName.className = 'tickName';
-  cryptoName.innerHTML = crypto.symbol;
+  cryptoName.className = 'tickName cryptoName';
+  cryptoName.innerHTML = crypto.name;
 
   const cryptoLink = document.createElement('a');
   cryptoLink.setAttribute('href', hrefLink);
-  cryptoLink.className = 'tickLink';
-  cryptoLink.innerHTML = ticker;
+  cryptoLink.className = 'tickLink cryptoLink';
+  cryptoLink.innerHTML = crypto.symbol;
 
   const rankElement = document.createElement('td');
-  rankElement.className = 'tickPrice';
+  rankElement.className = 'tickPrice cryptoRank';
   rankElement.innerHTML = -1;
 
   const priceElement = document.createElement('td');
   priceElement.innerText = '$' + crypto.usd;
-  priceElement.className = 'tickPrice';
+  priceElement.className = 'tickPrice cryptoPrice';
 
-  titleElement.appendChild(tickName);
-  titleElement.appendChild(tickLink);
+  titleElement.appendChild(cryptoName);
+  titleElement.appendChild(cryptoLink);
   cryptoElement.appendChild(rankElement);
   cryptoElement.appendChild(titleElement);
   cryptoElement.appendChild(priceElement);
