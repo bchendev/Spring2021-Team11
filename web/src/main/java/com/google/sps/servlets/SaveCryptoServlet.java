@@ -36,8 +36,12 @@ import org.jsoup.select.Elements;
 @WebServlet("/save-crypto")
 public class SaveCryptoServlet extends HttpServlet {
 
-  // The label for US Dollar.
-  private static final String USD = "USD";
+  // The label for US Dollar Datastore Entity.
+  private static final String USD_LABEL = "USD";
+  // The label for the Name Datastore Entity.
+  private static final String NAME_LABEL = "Name";
+  // The label for the URL Datastore Entity.
+  private static final String URL_LABEL = "Url";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,13 +79,13 @@ public class SaveCryptoServlet extends HttpServlet {
           Key coinEntityKey = keyFactory.newKey(symbol);
           Entity coinEntity =
               Entity.newBuilder(coinEntityKey)
-                  .set("Name", name)
-                  .set("USD", usd)
-                  .set("Url", url)
+                  .set(NAME_LABEL, name)
+                  .set(USD_LABEL, usd)
+                  .set(URL_LABEL, url)
                   .build();
           datastore.put(coinEntity);
           System.out.println(
-              String.format("Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, url));
+              String.format("Datastore Updated Crypto: %s, %s, %s, %s", symbol, name, usd, url));
         });
   }
 
@@ -91,7 +95,7 @@ public class SaveCryptoServlet extends HttpServlet {
     for (int i = 0; i < coinConversions.size(); i++) {
       JsonObject conversionObject = coinConversions.get(i).getAsJsonObject();
       String name = conversionObject.get("name").getAsString();
-      if (name.equals(USD)) {
+      if (name.equals(USD_LABEL)) {
         return conversionObject.get("price").getAsString();
       }
     }
