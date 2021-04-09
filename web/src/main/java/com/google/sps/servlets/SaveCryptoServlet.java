@@ -70,7 +70,7 @@ public class SaveCryptoServlet extends HttpServlet {
               .set("USD", usd)
               .set("LastUpdated", lastUpdated)
               .build();
-
+       datastore.put(coinEntity);
        System.out.println(String.format("Datastore Update Crypto: %s, %s, %s, %s", symbol, name, usd, lastUpdated));
     });
   }
