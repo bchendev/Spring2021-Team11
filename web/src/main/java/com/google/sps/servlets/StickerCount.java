@@ -68,6 +68,7 @@ public class StickerCount extends HttpServlet {
       }
       if(count != 0){
         Key countkey = datastore.newKeyFactory().setKind("StickerCount").newKey(listStickers.get(stickerIndex));
+
         System.out.println("Sticker: " + listStickers.get(stickerIndex) + ", Count: " + count);
         FullEntity stickerCount =
             Entity.newBuilder(countkey)

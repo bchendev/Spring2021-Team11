@@ -1,4 +1,5 @@
-// //Generate links to each ticker and use javascript to grab data from the files to plot each graph? maybe?
+// //Generate links to each ticker and use javascript to grab data from the files to plot each
+// graph? maybe?
 
 // package com.google.sps.servlets;
 
@@ -23,11 +24,10 @@
 // public class ListStocksServlet extends HttpServlet {
 
 //   @Override
-//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
+// {
 
 //     String name = Jsoup.clean(request.getParameter("ADA"), Whitelist.none());
-
 
 //     Gson gson = new Gson();
 

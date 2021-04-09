@@ -20,10 +20,12 @@ public final class Stock {
   private final String id;
   private final String ticker;
   private final double price;
+  private final String tickName;
 
-  public Stock(String id, String ticker, double price) {
+  public Stock(String id, String ticker, double price, String tickName) {
     this.id = id;
     this.ticker = ticker;
     this.price = price;
+    this.tickName = tickName;
   }
 }

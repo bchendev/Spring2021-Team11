@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>BAT$</title>
+    <link rel="stylesheet" href="style.css"></link>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap"
+      rel="stylesheet"
+    ></link>
+    <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap"
+      rel="stylesheet"
+    ></link>
+    <script src="script-brianch.js"></script>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&display=swap"
+      rel="stylesheet"
+    ></link>
+
+    <div class="title-box">
+      <h1 id="title"></h1>
+    </div>
+  </head>
+
+  <body onload="loadCryptos(), typeWriter()">
+    <div class="body-center">
+      <form role="search" id="form" class="searchTik">
+        <input
+          class="search"
+          type="text"
+          id="myInput"
+          placeholder="Search for Crypto..."
+          aria-label="Search through site content"
+          onkeyup="searchMe()"
+        ></input>
+      </form>
+      <br></br>
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0">
+          <tbody id="crypto-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

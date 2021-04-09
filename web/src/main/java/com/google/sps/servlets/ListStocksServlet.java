@@ -26,20 +26,22 @@ public class ListStocksServlet extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
         Query.newEntityQueryBuilder()
-            .setKind("Stock")
+            .setKind("AllCrypto")
             .setOrderBy(OrderBy.desc("TimeStamp"))
             .build();
     QueryResults<Entity> results = datastore.run(query);
 
-    List<Stock> stocks = new ArrayList<>();
+    List<Stock> stocks = new ArrayList<Stock>();
+    int i = 0;
     while (results.hasNext()) {
       Entity entity = results.next();
 
       String id = entity.getKey().getName();
       String tick = entity.getString("Ticker");
       double price = entity.getDouble("USD");
+      String tickerName = entity.getString("TikName");
 
-      Stock stock = new Stock(id, tick, price);
+      Stock stock = new Stock(id, tick, price, tickerName);
       stocks.add(stock);
     }
 
