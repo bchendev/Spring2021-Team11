@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +60,7 @@ public class GetCryptosServlet extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
 
-    ArrayList<Cryptocurrency> cryptoList = new ArrayList<Cryptocurrency>();    
+    ArrayList<Cryptocurrency> cryptoList = new ArrayList<Cryptocurrency>();
     coinMarketCrypoDataArray.forEach(
         jsonObject -> {
           JsonObject coinJson = (JsonObject) jsonObject;
@@ -108,7 +107,7 @@ public class GetCryptosServlet extends HttpServlet {
   // Rounds the USD to the nearest cent.
   private static String roundUsd(String usd) {
     BigDecimal bigDecimal = new BigDecimal(usd);
-    bigDecimal.setScale(1,RoundingMode.HALF_UP).setScale(2);
-    return bigDecimal.setScale(1,RoundingMode.HALF_UP).setScale(2).toString();
+    bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2);
+    return bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2).toString();
   }
 }
