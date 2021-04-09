@@ -29,15 +29,8 @@ function searchMe() {
   }
 }
 
-function loadCoinGraph() {
-  const queryString = window.location.search;
-  console.log(queryString);
-  const urlParams = new URLSearchParams(queryString);
-  const symbol = urlParams.get('symbol')
-   console.log(symbol);
-  fetch('/get-coin-data?coin=' + symbol, {
-    method: 'POST',
-  });
+function loadGraph() {
+  fetch('/graph-data');
 }
 
 function loadStocks() {
