@@ -36,7 +36,7 @@ public class GraphDataServlet extends HttpServlet {
       Entity entity = results.next();
 
       String id = entity.getKey().getName();
-            String tickName = entity.getString("TikName");
+      String tickName = entity.getString("TikName");
 
       String tick = entity.getString("Ticker");
       double price = entity.getDouble("USD");

@@ -46,7 +46,6 @@ function loadCryptos() {
   fetch("/get-cryptos")
     .then((response) => response.json())
     .then((cryptos) => {
-      console.log(cryptos);
       displayCryptoList(cryptos);
     });
 }
@@ -60,8 +59,6 @@ function displayCryptoList(cryptos) {
 
 /** Creates an element that represents a crypto */
 function createCryptoListElement(crypto) {
-  console.log("createCryptoListElement");
-  console.log(crypto);
   const hrefLink = "crypto-brianch.html?cmcId=" + crypto.cmcId;
   
   const cryptoElement = document.createElement("tr");

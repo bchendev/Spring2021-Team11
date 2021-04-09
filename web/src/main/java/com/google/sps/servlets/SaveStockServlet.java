@@ -18,7 +18,6 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.KeyFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +42,8 @@ public class SaveStockServlet extends HttpServlet {
     Elements price = doc.select(".price___3rj7O ");
 
     Elements otherTick = doc.select(".crypto-symbol");
-    Elements tableRows = doc.select("table.cmc-table.cmc-table___11lFC.cmc-table-homepage___2_guh > tbody > tr");
+    Elements tableRows =
+        doc.select("table.cmc-table.cmc-table___11lFC.cmc-table-homepage___2_guh > tbody > tr");
 
     Elements name = doc.select("p.sc-AxhUy.fqrLrs");
     int otherNames = 90;
@@ -56,42 +56,39 @@ public class SaveStockServlet extends HttpServlet {
     ArrayList<Double> prices = new ArrayList<Double>();
     ArrayList<String> names = new ArrayList<String>();
 
-    for(int i = 0; i < name.size(); i++){
-        String tickName = name.get(i).text();
+    for (int i = 0; i < name.size(); i++) {
+      String tickName = name.get(i).text();
       names.add(tickName);
     }
 
-    for(int i = 0; i < otherNames; i++){
-        String otherTickName = "lol";
+    for (int i = 0; i < otherNames; i++) {
+      String otherTickName = "lol";
       names.add(otherTickName);
     }
 
-        // First 10
+    // First 10
     for (int i = 0; i < tick.size(); i++) {
       String tik = tick.get(i).text();
       tickers.add(tik);
     }
-        // Last 90
-    for (int i=0; i < otherTick.size(); i++) {
-        String othertik = otherTick.get(i).text();
-            tickers.add(othertik);
-        }
+    // Last 90
+    for (int i = 0; i < otherTick.size(); i++) {
+      String othertik = otherTick.get(i).text();
+      tickers.add(othertik);
+    }
 
     for (int i = 0; i < price.size(); i++) {
-        String tickerPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
+      String tickerPrice = price.get(i).text().replaceAll("[\\\\$,]", "");
       Double priceDouble = Double.parseDouble(tickerPrice);
       prices.add(priceDouble);
     }
 
-    for (int i = 10; i < tableRows.size(); i++) { //first row is the col names so skip it.
-            String str = tableRows.get(i).text();
-            String wow = str.substring(str.indexOf('$')+1).trim();
-            double lopl = Double.parseDouble(wow);
-            prices.add(lopl);
-
+    for (int i = 10; i < tableRows.size(); i++) { // first row is the col names so skip it.
+      String str = tableRows.get(i).text();
+      String wow = str.substring(str.indexOf('$') + 1).trim();
+      double lopl = Double.parseDouble(wow);
+      prices.add(lopl);
     }
-
-    
 
     for (int i = 0; i < tickers.size(); i++) {
       Key tickerKey = datastore.newKeyFactory().setKind("AllCrypto").newKey(tickers.get(i));

@@ -14,27 +14,14 @@
 
 package com.google.sps.servlets;
 
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.OrderBy;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.util.Calendar;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import com.google.gson.JsonElement;
 
 /** Servlet responsible for creating new tasks. */
 @WebServlet("/get-crypto-history")
@@ -51,9 +38,11 @@ public class GetCryptoHistoryServlet extends HttpServlet {
   // Param 1: crypto id
   // Param 2: time start
   // Param 3: time end
-  private static final String cmcWebApiHistoryFormat = "https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=%s&convert=USD&time_start=%s&time_end=%s";
+  private static final String cmcWebApiHistoryFormat =
+      "https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=%s&convert=USD&time_start=%s&time_end=%s";
 
   private static final int DAYS_IN_YEAR = 365;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String cmcId = request.getParameter("cmcId");
@@ -62,13 +51,10 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_YEAR, -DAYS_IN_YEAR);
 
-    String connectUrl = String.format(cmcWebApiHistoryFormat, cmcId, cal.getTimeInMillis(), System.currentTimeMillis());
-    System.out.println(connectUrl);
-
+    String connectUrl =
+        String.format(
+            cmcWebApiHistoryFormat, cmcId, cal.getTimeInMillis(), System.currentTimeMillis());
     Document currencyDoc = Jsoup.connect(connectUrl).ignoreContentType(true).get();
-
-    JsonElement coinMarketJsonElement = JsonParser.parseString(currencyDoc.body().text());
-
     response.setContentType("application/json;");
     response.getWriter().println(currencyDoc.body().text());
   }
