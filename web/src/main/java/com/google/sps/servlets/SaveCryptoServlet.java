@@ -32,8 +32,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-;
-
 /** Servlet responsible for creating new tasks. */
 @WebServlet("/save-crypto")
 public class SaveCryptoServlet extends HttpServlet {
