@@ -43,7 +43,7 @@ public class RedditComment extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
         Query.newEntityQueryBuilder()
-            .setKind("Comments-url")
+            .setKind("CommentsUrl")
             .setOrderBy(OrderBy.desc("url"))
             .build();
     QueryResults<Entity> savedUrls = datastore.run(query);

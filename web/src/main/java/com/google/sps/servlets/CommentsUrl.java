@@ -40,7 +40,7 @@ public class CommentsUrl extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     Datastore dataStore = DatastoreOptions.getDefaultInstance().getService();
-    KeyFactory keyFactory = dataStore.newKeyFactory().setKind("Comments-url");
+    KeyFactory keyFactory = dataStore.newKeyFactory().setKind("CommentsUrl");
 
     Document redditPage = Jsoup.connect(REDDIT_DISCUSSION_URL).get();
     System.out.printf("Successfully scraped Reddit Page: %s", redditPage.title());

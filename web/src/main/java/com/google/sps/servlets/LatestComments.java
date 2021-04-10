@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Handles requests sent to the /hello URL. Try running a server and navigating to /hello! */
 @WebServlet("/refreshComment")
 public class LatestComments extends HttpServlet {
 
@@ -38,7 +37,8 @@ public class LatestComments extends HttpServlet {
       comment += "|";
       comments += comment;
       commentsIndex++;
-      if (commentsIndex == 50) {
+      if(commentsIndex == 25){
+
         break;
       }
     }

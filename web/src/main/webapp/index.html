@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>BAT$</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://i1.sndcdn.com/avatars-000580317408-4kkd50-t500x500.jpg">    <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js"></script>
       <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -18,7 +18,7 @@
     </div>
   </head>
 
-  <body onload="loadStocks(), typeWriter(), BarChart()" > 
+  <body onload="loadStocks(), typeWriter(), barChart(), refreshComments()" > 
     <div class="body-center" >
 
 <form role="search" id="form" class="searchTik">
@@ -59,8 +59,9 @@
 <div class="comment-area">
      <p class="trending">Latest Comments on Reddit 💬</p>
 <p id="comments-container"></p>
-<form method="POST" onclick="refresh()">
+<form method="POST" onclick="refreshComments()">
   <button class="refresh-comments allButtons"> Refresh Comments </button>
+
 </form>
 </div>
 
