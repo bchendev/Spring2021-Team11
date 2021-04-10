@@ -32,7 +32,10 @@ public class ListStocksServlet extends HttpServlet {
     QueryResults<Entity> results = datastore.run(query);
 
     List<Stock> stocks = new ArrayList<Stock>();
+<<<<<<< Updated upstream
+=======
     int i = 0;
+>>>>>>> Stashed changes
     while (results.hasNext()) {
       Entity entity = results.next();
 

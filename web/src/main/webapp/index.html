@@ -13,9 +13,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
     <div class="title-box">
-      <h1 id='title'></h1>
+        <!-- <button class="allButtons"><a href='about.html' alt='BrokenLink'>Meet the Makers!</a></button> -->
+    <h1 id='title'></h1>
     </div>
-
   </head>
 
   <body onload="loadStocks(), typeWriter(), BarChart()" > 
@@ -44,36 +44,25 @@
         </div>
 </div>
 
-<div id="bar-part">
- <a class="navbar-brand">Trending in Reddit 🔥</a>
+<div class="bar-part">
+<a class="trending">Trending on Reddit 🔥</a>
 <div id="bar_chart"></div>
 <form method="POST" action="/store-stickers">
-  <button>  Get NYSE and NASDAQ stickers </button>
+  <button class="allButtons">  Get NYSE and NASDAQ stickers </button>
 </form>
 <form method="POST" onclick="refresh()">
-  <button> Refresh </button>
+  <button class="allButtons"> Refresh </button>
 </form>
 <br>
+</div>
 
 <div class="comment-area">
-     <p>Latest Comments</p>
+     <p class="trending">Latest Comments on Reddit 💬</p>
 <p id="comments-container"></p>
-
 <form method="POST" onclick="refresh()">
-  <button> Refresh Comments </button>
+  <button class="refresh-comments allButtons"> Refresh Comments </button>
 </form>
-
 </div>
-
-
-</div>
-
-
-
-
-
-
-
 
 </body>
 </html>

@@ -195,8 +195,8 @@ function BarChart() {
 
       var options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '60%'},
-        width: 670,
+        chartArea: {width: '70%'},
+        width: 800,
         height: 300,
         backgroundColor: { fill:'transparent' },
 
@@ -223,7 +223,7 @@ async function refreshComments() {
 }
 
 var i = 0;
-var txt = 'This is Bat$ Finance.';
+var txt = 'This is Bat$ Finance';
 var speed = 300;
 
 function typeWriter() {

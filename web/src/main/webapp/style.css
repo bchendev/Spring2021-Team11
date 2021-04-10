@@ -45,6 +45,12 @@ a.tickName{
     font-family: 'Righteous', cursive;
     font-size: 14.5px;
 }
+.trending{
+   font-family: 'Righteous', cursive;
+    font-size: 30px;
+    color: white;
+text-align: center;
+}
 
 .search:hover,
 .search:focus {
@@ -60,44 +66,50 @@ a.tickName{
 }
 #comments-container{
     word-wrap: break-word;
+    height: auto;
+}
 
-}
- #bar_chart{
-  float: left;
-  background-color: transparent;
-  padding-top: 120px;
-  margin: auto;
-  width: 40%;
-  padding: 10px;
-  border-radius: 50px;
-  max-height: 650px;
-  height: auto;
- }
 .comment-area{
-    float: left;
-  background-color: transparent;
-  padding-top: 120px;
-  margin: auto;
-  width: 40%;
-  padding: 10px;
-  border-radius: 50px;
-  max-height: 650px;
+   float: left;
+  margin-top: 10px;
+  padding: 5px;
+  width: 45%;
+  border: 1px solid white; 
+  text-align: center;
   height: auto;
+  max-height: 350px;
+      border-style: dashed;
+    border-radius: 50px;
 }
+ .bar-part:hover, 
+ .comment-area:hover{
+  border: 1px solid white; 
+  
+ }
+ .bar-part{
+  float: left;
+  margin: auto;
+  padding: 5px;
+  width: 45%;
+  border: 1px solid white; 
+  text-align: center;
+      border-style: dashed;
+    border-radius: 50px;
+ }
+
 
 .body-center{
-    /* display: flex;  */
     float: left;
   background-color: transparent;
   border: 1px solid white;
   border-style: dashed;
   padding-top: 120px;
-  margin-left: 50px;
-  margin-right: 20px;
+  margin-left: 30px;
+  margin-right: 10px;
   width: 45%;
   padding: 10px;
   border-radius: 50px;
-  max-height: 650px;
+  max-height: 750px;
   height: auto;
 padding-bottom: 50px;
     padding-left: 40px;
@@ -176,10 +188,17 @@ body {
  margin-top: 60px;
 }
 
+.allButtons{
+background-color: rgba(255,255,255,0.3);
+color:white;
+border: none;
+padding: 5px;
+margin: 3px;
 
-
-/* for********************************************* table lamoooo */
-
+}
+.allButtons:hover{
+    background-color: limegreen;
+}
 
 table{
   width:100%;
@@ -189,7 +208,7 @@ table{
   background-color: rgba(255,255,255,0.3);
  }
 .tbl-content{
-  height:500px;
+  height:650px;
   overflow-x:auto;
   margin-top: 0px;
   /* border: 1px solid rgba(255,255,255,0.3); */
@@ -203,7 +222,7 @@ th{
   text-transform: uppercase;
 }
 td{
-  padding: 8px;
+  padding: 10px;
   text-align: left;
   vertical-align:middle;
   font-weight: 300;
@@ -238,6 +257,7 @@ td{
 .made-with-love a:hover {
   text-decoration: underline;
 }
+
 
 
 ::-webkit-scrollbar {
