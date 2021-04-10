@@ -186,10 +186,9 @@ function barChart() {
 
   
       var data = google.visualization.arrayToDataTable([
-        ['Stock', 'Mentions',],
+        ['Stock', 'Mentions'],
         ['Stock 1', 2695000],
         ['Stock 2', 2695000],
-
         [arrStocks[0], parseInt(arrStocks[1])],
         ['Stock 3', 2695000],
         ['Stock 4', 2099000],
@@ -198,8 +197,8 @@ function barChart() {
 
       var options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '70%'},
-        width: 800,
+        chartArea: {width: '60%'},
+        width: 680,
         height: 300,
         backgroundColor: { fill:'transparent' },
 
