@@ -69,7 +69,6 @@ function loadStocks() {
       displayCryptoList(cryptos);
     });
 
-  refreshComments();
 }
 
 function displayCryptoList(cryptos) {
@@ -234,6 +233,44 @@ function drawChart(stockData) {
   chart.draw(data, options);
 }
 
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(barChart);
+
+function barChart() {
+  var arrStocks = refreshBarChart();
+
+  
+      var data = google.visualization.arrayToDataTable([
+        ['Stock', 'Mentions'],
+        ['Stock 1', 2695000],
+        ['Stock 2', 2695000],
+        [arrStocks[0], parseInt(arrStocks[1])],
+        ['Stock 3', 2695000],
+        ['Stock 4', 2099000],
+        ['Stock 5', 1526000]
+      ]);
+
+      var options = {
+        title: 'Reddit: wallstreetbets Stock Mentions',
+        chartArea: {width: '60%'},
+        width: 680,
+        height: 300,
+        backgroundColor: { fill:'transparent' },
+
+        hAxis: {
+          title: 'Mentions',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Stocks'
+        }
+      };
+
+      var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
+
+      chart.draw(data, options);
+    }
+
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
   var stringComments = await responseFromServer.json();
@@ -242,8 +279,17 @@ async function refreshComments() {
   commentsContainer.innerText = comments;
 }
 
+async function refreshBarChart(){
+  const responseFromServer = await fetch('/barChart');
+  var countStocks = await responseFromServer.json();
+  var stickerCount = countStocks.split(',');
+  return stickerCount;  
+  //const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
+  // const commentsContainer = document.getElementById('comments-container');
+  // commentsContainer.innerText = comments;
+}
 var i = 0;
-var txt = 'This is Bat$ Finance.';
+var txt = 'This is Bat$ Finance';
 var speed = 300;
 
 function typeWriter() {

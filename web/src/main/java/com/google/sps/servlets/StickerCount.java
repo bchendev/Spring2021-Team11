@@ -42,12 +42,11 @@ public class StickerCount extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
         Query.newEntityQueryBuilder()
-            .setKind("Stocks-mentioned")
+            .setKind("StocksMentioned")
             .setOrderBy(OrderBy.desc("stock"))
             .build();
     QueryResults<Entity> stockMention = datastore.run(query);
 
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Sticker-count");
 
     while (stockMention.hasNext()) {
       Entity entity = stockMention.next();
@@ -67,9 +66,9 @@ public class StickerCount extends HttpServlet {
           }
         }
       }
-      if (count != 0) {
-        Key countkey =
-            datastore.newKeyFactory().setKind("Stock").newKey(listStickers.get(stickerIndex));
+      if(count != 0){
+        Key countkey = datastore.newKeyFactory().setKind("StickerCount").newKey(listStickers.get(stickerIndex));
+
         System.out.println("Sticker: " + listStickers.get(stickerIndex) + ", Count: " + count);
         FullEntity stickerCount =
             Entity.newBuilder(countkey)
