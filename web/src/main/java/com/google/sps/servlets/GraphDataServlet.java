@@ -36,12 +36,12 @@ public class GraphDataServlet extends HttpServlet {
       Entity entity = results.next();
 
       String id = entity.getKey().getName();
-      String tickName = entity.getString("TikName");
+    //   String tickName = entity.getString("TikName");
 
       String tick = entity.getString("Ticker");
       double price = entity.getDouble("USD");
 
-      Stock stock = new Stock(id, tick, price, tickName);
+      Stock stock = new Stock(id, tick, price, tick);
       stocks.add(stock);
       System.out.println("Tick: " + tick + " Price: " + price);
     }
@@ -51,4 +51,5 @@ public class GraphDataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(stocks));
   }
+  
 }

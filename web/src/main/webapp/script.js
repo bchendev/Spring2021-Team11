@@ -28,15 +28,27 @@ function searchMe() {
   }
 }
 
-const data = [];
+function loadCryptoGraph() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  // Expect the form <pageUrl>.com/crypto.html?cmcId=1
+  const cmcId = urlParams.get("cmcId");
+  fetch("/get-crypto-history?cmcId=" + cmcId)
+    .then((response) => response.json())
+    .then((history) => {
+      console.log(history);
+      drawChart(history);
+    });
+}
+
 function loadGraph() {
    var location = window.location.href;
    var symbol = location.split("=");
    fetch('/graph-data?symbol=' + symbol[1])
    .then((response) => response.json())
    .then((stocks) => {
-        for(var i in stocks)        
-            data.push([i, stocks[i]]);      
+      drawChart(stocks); 
     });
   }
 
@@ -46,21 +58,59 @@ function loadStocks() {
     method: 'POST',
   });
 
-  fetch('/save-crypto', {
-    method: 'POST',
-  });
+//   fetch('/save-crypto', {
+//     method: 'POST',
+//   });
 
   // Populate the stocks
-  fetch('/list-stock')
+  fetch('/get-cryptos')
     .then((response) => response.json())
-    .then((stocks) => {
-      const stockListElement = document.getElementById('stock-list');
-      stocks.forEach((stock) => {
-        stockListElement.appendChild(createStockElement(stock));
-      });
+    .then((cryptos) => {
+      displayCryptoList(cryptos);
     });
 
   refreshComments();
+}
+
+function displayCryptoList(cryptos) {
+  const cryptoListElement = document.getElementById("stock-list");
+  cryptos.forEach((crypto) => {
+    cryptoListElement.appendChild(createCryptoListElement(crypto));
+  });
+}
+
+function createCryptoListElement(crypto) {
+  const hrefLink = "ticker.html?cmcId=" + crypto.cmcId;
+  
+  const cryptoElement = document.createElement("tr");
+  cryptoElement.className = "cryptoRow";
+  const cryptoNameAndSymbolContainer = document.createElement("td");
+  cryptoNameAndSymbolContainer.className="cryptoNameAndSymbolContainer";
+
+  const cryptoName = document.createElement("a");
+  cryptoName.setAttribute("href", hrefLink);
+  cryptoName.className = "tickName cryptoName";
+  cryptoName.innerHTML = crypto.name;
+
+  const cryptoSymbol = document.createElement("a");
+  cryptoSymbol.setAttribute("href", hrefLink);
+  cryptoSymbol.className = "tickLink cryptoSymbol";
+  cryptoSymbol.innerHTML = crypto.symbol;
+
+  const rankElement = document.createElement("td");
+  rankElement.className = "tickPrice cryptoRank";
+  rankElement.innerHTML = crypto.cmcRank;
+
+  const priceElement = document.createElement("td");
+  priceElement.innerText = "$" + crypto.usd;
+  priceElement.className = "tickPrice cryptoPrice";
+
+  cryptoNameAndSymbolContainer.appendChild(cryptoName);
+  cryptoNameAndSymbolContainer.appendChild(cryptoSymbol);
+  cryptoElement.appendChild(rankElement);
+  cryptoElement.appendChild(cryptoNameAndSymbolContainer);
+  cryptoElement.appendChild(priceElement);
+  return cryptoElement;
 }
 
 function refresh() { 
@@ -129,27 +179,36 @@ function createStockElement(stock) {
 }
 
 google.charts.load('current', { packages: ['corechart', 'line'] });
-google.charts.setOnLoadCallback(drawChart);
 
 /** Creates a chart and adds it to the page. */
-function drawChart() { 
+function drawChart(stockData) { 
+
+  var my2d = [];
+  for (var i = 0; i < stockData.data.quotes.length; i++) {
+    my2d[i] = [];
+    for (var j = 0; j < 2; j++) {
+      let currentTime = new Date();
+      let oldTime = new Date(stockData.data.quotes[i].quote.USD.timestamp);
+
+      let days = (currentTime - oldTime) / (1000 * 60 * 60 * 24);
+
+       my2d[i][j] = days;
+    }
+  }
+
+  for (var i = 0; i < stockData.data.quotes.length; i++) {
+    my2d[i][1] = stockData.data.quotes[i].quote.USD.open;
+  }
 
   const data = new google.visualization.DataTable();
 
-  data.addColumn('number', 'Time');
+  data.addColumn('number', 'Days Past');
   data.addColumn('number', 'Price');
 
-  data.addRow[data[0], data[0]];
-  data.addRow[100, 100];
- 
-//   stocks.forEach((stock) => {
-//       alert(stock.price);
-//       data.addRow[stock.price, stock.price];
-//     });
-  
+  data.addRows(my2d);
 
   const options = {
-    title: 'BTC',
+    title: stockData.data.symbol,
     width: 1500,
     height: 500,
     lineWidth: 2,
@@ -174,41 +233,6 @@ function drawChart() {
   );
   chart.draw(data, options);
 }
-
-google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(BarChart);
-
-function BarChart() {
-
-      var data = google.visualization.arrayToDataTable([
-        ['Stock', 'Mentions',],
-        ['Stock 1', 8175000],
-        ['Stock 2', 3792000],
-        ['Stock 3', 2695000],
-        ['Stock 4', 2099000],
-        ['Stock 5', 1526000]
-      ]);
-
-      var options = {
-        title: 'Reddit: wallstreetbets Stock Mentions',
-        chartArea: {width: '60%'},
-        width: 670,
-        height: 300,
-        backgroundColor: { fill:'transparent' },
-
-        hAxis: {
-          title: 'Mentions',
-          minValue: 0
-        },
-        vAxis: {
-          title: 'Stocks'
-        }
-      };
-
-      var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
-
-      chart.draw(data, options);
-    }
 
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
