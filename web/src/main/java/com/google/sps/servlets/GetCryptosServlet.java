@@ -85,7 +85,6 @@ public class GetCryptosServlet extends HttpServlet {
                   .build();
           cryptoList.add(crypto);
           datastore.put(crypto.toDatastoreEntity(keyFactory));
-          System.out.println(String.format("Datastore Updated Crypto: %s", crypto.toString()));
         });
 
     Gson gson = new Gson();

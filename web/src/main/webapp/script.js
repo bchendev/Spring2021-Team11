@@ -37,7 +37,6 @@ function loadCryptoGraph() {
   fetch("/get-crypto-history?cmcId=" + cmcId)
     .then((response) => response.json())
     .then((history) => {
-    //   console.log(history);
       drawChart(history);
     });
 
@@ -112,7 +111,9 @@ function loadStocks() {
       });
     });
 
+
 }
+
 
 /** Creates an element that represents a stock */
 var count = 0;
@@ -129,6 +130,7 @@ function createStockElement(stock) {
   tickName.setAttribute('href', hrefLink);
   tickName.className = 'tickName';
   tickName.innerHTML = stock.name;   
+
 
 
   const tickLink = document.createElement('a');
@@ -166,12 +168,12 @@ function drawChart(stockData) {
   for (var i = 0; i < stockData.data.quotes.length; i++) {
     my2d[i] = [];
     for (var j = 0; j < 2; j++) {
-      let currentTime = new Date();
-      let oldTime = new Date(stockData.data.quotes[i].quote.USD.timestamp);
+        var days = new Date(stockData.data.quotes[i].quote.USD.timestamp); // Days you want to subtract
+        var day = days.getDate();
+        var month = days.getMonth() + 1;
+        var year= days.getFullYear();
+        my2d[i][j] = month + "/" + day + "/" + year;
 
-      let days = (currentTime - oldTime) / (1000 * 60 * 60 * 24);
-
-       my2d[i][j] = days;
     }
   }
 
@@ -181,7 +183,9 @@ function drawChart(stockData) {
 
   const data = new google.visualization.DataTable();
 
-  data.addColumn('number', 'Days Past');
+
+  data.addColumn('string', 'Days Past');
+
   data.addColumn('number', 'Price');
 
   data.addRows(my2d);
@@ -189,6 +193,7 @@ function drawChart(stockData) {
   const options = {
     // title: stockData.data.symbol,
     width: 1500,
+
     height: 500,
     lineWidth: 2,
     backgroundColor: { fill:'transparent' },
@@ -216,23 +221,21 @@ function drawChart(stockData) {
 }
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(barChart);
 
 function barChart() {
-  var arrStocks = refreshBarChart();
+  fetch("/get-reddit-mentions")
+    .then((response) => response.json())
+    .then((stockCounts) => {
+      var stockCountArray = [['Stock', 'Mentions']];
+      stockCounts.forEach(element => {
+        const stock = element.ticker;
+        const count = element.count;
+        stockCountArray.push([stock, count]);
+      });
 
-  
-      var data = google.visualization.arrayToDataTable([
-        ['Stock', 'Mentions'],
-        ['Stock 1', 2695000],
-        ['Stock 2', 2695000],
-        [arrStocks[0], parseInt(arrStocks[1])],
-        ['Stock 3', 2695000],
-        ['Stock 4', 2099000],
-        ['Stock 5', 1526000]
-      ]);
+      const data = google.visualization.arrayToDataTable(stockCountArray);
 
-      var options = {
+      const options = {
         title: 'Reddit: wallstreetbets Stock Mentions',
         chartArea: {width: '60%'},
         width: 680,
@@ -246,12 +249,23 @@ function barChart() {
         vAxis: {
           title: 'Stocks'
         }
-      };
+      }
 
-      var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
-
+      const chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
       chart.draw(data, options);
-    }
+    })
+  }
+
+async function userRefresh(){
+
+  refreshComments();
+
+  fetch('/reddit-count', {
+   method: 'POST',
+  });
+
+  fetch('/sticker-count');
+}
 
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
@@ -261,15 +275,6 @@ async function refreshComments() {
   commentsContainer.innerText = comments;
 }
 
-async function refreshBarChart(){
-  const responseFromServer = await fetch('/barChart');
-  var countStocks = await responseFromServer.json();
-  var stickerCount = countStocks.split(',');
-  return stickerCount;  
-  //const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
-  // const commentsContainer = document.getElementById('comments-container');
-  // commentsContainer.innerText = comments;
-}
 var i = 0;
 var txt = 'This is Bat$ Finance';
 var speed = 300;
