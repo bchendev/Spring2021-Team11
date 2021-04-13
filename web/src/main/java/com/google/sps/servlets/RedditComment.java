@@ -19,6 +19,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.KeyFactory;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
@@ -44,11 +45,9 @@ public class RedditComment extends HttpServlet {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("CommentsUrl")
-            .setOrderBy(OrderBy.desc("url"))
+            .setOrderBy(OrderBy.asc("timestamp"))
             .build();
     QueryResults<Entity> savedUrls = datastore.run(query);
-
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("Comments");
 
     while (savedUrls.hasNext()) {
       Entity entity = savedUrls.next();
@@ -62,9 +61,12 @@ public class RedditComment extends HttpServlet {
         Elements commentSection = redditDiscussions.getElementsByClass(DISCUSSION_TAG);
 
         for (Element comments : commentSection) {
+          long timeStamp = System.currentTimeMillis();
           String comment = comments.getElementsByClass(COMMENTS_TAG).text();
+          //System.out.print(comment + " ");
+          Key commentKey = datastore.newKeyFactory().setKind("Comment").newKey(comment);
           FullEntity redditComment =
-              Entity.newBuilder(keyFactory.newKey()).set("comment", comment).build();
+              Entity.newBuilder(commentKey).set("comment", comment).set("timestamp",timeStamp).build();
           datastore.put(redditComment);
         }
       } catch (Exception e) {

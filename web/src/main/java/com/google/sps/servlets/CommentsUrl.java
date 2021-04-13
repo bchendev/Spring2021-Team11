@@ -15,10 +15,12 @@
 package com.google.sps.servlets;
 
 import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.KeyFactory;
+import com.google.cloud.datastore.Key;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,8 +41,8 @@ public class CommentsUrl extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+
     Datastore dataStore = DatastoreOptions.getDefaultInstance().getService();
-    KeyFactory keyFactory = dataStore.newKeyFactory().setKind("CommentsUrl");
 
     Document redditPage = Jsoup.connect(REDDIT_DISCUSSION_URL).get();
     System.out.printf("Successfully scraped Reddit Page: %s", redditPage.title());
@@ -51,11 +53,13 @@ public class CommentsUrl extends HttpServlet {
     System.out.println("\nURls scraped: " + links.size());
 
     for (Element link : links) {
+      long timeStamp = System.currentTimeMillis();
       String url = "https://www.reddit.com" + link.attr("href");
+      Key urlKey = datastore.newKeyFactory().setKind("CommentsUrl").newKey(url);
 
-      FullEntity commentsUrls = Entity.newBuilder(keyFactory.newKey()).set("url", url).build();
+      FullEntity commentsUrls = Entity.newBuilder(urlKey).set("url", url).set("timestamp", timeStamp).build();
       System.out.println("URL:" + url);
-      dataStore.put(commentsUrls);
+      datastore.put(commentsUrls);
     }
     response.sendRedirect("/index.html");
   }

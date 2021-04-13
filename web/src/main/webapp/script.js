@@ -69,6 +69,48 @@ function loadStocks() {
       displayCryptoList(cryptos);
     });
 
+
+}
+
+function displayCryptoList(cryptos) {
+  const cryptoListElement = document.getElementById("stock-list");
+  cryptos.forEach((crypto) => {
+    cryptoListElement.appendChild(createCryptoListElement(crypto));
+  });
+}
+
+function createCryptoListElement(crypto) {
+  const hrefLink = "ticker.html?cmcId=" + crypto.cmcId;
+  
+  const cryptoElement = document.createElement("tr");
+  cryptoElement.className = "cryptoRow";
+  const cryptoNameAndSymbolContainer = document.createElement("td");
+  cryptoNameAndSymbolContainer.className="cryptoNameAndSymbolContainer";
+
+  const cryptoName = document.createElement("a");
+  cryptoName.setAttribute("href", hrefLink);
+  cryptoName.className = "tickName cryptoName";
+  cryptoName.innerHTML = crypto.name;
+
+  const cryptoSymbol = document.createElement("a");
+  cryptoSymbol.setAttribute("href", hrefLink);
+  cryptoSymbol.className = "tickLink cryptoSymbol";
+  cryptoSymbol.innerHTML = crypto.symbol;
+
+  const rankElement = document.createElement("td");
+  rankElement.className = "tickPrice cryptoRank";
+  rankElement.innerHTML = crypto.cmcRank;
+
+  const priceElement = document.createElement("td");
+  priceElement.innerText = "$" + crypto.usd;
+  priceElement.className = "tickPrice cryptoPrice";
+
+  cryptoNameAndSymbolContainer.appendChild(cryptoName);
+  cryptoNameAndSymbolContainer.appendChild(cryptoSymbol);
+  cryptoElement.appendChild(rankElement);
+  cryptoElement.appendChild(cryptoNameAndSymbolContainer);
+  cryptoElement.appendChild(priceElement);
+  return cryptoElement;
 }
 
 function displayCryptoList(cryptos) {
@@ -121,12 +163,6 @@ function refresh() {
     method: 'POST',
   });
   
-  fetch('/reddit-count', {
-   method: 'POST',
-  });
-
-  fetch('/sticker-count');
-
   refreshComments();
 
 }
@@ -191,12 +227,8 @@ function drawChart(stockData) {
         var month = days.getMonth() + 1;
         var year= days.getFullYear();
         console.log(day.toString());
-    //   let currentTime = new Date();
-    //   let oldTime = new Date(stockData.data.quotes[i].quote.USD.timestamp);
+        my2d[i][j] = month + "/" + day + "/" + year;
 
-    //   let days = (currentTime - oldTime) / (1000 * 60 * 60 * 24); 
-
-       my2d[i][j] = month + "/" + day + "/" + year;
     }
   }
 
@@ -206,7 +238,9 @@ function drawChart(stockData) {
 
   const data = new google.visualization.DataTable();
 
+
   data.addColumn('string', 'Days Past');
+
   data.addColumn('number', 'Price');
 
   data.addRows(my2d);
@@ -214,6 +248,7 @@ function drawChart(stockData) {
   const options = {
     title: stockData.data.symbol,
     width: 1700,
+
     height: 500,
     lineWidth: 2,
     backgroundColor: { fill:'transparent' },
@@ -241,6 +276,9 @@ function drawChart(stockData) {
 google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(barChart);
 
+  
+  
+
 function barChart() {
   var arrStocks = refreshBarChart();
 
@@ -249,7 +287,6 @@ function barChart() {
         ['Stock', 'Mentions'],
         ['Stock 1', 2695000],
         ['Stock 2', 2695000],
-        [arrStocks[0], parseInt(arrStocks[1])],
         ['Stock 3', 2695000],
         ['Stock 4', 2099000],
         ['Stock 5', 1526000]
@@ -276,6 +313,17 @@ function barChart() {
       chart.draw(data, options);
     }
 
+async function userRefresh(){
+
+  refreshComments();
+
+  fetch('/reddit-count', {
+   method: 'POST',
+  });
+
+  fetch('/sticker-count');
+}
+
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
   var stringComments = await responseFromServer.json();
@@ -285,13 +333,7 @@ async function refreshComments() {
 }
 
 async function refreshBarChart(){
-  const responseFromServer = await fetch('/barChart');
-  var countStocks = await responseFromServer.json();
-  var stickerCount = countStocks.split(',');
-  return stickerCount;  
-  //const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
-  // const commentsContainer = document.getElementById('comments-container');
-  // commentsContainer.innerText = comments;
+
 }
 var i = 0;
 var txt = 'This is Bat$ Finance';

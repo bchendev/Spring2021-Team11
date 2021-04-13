@@ -58,8 +58,8 @@ public class StickerCommentCount extends HttpServlet {
     // Get comments
     Query<Entity> queryComments =
         Query.newEntityQueryBuilder()
-            .setKind("Comments")
-            .setOrderBy(OrderBy.desc("comment"))
+            .setKind("Comment")
+            .setOrderBy(OrderBy.desc("timestamp"))
             .build();
     QueryResults<Entity> savedComments = datastore.run(queryComments);
     while (savedComments.hasNext()) {
