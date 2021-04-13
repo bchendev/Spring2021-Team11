@@ -66,7 +66,7 @@ function createLatestInfo(info){
     cryptoSymbol.className='cryptoSymbol';
 
     const cryptoPrice = document.createElement('span');
-    cryptoPrice.innerHTML = info.usd;
+    cryptoPrice.innerHTML = '$'+info.usd;
     cryptoPrice.className='cryptoPrice';
 
     const cryptoRank = document.createElement('span');
@@ -94,10 +94,6 @@ function loadGraph() {
 function loadStocks() {
   // Activates the doPost request at every refresh and open of page
   fetch('/save-stock', {
-    method: 'POST',
-  });
-
-  fetch('/save-crypto', {
     method: 'POST',
   });
 
@@ -178,7 +174,7 @@ function drawChart(stockData) {
   }
 
   for (var i = 0; i < stockData.data.quotes.length; i++) {
-    my2d[i][1] = stockData.data.quotes[i].quote.USD.open;
+    my2d[i][1] = stockData.data.quotes[i].quote.USD.close;
   }
 
   const data = new google.visualization.DataTable();
@@ -202,14 +198,14 @@ function drawChart(stockData) {
       lable: 'Time',
       logScale: false,
       gridlines: { count: 1 },
-    textStyle:{color: '#FFF'},
+    textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
     },
     vAxis: {
       lable: 'Price',
       logScale: false,
       format: 'currency',
-      gridlines: { count: 1 },
-      textStyle:{color: '#FFF'},
+      gridlines: { count: 0 },
+      textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
     },
     colors: ['#00FF00'],
   };
@@ -270,7 +266,7 @@ async function userRefresh(){
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
   var stringComments = await responseFromServer.json();
-  const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
+  const comments = stringComments.replaceAll('?','').replaceAll('|','\n\n')
   const commentsContainer = document.getElementById('comments-container');
   commentsContainer.innerText = comments;
 }

@@ -63,7 +63,12 @@ text-align: center;
 }
 #comments-container{
     word-wrap: break-word;
-    height: auto;
+    height: 60px;
+    overflow-x: auto;
+    margin: 20px;
+    color: white;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
 }
 
 .comment-area{
@@ -106,7 +111,7 @@ text-align: center;
   width: 45%;
   padding: 10px;
   border-radius: 50px;
-  max-height: 750px;
+  max-height: 610px;
   height: auto;
 padding-bottom: 50px;
     padding-left: 40px;
@@ -118,6 +123,10 @@ padding-bottom: 50px;
   border: 1px solid white;
   border-radius: 50px;
 
+}
+.footer{
+    height: 200px;
+    width: 100%;
 }
 
 a.tickLink{
@@ -145,7 +154,7 @@ font-size: 30px;
 #cryptoLatestInfo{
 color: white;
 margin-left: 40px;
-margin-top: 80px;
+margin-top: 20px;
 }
 .cryptoSymbol{
 font-size: 20px;
@@ -221,6 +230,22 @@ margin: 3px;
 .allButtons:hover{
     background-color: limegreen;
 }
+.goback{
+background-color: rgba(255,255,255,0.5);
+color:white;
+border: none;
+padding: 5px;
+margin: 3px; 
+display: block;
+}
+.allButtons:hover{
+    background-color: limegreen;
+}
+a.gobacklink:hover {
+    text-decoration: dotted;
+    color: black;
+}
+
 
 table{
   width:100%;
@@ -230,7 +255,7 @@ table{
   background-color: rgba(255,255,255,0.3);
  }
 .tbl-content{
-  height:650px;
+  height:530px;
   overflow-x:auto;
   margin-top: 0px;
   /* border: 1px solid rgba(255,255,255,0.3); */

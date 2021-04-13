@@ -57,7 +57,7 @@ public class RedditComment extends HttpServlet {
       try {
         Document redditDiscussions = Jsoup.connect(url).get();
 
-        System.out.printf("\nSuccessfully scraped Reddit Page: %s", redditDiscussions.title());
+        // System.out.printf("\nSuccessfully scraped Reddit Page: %s", redditDiscussions.title());
 
         Elements commentSection = redditDiscussions.getElementsByClass(DISCUSSION_TAG);
 

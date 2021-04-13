@@ -45,12 +45,12 @@ public class CommentsUrl extends HttpServlet {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     Document redditPage = Jsoup.connect(REDDIT_DISCUSSION_URL).get();
-    System.out.printf("Successfully scraped Reddit Page: %s", redditPage.title());
+    // System.out.printf("Successfully scraped Reddit Page: %s", redditPage.title());
 
     // Get the links for the daily discussion
     Elements dailyDiscussion = redditPage.getElementsByClass(DAILY_DISCUSSION_CLASS_TAG);
     Elements links = dailyDiscussion.select("a[href]");
-    System.out.println("\nURls scraped: " + links.size());
+    // System.out.println("\nURls scraped: " + links.size());
 
     for (Element link : links) {
       long timeStamp = System.currentTimeMillis();
@@ -58,7 +58,7 @@ public class CommentsUrl extends HttpServlet {
       Key urlKey = datastore.newKeyFactory().setKind("CommentsUrl").newKey(url);
 
       FullEntity commentsUrls = Entity.newBuilder(urlKey).set("url", url).set("timestamp", timeStamp).build();
-      System.out.println("URL:" + url);
+    //   System.out.println("URL:" + url);
       datastore.put(commentsUrls);
     }
     response.sendRedirect("/index.html");
