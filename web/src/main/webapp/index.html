@@ -18,7 +18,8 @@
 
   </head>
 
-  <body onload="loadStocks(), typeWriter(), barChart(), refreshComments()" > 
+  <!-- <body onload="loadStocks(), typeWriter(), barChart(), refresh()" >  -->
+  <body onload="loadStocks(), typeWriter(), refresh()" >
     <div class="body-center" >
 
 <form role="search" id="form" class="searchTik">
@@ -45,7 +46,7 @@
 </div>
 
 <div id="bar-part">
- <a class="navbar-brand">Trending in Reddit 🔥</a>
+ <h1>Trending in Reddit 🔥</h1>
 <div id="bar_chart"></div>
 <form method="POST" action="/store-stickers">
   <button>  Get NYSE and NASDAQ stickers </button>
@@ -59,7 +60,7 @@
      <p>Latest Comments</p>
 <p id="comments-container"></p>
 
-<form method="POST" onclick="refreshComments()">
+<form method="POST" onclick="userRefresh()">
   <button> Refresh Comments </button>
 </form>
 

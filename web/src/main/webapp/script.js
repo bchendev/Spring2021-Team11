@@ -65,12 +65,6 @@ function refresh() {
     method: 'POST',
   });
   
-  fetch('/reddit-count', {
-   method: 'POST',
-  });
-
-  fetch('/sticker-count');
-
   refreshComments();
 
 }
@@ -182,15 +176,13 @@ google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(barChart);
 
 function barChart() {
-  var arrStocks = refreshBarChart();
-
   
       var data = google.visualization.arrayToDataTable([
         ['Stock', 'Mentions',],
         ['Stock 1', 2695000],
         ['Stock 2', 2695000],
 
-        [arrStocks[0], parseInt(arrStocks[1])],
+        [stickers[0], parseInt(count[0])],
         ['Stock 3', 2695000],
         ['Stock 4', 2099000],
         ['Stock 5', 1526000]
@@ -217,6 +209,17 @@ function barChart() {
       chart.draw(data, options);
     }
 
+async function userRefresh(){
+
+  refreshComments();
+
+  fetch('/reddit-count', {
+   method: 'POST',
+  });
+
+  fetch('/sticker-count');
+}
+
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
   var stringComments = await responseFromServer.json();
@@ -226,14 +229,9 @@ async function refreshComments() {
 }
 
 async function refreshBarChart(){
-  const responseFromServer = await fetch('/barChart');
-  var countStocks = await responseFromServer.json();
-  var stickerCount = countStocks.split(',');
-  return stickerCount;  
-  //const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
-  // const commentsContainer = document.getElementById('comments-container');
-  // commentsContainer.innerText = comments;
+
 }
+
 var i = 0;
 var txt = 'This is Bat$ Finance.';
 var speed = 300;
