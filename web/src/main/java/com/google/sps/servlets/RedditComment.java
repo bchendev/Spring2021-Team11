@@ -42,6 +42,7 @@ public class RedditComment extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("CommentsUrl")
