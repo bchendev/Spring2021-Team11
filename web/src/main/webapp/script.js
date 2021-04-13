@@ -37,7 +37,6 @@ function loadCryptoGraph() {
   fetch("/get-crypto-history?cmcId=" + cmcId)
     .then((response) => response.json())
     .then((history) => {
-      console.log(history);
       drawChart(history);
     });
 }
@@ -175,16 +174,11 @@ function createStockElement(stock) {
 
   const titleElement = document.createElement('td');
   var ticker = stock.ticker;
-
   
   const tickName = document.createElement("a");
   tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
   tickName.className = 'tickName';
   tickName.innerHTML = stock.tickName;
-
-  console.log(stock.tickName);
-    
-
 
   const tickLink = document.createElement('a');
   tickLink.setAttribute('href', 'ticker.html?symbol=' + ticker);
@@ -226,7 +220,6 @@ function drawChart(stockData) {
         var day = days.getDate();
         var month = days.getMonth() + 1;
         var year= days.getFullYear();
-        console.log(day.toString());
         my2d[i][j] = month + "/" + day + "/" + year;
 
     }
@@ -275,14 +268,10 @@ function drawChart(stockData) {
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
 
-  
-  
-
 function barChart() {
   fetch("/get-reddit-mentions")
     .then((response) => response.json())
     .then((stockCounts) => {
-      console.log(stockCounts);
       var stockCountArray = [['Stock', 'Mentions']];
       stockCounts.forEach(element => {
         const stock = element.ticker;
