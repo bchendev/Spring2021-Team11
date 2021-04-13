@@ -234,14 +234,20 @@ function drawChart(stockData) {
 }
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(barChart);
 
 function barChart() {
   fetch("/get-reddit-mentions")
     .then((response) => response.json())
     .then((stockCounts) => {
       console.log(stockCounts);
-      const data = goog.visualization.arrayToDataTable(stockCounts);
+      var stockCountArray = [['Stock', 'Mentions']];
+      stockCounts.forEach(element => {
+        const stock = element.ticker;
+        const count = element.count;
+        stockCountArray.push([stock, count]);
+      });
+
+      const data = google.visualization.arrayToDataTable(stockCountArray);
 
       const options = {
         title: 'Reddit: wallstreetbets Stock Mentions',

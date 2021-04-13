@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet responsible for creating new tasks. */
-@WebServlet("/get-reddit-metions")
+@WebServlet("/get-reddit-mentions")
 public class GetRedditMentionsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,15 +42,17 @@ public class GetRedditMentionsServlet extends HttpServlet {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("StickerCount")
-            .setOrderBy(OrderBy.desc("Count"))
+            .setOrderBy(OrderBy.desc("count"))
             .build();
     QueryResults<Entity> results = datastore.run(query);
+
+    System.out.println(results.toString());
 
     List<StockCount> stockCounts = new ArrayList<StockCount>();
     while (results.hasNext()) {
       Entity entity = results.next();
-      String ticker = entity.getString("Sticker");
-      Long price = entity.getLong("Count");
+      String ticker = entity.getString("sticker");
+      Long price = entity.getLong("count");
       StockCount stockCount = new StockCount(ticker, price);
       stockCounts.add(stockCount);
     }
