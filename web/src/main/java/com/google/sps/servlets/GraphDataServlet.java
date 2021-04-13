@@ -22,33 +22,34 @@ public class GraphDataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+    String ticker = request.getParameter("symbol");
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     Query<Entity> query =
-        Query.newEntityQueryBuilder()
-            .setKind("Stock")
-            .setFilter(PropertyFilter.eq("Ticker", "ADA"))
-            .build();
-    QueryResults<Entity> results = datastore.run(query);
+        Query.newEntityQueryBuilder().setKind("Stock")
+        .setFilter(PropertyFilter.eq("Ticker", ticker))
+        .build();
+        QueryResults<Entity> results = datastore.run(query);
+    
 
     List<Stock> stocks = new ArrayList<>();
     while (results.hasNext()) {
       Entity entity = results.next();
 
       String id = entity.getKey().getName();
-      String tickName = entity.getString("TikName");
+    //   String tickName = entity.getString("TikName");
 
       String tick = entity.getString("Ticker");
       double price = entity.getDouble("USD");
 
-      Stock stock = new Stock(id, tick, price, tickName);
+      Stock stock = new Stock(id, tick, price, tick);
       stocks.add(stock);
       System.out.println("Tick: " + tick + " Price: " + price);
     }
-
+    
     Gson gson = new Gson();
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(stocks));
   }
+  
 }

@@ -32,7 +32,6 @@ public class ListStocksServlet extends HttpServlet {
     QueryResults<Entity> results = datastore.run(query);
 
     List<Stock> stocks = new ArrayList<Stock>();
-    int i = 0;
     while (results.hasNext()) {
       Entity entity = results.next();
 

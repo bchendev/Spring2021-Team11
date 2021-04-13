@@ -29,7 +29,7 @@ function searchMe() {
   }
 }
 
-function loadCryptoGraph() {
+function loadsCryptoGraph() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
