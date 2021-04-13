@@ -40,7 +40,7 @@ public class GetCryptoHistoryServlet extends HttpServlet {
   // Param 3: time end
   private static final String cmcWebApiHistoryFormat =
       "https://web-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical?id=%s&convert=USD&time_start=%s&time_end=%s";
-
+  // change web to pro? different error
   private static final int DAYS_IN_YEAR = 365;
 
   @Override
@@ -57,5 +57,6 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     Document currencyDoc = Jsoup.connect(connectUrl).ignoreContentType(true).get();
     response.setContentType("application/json;");
     response.getWriter().println(currencyDoc.body().text());
+    System.out.println(currencyDoc.body().text());
   }
 }
