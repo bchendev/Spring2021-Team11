@@ -186,12 +186,21 @@ function drawChart(stockData) {
   for (var i = 0; i < stockData.data.quotes.length; i++) {
     my2d[i] = [];
     for (var j = 0; j < 2; j++) {
-      let currentTime = new Date();
-      let oldTime = new Date(stockData.data.quotes[i].quote.USD.timestamp);
+        var date = new Date();
+        var days = new Date(stockData.data.quotes[i].quote.USD.timestamp); // Days you want to subtract
+        var startMillis = days.getTime();
+        var currentMillis = date.getTime();
+        var last = new Date(currentMillis - (currentMillis - startMillis));
+        var day = days.getDate();
+        var month = days.getMonth() + 1;
+        var year= days.getFullYear();
+        console.log(day.toString());
+    //   let currentTime = new Date();
+    //   let oldTime = new Date(stockData.data.quotes[i].quote.USD.timestamp);
 
-      let days = (currentTime - oldTime) / (1000 * 60 * 60 * 24);
+    //   let days = (currentTime - oldTime) / (1000 * 60 * 60 * 24); 
 
-       my2d[i][j] = days;
+       my2d[i][j] = month + "/" + day + "/" + year;
     }
   }
 
@@ -201,14 +210,14 @@ function drawChart(stockData) {
 
   const data = new google.visualization.DataTable();
 
-  data.addColumn('number', 'Days Past');
+  data.addColumn('string', 'Days Past');
   data.addColumn('number', 'Price');
 
   data.addRows(my2d);
 
   const options = {
     title: stockData.data.symbol,
-    width: 1500,
+    width: 1700,
     height: 500,
     lineWidth: 2,
     backgroundColor: { fill:'transparent' },
