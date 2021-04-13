@@ -18,7 +18,7 @@
     </div>
   </head>
 
-  <body onload="loadStocks(), typeWriter(), barChart(), refreshComments()" > 
+  <body onload="loadStocks(), typeWriter(), refresh()" >
     <div class="body-center" >
 
 <form role="search" id="form" class="searchTik">
@@ -44,6 +44,7 @@
         </div>
 </div>
 
+
 <div class="bar-part">
 <a class="trending">Trending on Reddit 🔥</a>
 <div id="bar_chart"></div>
@@ -62,6 +63,8 @@
 <form method="POST" onclick="refreshComments()">
   <button class="refresh-comments allButtons"> Refresh Comments </button>
 
+<form method="POST" onclick="userRefresh()">
+  <button> Refresh Comments </button>
 </form>
 </div>
 
