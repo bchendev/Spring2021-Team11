@@ -18,6 +18,7 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.gson.Gson;
+import java.io.FileWriter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -55,8 +56,14 @@ public class GetCryptosServlet extends HttpServlet {
             .getAsJsonObject("props")
             .getAsJsonObject("initialState")
             .getAsJsonObject("cryptocurrency");
+
     JsonArray coinMarketCrypoDataArray =
         coinMarketCryptoNode.getAsJsonObject("listingLatest").getAsJsonArray("data");
+
+FileWriter myWriter = new FileWriter("check1.json");
+        myWriter.write(coinMarketJsonElement.toString());
+        myWriter.close();  
+
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("Cryptocurrency");
 
@@ -85,7 +92,8 @@ public class GetCryptosServlet extends HttpServlet {
                   .build();
           cryptoList.add(crypto);
           datastore.put(crypto.toDatastoreEntity(keyFactory));
-          System.out.println(String.format("Datastore Updated Crypto: %s", crypto.toString()));
+          
+        //   System.out.println(String.format("Datastore Updated Crypto: %s", crypto.toString()));
         });
 
     Gson gson = new Gson();

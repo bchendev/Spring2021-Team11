@@ -84,6 +84,7 @@ text-align: center;
  .bar-part:hover, 
  .comment-area:hover{
   border: 1px solid white; 
+  box-shadow: 0px 1px 15px 1px black;
   
  }
  .bar-part{
@@ -120,7 +121,7 @@ padding-bottom: 50px;
 .body-center:hover{
   border: 1px solid white;
   border-radius: 50px;
-
+box-shadow: 0px 1px 15px 1px black;
 }
 
 

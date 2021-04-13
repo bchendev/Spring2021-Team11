@@ -16,14 +16,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 
-    <div class="title-box">
+    <!-- <div class="title-box">
         <h1 id='title'></h1>
-    </div>
+    </div> -->
 
   </head>
 
-  <body onload="loadGraph(), typeWriter()">
+  <body onload="loadGraph(), loadGraphStocks()">
     <br> </br>
+    <h2 id="crytoNamee"></h2>
+    <h2 id="crytoSymbol"></h2>
+    <h2 id="crytoCurrentPrice"></h2>
+
+    <ul id="history-list"></ul>
+         
+
 
     <h1>Ticker Data</h1>
     <hr/>

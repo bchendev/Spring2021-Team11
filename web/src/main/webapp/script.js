@@ -30,7 +30,7 @@ function searchMe() {
 }
 
 function loadGraph() {
-  fetch('/graph-data');
+//   fetch('/graph-data');
 }
 
 function loadStocks() {
@@ -45,70 +45,49 @@ function loadStocks() {
   });
 
   // Populate the stocks
-  fetch('/list-stock')
+  fetch('/get-cryptos')
     .then((response) => response.json())
-    .then((stocks) => {
+    .then((cryptos) => {
       const stockListElement = document.getElementById('stock-list');
-      stocks.forEach((stock) => {
+      cryptos.forEach((stock) => {
         stockListElement.appendChild(createStockElement(stock));
       });
     });
 
 }
 
-function refresh() { 
-  fetch('/store-comments-urls', {
-    method: 'POST',
-  });
-
-  fetch('/store-comments', {
-    method: 'POST',
-  });
-  
-  fetch('/reddit-count', {
-   method: 'POST',
-  });
-
-  fetch('/sticker-count');
-
-  refreshComments();
-
-}
-
 /** Creates an element that represents a stock */
 var count = 0;
 function createStockElement(stock) {
+  const hrefLink = "ticker.html?cmcId=" + stock.cmcId;
 
   const stockElement = document.createElement('tr');
 
   const titleElement = document.createElement('td');
-  var ticker = stock.ticker;
+  var ticker = stock.symbol;
 
   
     const tickName = document.createElement("a");
-  tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
+  tickName.setAttribute('href', hrefLink);
   tickName.className = 'tickName';
-  tickName.innerHTML = stock.tickName;
-
-  console.log(stock.tickName);
-    
+  tickName.innerHTML = stock.name;   
 
 
   const tickLink = document.createElement('a');
-  tickLink.setAttribute('href', 'ticker.html?symbol=' + ticker);
+  tickLink.setAttribute('href', hrefLink);
   tickLink.className = 'tickLink';
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
   counterElement.className = 'tickCount';
-  count = count + 1;
-  counterElement.innerHTML = count;
+//   count = count + 1;
+  counterElement.innerHTML = stock.cmcRank;
 
   const priceElement = document.createElement('td');
   priceElement.className = 'price-container';
 
   const realPrice = document.createElement('a');  
-  realPrice.innerText = '$' + stock.price;
+  realPrice.innerText = '$' + stock.usd;
   realPrice.className = 'tickPrice';
 
 
@@ -120,6 +99,40 @@ function createStockElement(stock) {
   stockElement.appendChild(priceElement);
   return stockElement;
 }
+function loadGraphStocks() {
+
+  // Populate the stocks
+  fetch('/get-cryptos')
+    .then((response) => response.json())
+    .then((cryptos) => {
+    //   const stockListElement = document.getElementById('history-list');
+        const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  // Expect the form <pageUrl>.com/crypto.html?cmcId=1
+  const cmcId = urlParams.get("cmcId");
+
+      cryptos.forEach((stock) => {
+          if(cmcId === stock.cmcId){
+          createCryptocurrencyElement(stock);
+          }
+      });
+    });
+}
+
+function createCryptocurrencyElement(stock) {
+
+    const nameo = document.getElementById('crytoNamee');
+    nameo.innerHTML = stock.name;
+
+    const symo = document.getElementById('crytoSymbol');
+    symo.innerHTML = stock.symbol;
+
+    const priceo = document.getElementById('crytoCurrentPrice');
+    priceo.innerHTML = stock.usd;
+
+}
+
 
 google.charts.load('current', { packages: ['corechart', 'line'] });
 google.charts.setOnLoadCallback(drawChart);
@@ -243,4 +256,23 @@ function typeWriter() {
     i++;
     setTimeout(typeWriter, speed);
   }
+}
+
+function refresh() { 
+  fetch('/store-comments-urls', {
+    method: 'POST',
+  });
+
+  fetch('/store-comments', {
+    method: 'POST',
+  });
+  
+  fetch('/reddit-count', {
+   method: 'POST',
+  });
+
+  fetch('/sticker-count');
+
+  refreshComments();
+
 }

@@ -21,6 +21,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import com.google.gson.JsonObject;
+import com.google.sps.data.CryptocurrencyHistory;
+import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+
+import java.io.FileWriter;
 import org.jsoup.nodes.Document;
 
 /** Servlet responsible for creating new tasks. */
@@ -54,9 +65,55 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     String connectUrl =
         String.format(
             cmcWebApiHistoryFormat, cmcId, cal.getTimeInMillis(), System.currentTimeMillis());
+            System.out.println(connectUrl);
     Document currencyDoc = Jsoup.connect(connectUrl).ignoreContentType(true).get();
-    response.setContentType("application/json;");
-    response.getWriter().println(currencyDoc.body().text());
-    System.out.println(currencyDoc.body().text());
+    String rawData = currencyDoc.body().text();
+    JsonElement coinMarketHistoryJsonElement = JsonParser.parseString(rawData);
+    JsonObject coinMarketHistoryCryptoNode =
+        coinMarketHistoryJsonElement
+            .getAsJsonObject()
+            .getAsJsonObject("data");
+    JsonArray coinMarketHistoryCrypoDataArray =
+        coinMarketHistoryCryptoNode.getAsJsonArray("quotes");
+
+    ArrayList<CryptocurrencyHistory> cryptoPriceHistories = new ArrayList<CryptocurrencyHistory>();
+    coinMarketHistoryCrypoDataArray.forEach(
+        jsonObject -> {
+          JsonObject coinJson = (JsonObject) jsonObject.getAsJsonObject()
+    .getAsJsonObject("quote")
+    .getAsJsonObject("USD");
+
+        String time = coinJson.get("timestamp").getAsString();
+
+        String price = coinJson.get("close").getAsString();
+        String usd = roundUsd(price);
+
+        // System.out.println(time + "-----" + usd);
+        //  System.out.println(coinJson.toString());
+        CryptocurrencyHistory cryptoHistory = new CryptocurrencyHistory(time,price);
+            cryptoPriceHistories.add(cryptoHistory);
+          });
+        Gson gson = new Gson();
+
+        FileWriter myWriter = new FileWriter("check2.json");
+        myWriter.write(coinMarketHistoryCryptoNode.toString());
+        myWriter.close();  
+            
+        response.setContentType("application/json;");
+        response.getWriter().println(gson.toJson(cryptoPriceHistories));
+  
+
+  }
+
+  // Rounds the USD to the nearest cent.
+   private static String roundUsd(String usd) {
+    BigDecimal bigDecimal = new BigDecimal(usd);
+    bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2);
+    return bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2).toString();
   }
 }
+
+
+
+
+
