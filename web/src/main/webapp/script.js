@@ -186,11 +186,7 @@ function drawChart(stockData) {
   for (var i = 0; i < stockData.data.quotes.length; i++) {
     my2d[i] = [];
     for (var j = 0; j < 2; j++) {
-        var date = new Date();
         var days = new Date(stockData.data.quotes[i].quote.USD.timestamp); // Days you want to subtract
-        var startMillis = days.getTime();
-        var currentMillis = date.getTime();
-        var last = new Date(currentMillis - (currentMillis - startMillis));
         var day = days.getDate();
         var month = days.getMonth() + 1;
         var year= days.getFullYear();
