@@ -17,15 +17,15 @@ package com.google.sps.data;
 /** An item on a todo list. */
 public final class Stock {
 
-  private final String id;
-  private final String ticker;
-  private final double price;
-  private final String tickName;
+  private final String symbol;
+  private final String name;
+  private final String usd;
+  private final String cmcRank;
 
-  public Stock(String id, String ticker, double price, String tickName) {
-    this.id = id;
-    this.ticker = ticker;
-    this.price = price;
-    this.tickName = tickName;
+  public Stock(String symbol, String name, String usd, String cmcRank) {
+    this.symbol = symbol;
+    this.name = name;
+    this.usd = usd;
+    this.cmcRank = cmcRank;
   }
 }
