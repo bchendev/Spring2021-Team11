@@ -46,6 +46,7 @@ public class GetCryptoHistoryServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String cmcId = request.getParameter("cmcId");
+    System.out.println("hmm = "+cmcId);
 
     // Get data from up to 1 year from today.
     Calendar cal = Calendar.getInstance();
@@ -57,6 +58,6 @@ public class GetCryptoHistoryServlet extends HttpServlet {
     Document currencyDoc = Jsoup.connect(connectUrl).ignoreContentType(true).get();
     response.setContentType("application/json;");
     response.getWriter().println(currencyDoc.body().text());
-    System.out.println(currencyDoc.body().text());
+    // System.out.println(currencyDoc.body().text());
   }
 }

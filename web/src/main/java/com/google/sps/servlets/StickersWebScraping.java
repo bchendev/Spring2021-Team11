@@ -63,7 +63,7 @@ public class StickersWebScraping extends HttpServlet {
       addStickers(stocksNasdaq);
     }
     for (int i = 0; i < stockStickers.size(); i++) {
-      System.out.print(stockStickers.get(i)+" ");
+    //   System.out.print(stockStickers.get(i)+" ");
       Key stickerKey = datastore.newKeyFactory().setKind("Stickers").newKey(stockStickers.get(i));
 
       FullEntity saveStickers =

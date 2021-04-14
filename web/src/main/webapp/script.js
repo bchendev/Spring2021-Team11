@@ -39,6 +39,46 @@ function loadCryptoGraph() {
     .then((history) => {
       drawChart(history);
     });
+
+     fetch("/latest-info?cmcId="+cmcId)
+    .then((response) => response.json())
+    .then((infos) => {
+        console.log(infos);
+
+        const container = document.getElementById("cryptoLatestInfo");
+
+        infos.forEach((info) => {
+        container.appendChild(createLatestInfo(info));
+      });
+
+    });
+}
+
+function createLatestInfo(info){
+    const cryptoContainer = document.createElement("span");
+
+    const cryptoName = document.createElement('span');
+    cryptoName.innerHTML = info.name;
+    cryptoName.className='cryptoName';
+
+    const cryptoSymbol = document.createElement('span');
+    cryptoSymbol.innerHTML = info.symbol;
+    cryptoSymbol.className='cryptoSymbol';
+
+    const cryptoPrice = document.createElement('span');
+    cryptoPrice.innerHTML = '$'+info.usd;
+    cryptoPrice.className='cryptoPrice';
+
+    const cryptoRank = document.createElement('span');
+    cryptoRank.innerHTML = '#'+info.cmcRank;
+    cryptoRank.className='cryptoRank';
+
+    cryptoContainer.appendChild(cryptoRank);
+    cryptoContainer.appendChild(cryptoName);
+    cryptoContainer.appendChild(cryptoSymbol);
+    cryptoContainer.appendChild(cryptoPrice);
+
+return cryptoContainer;
 }
 
 function loadGraph() {
@@ -57,144 +97,52 @@ function loadStocks() {
     method: 'POST',
   });
 
-//   fetch('/save-crypto', {
-//     method: 'POST',
-//   });
-
   // Populate the stocks
   fetch('/get-cryptos')
     .then((response) => response.json())
     .then((cryptos) => {
-      displayCryptoList(cryptos);
+      const stockListElement = document.getElementById('stock-list');
+      cryptos.forEach((stock) => {
+        stockListElement.appendChild(createStockElement(stock));
+      });
     });
 
 
 }
 
-function displayCryptoList(cryptos) {
-  const cryptoListElement = document.getElementById("stock-list");
-  cryptos.forEach((crypto) => {
-    cryptoListElement.appendChild(createCryptoListElement(crypto));
-  });
-}
-
-function createCryptoListElement(crypto) {
-  const hrefLink = "ticker.html?cmcId=" + crypto.cmcId;
-  
-  const cryptoElement = document.createElement("tr");
-  cryptoElement.className = "cryptoRow";
-  const cryptoNameAndSymbolContainer = document.createElement("td");
-  cryptoNameAndSymbolContainer.className="cryptoNameAndSymbolContainer";
-
-  const cryptoName = document.createElement("a");
-  cryptoName.setAttribute("href", hrefLink);
-  cryptoName.className = "tickName cryptoName";
-  cryptoName.innerHTML = crypto.name;
-
-  const cryptoSymbol = document.createElement("a");
-  cryptoSymbol.setAttribute("href", hrefLink);
-  cryptoSymbol.className = "tickLink cryptoSymbol";
-  cryptoSymbol.innerHTML = crypto.symbol;
-
-  const rankElement = document.createElement("td");
-  rankElement.className = "tickPrice cryptoRank";
-  rankElement.innerHTML = crypto.cmcRank;
-
-  const priceElement = document.createElement("td");
-  priceElement.innerText = "$" + crypto.usd;
-  priceElement.className = "tickPrice cryptoPrice";
-
-  cryptoNameAndSymbolContainer.appendChild(cryptoName);
-  cryptoNameAndSymbolContainer.appendChild(cryptoSymbol);
-  cryptoElement.appendChild(rankElement);
-  cryptoElement.appendChild(cryptoNameAndSymbolContainer);
-  cryptoElement.appendChild(priceElement);
-  return cryptoElement;
-}
-
-function displayCryptoList(cryptos) {
-  const cryptoListElement = document.getElementById("stock-list");
-  cryptos.forEach((crypto) => {
-    cryptoListElement.appendChild(createCryptoListElement(crypto));
-  });
-}
-
-function createCryptoListElement(crypto) {
-  const hrefLink = "ticker.html?cmcId=" + crypto.cmcId;
-  
-  const cryptoElement = document.createElement("tr");
-  cryptoElement.className = "cryptoRow";
-  const cryptoNameAndSymbolContainer = document.createElement("td");
-  cryptoNameAndSymbolContainer.className="cryptoNameAndSymbolContainer";
-
-  const cryptoName = document.createElement("a");
-  cryptoName.setAttribute("href", hrefLink);
-  cryptoName.className = "tickName cryptoName";
-  cryptoName.innerHTML = crypto.name;
-
-  const cryptoSymbol = document.createElement("a");
-  cryptoSymbol.setAttribute("href", hrefLink);
-  cryptoSymbol.className = "tickLink cryptoSymbol";
-  cryptoSymbol.innerHTML = crypto.symbol;
-
-  const rankElement = document.createElement("td");
-  rankElement.className = "tickPrice cryptoRank";
-  rankElement.innerHTML = crypto.cmcRank;
-
-  const priceElement = document.createElement("td");
-  priceElement.innerText = "$" + crypto.usd;
-  priceElement.className = "tickPrice cryptoPrice";
-
-  cryptoNameAndSymbolContainer.appendChild(cryptoName);
-  cryptoNameAndSymbolContainer.appendChild(cryptoSymbol);
-  cryptoElement.appendChild(rankElement);
-  cryptoElement.appendChild(cryptoNameAndSymbolContainer);
-  cryptoElement.appendChild(priceElement);
-  return cryptoElement;
-}
-
-function refresh() { 
-  fetch('/store-comments-urls', {
-    method: 'POST',
-  });
-
-  fetch('/store-comments', {
-    method: 'POST',
-  });
-  
-  refreshComments();
-
-}
 
 /** Creates an element that represents a stock */
 var count = 0;
 function createStockElement(stock) {
+  const hrefLink = "ticker.html?cmcId=" + stock.cmcId;
 
   const stockElement = document.createElement('tr');
 
   const titleElement = document.createElement('td');
-  var ticker = stock.ticker;
+  var ticker = stock.symbol;
+
   
-  const tickName = document.createElement("a");
-  tickName.setAttribute('href', 'ticker.html?symbol=' + ticker);
+    const tickName = document.createElement("a");
+  tickName.setAttribute('href', hrefLink);
   tickName.className = 'tickName';
-  tickName.innerHTML = stock.tickName;
+  tickName.innerHTML = stock.name;   
+
+
 
   const tickLink = document.createElement('a');
-  tickLink.setAttribute('href', 'ticker.html?symbol=' + ticker);
+  tickLink.setAttribute('href', hrefLink);
   tickLink.className = 'tickLink';
   tickLink.innerHTML = ticker;
 
   const counterElement = document.createElement('td');
   counterElement.className = 'tickCount';
-  count = count + 1;
-  counterElement.innerHTML = count;
+  counterElement.innerHTML = stock.cmcRank;
 
   const priceElement = document.createElement('td');
   priceElement.className = 'price-container';
 
   const realPrice = document.createElement('a');  
-  realPrice.innerText = '$' + stock.price;
+  realPrice.innerText = '$' + stock.usd;
   realPrice.className = 'tickPrice';
 
 
@@ -226,7 +174,7 @@ function drawChart(stockData) {
   }
 
   for (var i = 0; i < stockData.data.quotes.length; i++) {
-    my2d[i][1] = stockData.data.quotes[i].quote.USD.open;
+    my2d[i][1] = stockData.data.quotes[i].quote.USD.close;
   }
 
   const data = new google.visualization.DataTable();
@@ -239,8 +187,8 @@ function drawChart(stockData) {
   data.addRows(my2d);
 
   const options = {
-    title: stockData.data.symbol,
-    width: 1700,
+    // title: stockData.data.symbol,
+    width: 1500,
 
     height: 500,
     lineWidth: 2,
@@ -250,12 +198,14 @@ function drawChart(stockData) {
       lable: 'Time',
       logScale: false,
       gridlines: { count: 1 },
+    textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
     },
     vAxis: {
       lable: 'Price',
       logScale: false,
       format: 'currency',
       gridlines: { count: 0 },
+      textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
     },
     colors: ['#00FF00'],
   };
@@ -316,7 +266,7 @@ async function userRefresh(){
 async function refreshComments() {
   const responseFromServer = await fetch('/refreshComment');
   var stringComments = await responseFromServer.json();
-  const comments = stringComments.replaceAll('?','').replaceAll('|','\n')
+  const comments = stringComments.replaceAll('?','').replaceAll('|','\n\n')
   const commentsContainer = document.getElementById('comments-container');
   commentsContainer.innerText = comments;
 }
@@ -331,4 +281,24 @@ function typeWriter() {
     i++;
     setTimeout(typeWriter, speed);
   }
+}
+
+
+function refresh() { 
+  fetch('/store-comments-urls', {
+    method: 'POST',
+  });
+
+  fetch('/store-comments', {
+    method: 'POST',
+  });
+  
+  fetch('/reddit-count', {
+   method: 'POST',
+  });
+
+  fetch('/sticker-count');
+
+  refreshComments();
+
 }

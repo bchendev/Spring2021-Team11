@@ -73,6 +73,7 @@ public class GetCryptosServlet extends HttpServlet {
           // For our purposes, we only care about the USD price of the coin.
           JsonArray coinConversions = coinJson.getAsJsonArray("quotes");
           String usd = getUsdFromCoinConversions(coinConversions);
+          System.out.println(usd);
           usd = roundUsd(usd);
 
           Cryptocurrency crypto =

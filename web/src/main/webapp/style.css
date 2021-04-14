@@ -41,10 +41,7 @@ background-color: transparent;
  border-style: dashed;
 }
 
-a.tickName{
-    font-family: 'Righteous', cursive;
-    font-size: 14.5px;
-}
+
 .trending{
    font-family: 'Righteous', cursive;
     font-size: 30px;
@@ -66,7 +63,12 @@ text-align: center;
 }
 #comments-container{
     word-wrap: break-word;
-    height: auto;
+    height: 60px;
+    overflow-x: auto;
+    margin: 20px;
+    color: white;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
 }
 
 .comment-area{
@@ -109,7 +111,7 @@ text-align: center;
   width: 45%;
   padding: 10px;
   border-radius: 50px;
-  max-height: 750px;
+  max-height: 610px;
   height: auto;
 padding-bottom: 50px;
     padding-left: 40px;
@@ -122,7 +124,10 @@ padding-bottom: 50px;
   border-radius: 50px;
 
 }
-
+.footer{
+    height: 200px;
+    width: 100%;
+}
 
 a.tickLink{
     font-size: 9px;
@@ -137,7 +142,33 @@ font-family: 'Josefin Sans', sans-serif;
 font-size: 14.5px;
 text-align: right;
 }
+a.tickName{
+    font-family: 'Righteous', cursive;
+    font-size: 14.5px;
+}
 
+.cryptoName{
+font-family: 'Righteous', cursive;
+font-size: 30px;
+}
+#cryptoLatestInfo{
+color: white;
+margin-left: 40px;
+margin-top: 20px;
+}
+.cryptoSymbol{
+font-size: 20px;
+background:rgba(255,255,255,0.3);
+border-radius: 3px;
+padding: 2px;
+margin-left: 3px;
+padding: 2px;
+}
+span.cryptoPrice {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 50px;
+    display: block;
+}
 td.price-container{
     text-align: right;
     padding-right: 130px;
@@ -159,7 +190,7 @@ td.tickCount{
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
-	animation: gradient 20s ease infinite;
+	animation: gradient 30s ease infinite;
 }
 
 @keyframes gradient {
@@ -199,6 +230,22 @@ margin: 3px;
 .allButtons:hover{
     background-color: limegreen;
 }
+.goback{
+background-color: rgba(255,255,255,0.5);
+color:white;
+border: none;
+padding: 5px;
+margin: 3px; 
+display: block;
+}
+.allButtons:hover{
+    background-color: limegreen;
+}
+a.gobacklink:hover {
+    text-decoration: dotted;
+    color: black;
+}
+
 
 table{
   width:100%;
@@ -208,7 +255,7 @@ table{
   background-color: rgba(255,255,255,0.3);
  }
 .tbl-content{
-  height:650px;
+  height:530px;
   overflow-x:auto;
   margin-top: 0px;
   /* border: 1px solid rgba(255,255,255,0.3); */
