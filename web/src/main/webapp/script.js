@@ -71,6 +71,7 @@ function createLatestInfo(info){
 })
     const cryptoPrice = document.createElement('span');
     cryptoPrice.innerHTML = formatter.format(info.usd);
+
     cryptoPrice.className='cryptoPrice';
 
     const cryptoRank = document.createElement('span');

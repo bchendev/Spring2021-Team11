@@ -54,12 +54,14 @@ public class CommentsUrl extends HttpServlet {
 
     for (Element link : links) {
       long timeStamp = System.currentTimeMillis();
-      String url = "https://www.reddit.com" + link.attr("href");
-      Key urlKey = datastore.newKeyFactory().setKind("CommentsUrl").newKey(url);
+      String url = "https://www.reddit.com" + link.attr("href")+"";
+      System.out.println(url);
+      Key urlKey = dataStore.newKeyFactory().setKind("CommentsUrl").newKey(url);
 
       FullEntity commentsUrls = Entity.newBuilder(urlKey).set("url", url).set("timestamp", timeStamp).build();
     //   System.out.println("URL:" + url);
       datastore.put(commentsUrls);
+
     }
     response.sendRedirect("/index.html");
   }
