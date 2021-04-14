@@ -73,8 +73,6 @@ public class GetCryptosServlet extends HttpServlet {
           // For our purposes, we only care about the USD price of the coin.
           JsonArray coinConversions = coinJson.getAsJsonArray("quotes");
           String usd = getUsdFromCoinConversions(coinConversions);
-          System.out.println(usd);
-          usd = roundUsd(usd);
 
           Cryptocurrency crypto =
               Cryptocurrency.newBuilder()
@@ -104,12 +102,5 @@ public class GetCryptosServlet extends HttpServlet {
       }
     }
     return "";
-  }
-
-  // Rounds the USD to the nearest cent.
-  private static String roundUsd(String usd) {
-    BigDecimal bigDecimal = new BigDecimal(usd);
-    bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2);
-    return bigDecimal.setScale(1, RoundingMode.HALF_UP).setScale(2).toString();
   }
 }

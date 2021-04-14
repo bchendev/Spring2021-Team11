@@ -65,8 +65,12 @@ function createLatestInfo(info){
     cryptoSymbol.innerHTML = info.symbol;
     cryptoSymbol.className='cryptoSymbol';
 
+    const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
     const cryptoPrice = document.createElement('span');
-    cryptoPrice.innerHTML = '$'+info.usd;
+    cryptoPrice.innerHTML = formatter.format(info.usd);
     cryptoPrice.className='cryptoPrice';
 
     const cryptoRank = document.createElement('span');
@@ -141,8 +145,13 @@ function createStockElement(stock) {
   const priceElement = document.createElement('td');
   priceElement.className = 'price-container';
 
+  const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+})
+
   const realPrice = document.createElement('a');  
-  realPrice.innerText = '$' + stock.usd;
+  realPrice.innerText = formatter.format(stock.usd);
   realPrice.className = 'tickPrice';
 
 
@@ -240,10 +249,14 @@ function barChart() {
 
         hAxis: {
           title: 'Mentions',
-          minValue: 0
+          minValue: 0,
+         textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
+
         },
         vAxis: {
-          title: 'Stocks'
+          title: 'Stocks',
+        textStyle:{color: '#FFF', fontName: 'Josefin Sans'},
+
         }
       }
 
@@ -302,3 +315,13 @@ function refresh() {
   refreshComments();
 
 }
+var myVar;
+
+    function myFunction() {
+        myVar = setTimeout(showPage, 8500);
+    }
+
+    function showPage() {
+        document.getElementById("preload").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+    }

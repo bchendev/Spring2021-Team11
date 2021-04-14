@@ -19,8 +19,17 @@
   </head>
 
   <body onload="loadStocks(), typeWriter(), refresh(), barChart()" >
-    <div class="body-center" >
+    <div id="preload" class="hmm">
+<img class="loader" src="loading.svg" width="150" height="150">
+    <span>Loading...</span>
+</div>
 
+    <div style="display:none;" id="myDiv">
+
+<div class="body-center" >
+<script type="text/javascript">
+setTimeout(myFunction, 8500);
+</script>
 <form role="search" id="form" class="searchTik">
   <input class="search" type="text" id="myInput" placeholder="Search for Tickers..." aria-label="Search through site content" onkeyup="searchMe()">
 </form>
@@ -63,6 +72,7 @@
 <form method="POST" onclick="userRefresh()">
   <button class="refresh-comments allButtons"> Refresh Comments </button>
 </form>
+</div>
 </div>
 
 </body>
