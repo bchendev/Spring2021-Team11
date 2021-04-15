@@ -11,6 +11,50 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+var GREET_TIME = 4000;
+var greetTime = setInterval(addRandomGreeting, GREET_TIME);
+
+function addRandomGreeting(){
+    const greetings =
+        ['Jsoup Library was used for web scraping📚.', 'This is Google SPS Team 11 Final Project.',
+             'CoinMarketCap.com was scraped for Cryptocurrency info💹.', 'Reddit.com was scraped for the trending comments📈.',
+                 'Reddit.com was scraped for the highest stock mentions📈.', 'It was a very fun project in the making🤪.'];
+    
+    const load = ['Collecting info from info database...', 'Loading...', 'Almost there :))', '...'];
+
+    // Pick a random greeting.
+    const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+
+    const loading = load[Math.floor(Math.random() * load.length)];
+
+    // Add it to the page.
+    const greetingContainer = document.getElementById('greeting-container');
+    greetingContainer.innerText = greeting;
+}
+var LOAD_TIME = 1000;
+var loadTime = setInterval(addLoadingGreeting, LOAD_TIME);
+let c = 0;
+function addLoadingGreeting(){
+    
+    const load = ['', '.', '..', '...'];
+
+    const loadingContainer = document.getElementById('loading-container');
+
+    // Pick a random greeting.
+    const loading = load[c];
+
+    // Add it to the page.
+    loadingContainer.innerText = loading;
+    if(c != 3){
+    c=c+1;
+    }else{
+        c = 0;
+    }
+}
+
+
+
 function searchMe() {
   var input, filter, stockList, stockListItem, item, txtValue;
   input = document.getElementById('myInput');
@@ -149,7 +193,7 @@ function createStockElement(stock) {
   const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
-})
+ })
 
   const realPrice = document.createElement('a');  
   realPrice.innerText = formatter.format(stock.usd);

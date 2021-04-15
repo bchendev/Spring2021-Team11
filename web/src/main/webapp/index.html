@@ -18,10 +18,12 @@
     </div>
   </head>
 
-  <body onload="loadStocks(), typeWriter(), refresh(), barChart()" >
+  <body onload="addLoadingGreeting(), addRandomGreeting(), loadStocks(), typeWriter(), refresh(), barChart()" >
     <div id="preload" class="hmm">
+        <h3 class="dyk">Did you Know?</h3>
+        <h4 id="greeting-container"></h4>
 <img class="loader" src="loading.svg" width="150" height="150">
-    <span>Loading...</span>
+   <span>Loading</span><span id="loading-container"></span>
 </div>
 
     <div style="display:none;" id="myDiv">

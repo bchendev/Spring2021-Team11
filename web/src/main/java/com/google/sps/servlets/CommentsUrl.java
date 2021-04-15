@@ -60,7 +60,7 @@ public class CommentsUrl extends HttpServlet {
 
       FullEntity commentsUrls = Entity.newBuilder(urlKey).set("url", url).set("timestamp", timeStamp).build();
     //   System.out.println("URL:" + url);
-      datastore.put(commentsUrls);
+      dataStore.put(commentsUrls);
 
     }
     response.sendRedirect("/index.html");
